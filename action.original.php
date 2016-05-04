@@ -18,7 +18,7 @@ checkPath($sourceImageFilePath);
 
 if (!file_exists($sourceImageFilePath))
 {
-    die($imageFilePath . ' does not exist');
+	die($imageFilePath . ' does not exist');
 }
 
 header('Content-Type:' . getMimeType(getExtension($sourceImageFilePath)));
@@ -27,9 +27,9 @@ $extension = getExtension($sourceImageFilePath);
 
 if (!in_array($extension, $GLOBALS['IMAGE_EXTENSIONS']))
 {
-    $contentDisposition = 'attachment; filename=' . sanitizeFilename(basename($sourceImageFilePath), '"');
-    header('Content-Disposition: ' . $contentDisposition);
-    header('Pragma: public');
+	$contentDisposition = 'attachment; filename=' . sanitizeFilename(basename($sourceImageFilePath), '"');
+	header('Content-Disposition: ' . $contentDisposition);
+	header('Pragma: public');
 }
 
 readfile($sourceImageFilePath);

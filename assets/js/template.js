@@ -11,53 +11,53 @@ $( document ).ready(function() {
 
 	setLoadingImage();
 
-    $("#image-nav-size").click(function () {
+	$("#image-nav-size").click(function () {
 
-        if ($(this).hasClass('active'))
-        {
-            var from = '/original/';
-            var to = '/detail/';
-            var fullSize = false;
-        }
-        else
-        {
-            var from = /(\/cache\/detail\/)|(\/detail\/)/;
-            var to = '/original/';
-            var fullSize = true;
-        }
+		if ($(this).hasClass('active'))
+		{
+			var from = '/original/';
+			var to = '/detail/';
+			var fullSize = false;
+		}
+		else
+		{
+			var from = /(\/cache\/detail\/)|(\/detail\/)/;
+			var to = '/original/';
+			var fullSize = true;
+		}
 
-        $('#slider img').each(function () {
+		$('#slider img').each(function () {
 
-            var imageSource = $(this).attr('src');
-            imageSource = imageSource.replace(from, to);
+			var imageSource = $(this).attr('src');
+			imageSource = imageSource.replace(from, to);
 
-            setLoadingImage();
+			setLoadingImage();
 
-            $(this).attr('src', imageSource);
-        });
+			$(this).attr('src', imageSource);
+		});
 
-        $('.images .image').each(function () {
-            var linkHref = $(this).attr('href');
-            linkHref = linkHref.replace(from, to);
-            $(this).attr('href', linkHref);
-        });
+		$('.images .image').each(function () {
+			var linkHref = $(this).attr('href');
+			linkHref = linkHref.replace(from, to);
+			$(this).attr('href', linkHref);
+		});
 
-        var jqxhr = $.ajax(window.appRoot + "/ajax.change.size.php?full-size=" +  fullSize.toString())
-        .done(function(html) {
+		var jqxhr = $.ajax(window.appRoot + "/ajax.change.size.php?full-size=" +  fullSize.toString())
+		.done(function(html) {
 
-        })
-        .fail(function() {
-            console.log('Ajax request ajax.change.size.php failed');
-        });
+		})
+		.fail(function() {
+			console.log('Ajax request ajax.change.size.php failed');
+		});
 
-        $(this).toggleClass('active');
+		$(this).toggleClass('active');
 
-    });
+	});
 
-    window.currentImage = 0;
-    window.totalImages = 0;
+	window.currentImage = 0;
+	window.totalImages = 0;
 
-    function startGallery(a) {
+	function startGallery(a) {
 
 		$("#overlay").show();
 
@@ -95,42 +95,42 @@ $( document ).ready(function() {
 
 		}, 50);
 
-    }
+	}
 
-    function hasNextImage() {
-        return window.currentImage < window.totalImages;
-    }
+	function hasNextImage() {
+		return window.currentImage < window.totalImages;
+	}
 
-    function hasPreviousImage() {
-        return window.currentImage > 1;
-    }
+	function hasPreviousImage() {
+		return window.currentImage > 1;
+	}
 
-    function showNextImage() {
-        if (hasNextImage()) {
+	function showNextImage() {
+		if (hasNextImage()) {
 			startGallery($('.images .image:nth-child(' + (window.currentImage + 1) +')'));
-        }
-    }
+		}
+	}
 
-    function showPreviousImage() {
-        if (hasPreviousImage()) {
-            startGallery($('.images .image:nth-child(' + (window.currentImage - 1) +')'));
-        }
-    }
+	function showPreviousImage() {
+		if (hasPreviousImage()) {
+			startGallery($('.images .image:nth-child(' + (window.currentImage - 1) +')'));
+		}
+	}
 
-    function setLoadingImage()
-    {
-        $('#overlay #slider img').attr('src', window.appRoot + '/assets/images/loading.gif');
-    }
+	function setLoadingImage()
+	{
+		$('#overlay #slider img').attr('src', window.appRoot + '/assets/images/loading.gif');
+	}
 
-    $("#slider").touchwipe({
-        wipeLeft: function() { showNextImage(); },
-        wipeRight: function() { showPreviousImage(); },
-        wipeUp: function() { },
-        wipeDown: function() {  },
-        min_move_x: 10,
-        min_move_y: 10,
-        preventDefaultEvents: true
-    });
+	$("#slider").touchwipe({
+		wipeLeft: function() { showNextImage(); },
+		wipeRight: function() { showPreviousImage(); },
+		wipeUp: function() { },
+		wipeDown: function() {  },
+		min_move_x: 10,
+		min_move_y: 10,
+		preventDefaultEvents: true
+	});
 
 	$(document).keydown(function(e) {
 		switch(e.which) {
@@ -150,25 +150,25 @@ $( document ).ready(function() {
 		e.preventDefault(); // prevent the default action (scroll / move caret)
 	});
 
-    $('#image-nav-prev').click(function(e){
-        e.preventDefault();
-        showPreviousImage();
-    });
+	$('#image-nav-prev').click(function(e){
+		e.preventDefault();
+		showPreviousImage();
+	});
 
-    $('#image-nav-next').click(function(e){
-        e.preventDefault();
-        showNextImage();
-    });
+	$('#image-nav-next').click(function(e){
+		e.preventDefault();
+		showNextImage();
+	});
 
-    $('#image-nav-close').click(function(){
-       $('#overlay #slider img').attr('src', window.appRoot + '/assets/images/loading.gif');
-       $("#overlay").hide();
-    });
+	$('#image-nav-close').click(function(){
+	   $('#overlay #slider img').attr('src', window.appRoot + '/assets/images/loading.gif');
+	   $("#overlay").hide();
+	});
 
-    $('.images .image').click(function(e){
-        e.preventDefault();
-        startGallery($(this));
-    });
+	$('.images .image').click(function(e){
+		e.preventDefault();
+		startGallery($(this));
+	});
 
 	/* CREATE THUMBNAILS AFTER LOAD */
 	var imagesToGenerate = $('.images .image img[data-src]');

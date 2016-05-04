@@ -26,11 +26,11 @@ updateThumbnailImage($sourceImageFilePath);
 
 if (file_exists($fileThumbnail))
 {
-    echo 'success';
+	echo 'success';
 }
 else
 {
-    echo 'fail';
+	echo 'fail';
 }
 
 exit;
