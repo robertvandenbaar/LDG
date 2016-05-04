@@ -26,8 +26,12 @@ function createCroppedImagesRecursively($baseDir)
         if (in_array(getExtension($fullPath), $GLOBALS['IMAGE_EXTENSIONS']))
         {
             echo "Updating thumbnail and mid-size image for " . $fullPath . "\n";
-            updateThumbnailImage($fullPath);
-            updateDetailImage($fullPath);
+
+			/* only attempt to create the detail image if the thumbnail was created succesfully */
+            if(updateThumbnailImage($fullPath))
+			{
+            	updateDetailImage($fullPath);
+			}
         }
         elseif (is_dir($fullPath))
         {
