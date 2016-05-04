@@ -26,26 +26,26 @@ $parts = explode('/', $uri);
 
 if (isset($parts[1]) && in_array($parts[1], $actions))
 {
-    $action = $parts[1];
+	$action = $parts[1];
 }
 else
 {
-    $action = 'list';
+	$action = 'list';
 }
 
 $html = '';
 
 if ($action == 'list')
 {
-    $html = include('action.list.php');
+	$html = include('action.list.php');
 }
 elseif($action == 'detail')
 {
-    $html = include('action.detail.php');
+	$html = include('action.detail.php');
 }
 elseif($action == 'original')
 {
-    $html = include('action.original.php');
+	$html = include('action.original.php');
 }
 
 $html = str_replace('<!-- CONTENT -->', $html, file_get_contents(APP_DIR . '/assets/html/template.html'));
