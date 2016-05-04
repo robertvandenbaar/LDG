@@ -6,6 +6,7 @@ if (php_sapi_name() != 'cli')
 }
 
 include('config.php');
+include('init.php');
 include('functions.php');
 
 echo "\n\nStart\n";
