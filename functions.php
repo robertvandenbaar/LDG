@@ -41,19 +41,20 @@ function getGdImageHandler($filePath)
 
 function updateDetailImage($sourceImageFilePath)
 {
-    updateImage($sourceImageFilePath, CACHE_DIR_DETAIL, DETAIL_WIDTH, DETAIL_HEIGHT);
+    return updateImage($sourceImageFilePath, CACHE_DIR_DETAIL, DETAIL_WIDTH, DETAIL_HEIGHT);
 }
 
 function updateThumbnailImage($sourceImageFilePath)
 {
-    updateImage($sourceImageFilePath, CACHE_DIR_THUMBNAIL, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
+    return updateImage($sourceImageFilePath, CACHE_DIR_THUMBNAIL, THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
 }
 
 function updateImage($sourceImageFilePath, $baseCacheDir, $width, $height)
 {
     if (!file_exists($sourceImageFilePath))
     {
-        die($sourceImageFilePath . ' does not exist');
+        error_log($sourceImageFilePath . ' does not exist');
+		return false;
     }
 
     checkPath($sourceImageFilePath);
@@ -72,38 +73,52 @@ function updateImage($sourceImageFilePath, $baseCacheDir, $width, $height)
         }
     }
 
+	/* if file does not exist or when the resized image is outdated, perform the action */
     if (!file_exists($fileModify) || $fileModifyDate < filectime($sourceImageFilePath))
     {
         if ($baseCacheDir == CACHE_DIR_THUMBNAIL)
         {
-            cropImage($sourceImageFilePath, $width, $height, $fileModify);
+            return cropImage($sourceImageFilePath, $width, $height, $fileModify);
         }
         elseif ($baseCacheDir == CACHE_DIR_DETAIL)
         {
-            fitImage($sourceImageFilePath, $width, $height, $fileModify);
+            return fitImage($sourceImageFilePath, $width, $height, $fileModify);
         }
         else
         {
-            die('Invalid base dir for resizing ' . $baseCacheDir);
+            error_log('Invalid base dir for resizing ' . $baseCacheDir);
         }
     }
+	else
+	{
+		return true;
+	}
+
+	return false;
+
 }
 
 function cropImage($filePath, $width, $height, $outputFile)
 {
     try
-    {
-        if (class_exists('Imagick'))
-        {
+	{
+		if (class_exists('Imagick'))
+		{
             $imagick = new Imagick($filePath);
             $imagick->cropThumbnailImage($width, $height);
             $imagick->setImageCompressionQuality(RESIZE_IMAGE_QUALITY);
             $imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
-            $imagick->writeImage($outputFile);
+            return $imagick->writeImage($outputFile);
         }
         else
         {
             $imageHandler = getGdImageHandler($filePath);
+
+			if ($imageHandler == false)
+			{
+				error_log('Could not create image handle for file ' . $filePath . ' skipping');
+				return false;
+			}
 
             list($originalWidth, $originalHeight) = getimagesize($filePath);
 
@@ -131,18 +146,25 @@ function cropImage($filePath, $width, $height, $outputFile)
 
             $d = imagecreatetruecolor($width, $height);
             imagecopy($d, $imageHandlerResize, 0, 0, $offsetX, $offsetY, $width, $height);
-            imagejpeg($d, $outputFile, RESIZE_IMAGE_QUALITY);
+            return imagejpeg($d, $outputFile, RESIZE_IMAGE_QUALITY);
         }
     }
     catch (Exception $e)
     {
         error_log('Could not create cropped image ' . $e->getMessage());
     }
+	return false;
 }
 
 function fitImage($filePath, $width, $height, $outputFile)
 {
     list($originalWidth, $originalHeight) = getimagesize($filePath);
+
+	if(empty($originalWidth) || empty($originalHeight))
+	{
+        error_log('Could not retrieve dimensions from image ' . $filePath . ', skipping');
+		return false;
+	}
 
     /* check if the original image is smaller or equal to the canvas */
     if ($originalWidth <= $width && $originalHeight <= $height)
@@ -183,6 +205,12 @@ function fitImage($filePath, $width, $height, $outputFile)
         {
             $imageHandler = getGdImageHandler($filePath);
 
+            if ($imageHandler == false)
+            {
+                error_log('Could not create image handle for file ' . $filePath . ' skipping');
+				return false;
+            }
+
             $imageHandlerResize = imagecreatetruecolor($resizeWidth, $resizeHeight);
 
             imagecopyresampled ($imageHandlerResize, $imageHandler, 0, 0, 0, 0, $resizeWidth, $resizeHeight, $originalWidth, $originalHeight);
@@ -194,6 +222,8 @@ function fitImage($filePath, $width, $height, $outputFile)
     {
         error_log('Could not create resized image ' . $e->getMessage());
     }
+
+	return false;
 }
 
 function sanitizeFilename($string)
