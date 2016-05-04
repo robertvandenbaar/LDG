@@ -117,6 +117,12 @@ $( document ).ready(function() {
 		}
 	}
 
+	function closeGallery()
+	{
+		$('#overlay #slider img').attr('src', window.appRoot + '/assets/images/loading.gif');
+		$("#overlay").hide();
+	}
+
 	function setLoadingImage()
 	{
 		$('#overlay #slider img').attr('src', window.appRoot + '/assets/images/loading.gif');
@@ -144,6 +150,9 @@ $( document ).ready(function() {
 				break;
 			case 40: // down
 				break;
+			case 27: // esc
+				closeGallery();
+				break;
 
 			default: return; // exit this handler for other keys
 		}
@@ -161,8 +170,7 @@ $( document ).ready(function() {
 	});
 
 	$('#image-nav-close').click(function(){
-	   $('#overlay #slider img').attr('src', window.appRoot + '/assets/images/loading.gif');
-	   $("#overlay").hide();
+		closeGallery();
 	});
 
 	$('.images .image').click(function(e){
