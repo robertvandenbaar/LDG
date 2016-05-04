@@ -178,34 +178,34 @@ $( document ).ready(function() {
 		var jqxhr = $.ajax(window.appRoot + "/ajax.generate.php?file=" +  image.attr('data-src'))
 		.done(function(html) {
 			if(html == 'success') {
-
 				image.attr('src', window.appRoot + '/cache/thumbnail' + image.attr('data-src'));
-				image.removeClass('loading');
-
-				var nextImage = false;
-				var nextImageObject = false;
-
-				imagesToGenerate.each(function(){
-
-					if (nextImage == true){
-						nextImageObject = $(this);
-						nextImage = false;
-					}
-
-					if($(this).attr('id') == image.attr('id')){
-						nextImage = true;
-					}
-				});
-
-				if(nextImageObject == false){
-					$('#information').html('');
-				} else {
-					generateThumbnail(nextImageObject, imagesToGenerate);
-				}
-
 			} else {
 				console.log('Could not generate ' + image.attr('data-src'));
 			}
+
+			image.removeClass('loading');
+
+            var nextImage = false;
+            var nextImageObject = false;
+
+            imagesToGenerate.each(function(){
+
+                if (nextImage == true){
+                    nextImageObject = $(this);
+                    nextImage = false;
+                }
+
+                if($(this).attr('id') == image.attr('id')){
+                    nextImage = true;
+                }
+            });
+
+            if(nextImageObject == false){
+                $('#information').html('');
+            } else {
+                generateThumbnail(nextImageObject, imagesToGenerate);
+            }
+			
 		})
 		.fail(function() {
 			console.log('Ajax request ajax.generate.php failed');
