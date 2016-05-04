@@ -131,8 +131,8 @@ $( document ).ready(function() {
 	$("#slider").touchwipe({
 		wipeLeft: function() { showNextImage(); },
 		wipeRight: function() { showPreviousImage(); },
-		wipeUp: function() { },
-		wipeDown: function() {  },
+		wipeUp: function() {},
+		wipeDown: function() {},
 		min_move_x: 10,
 		min_move_y: 10,
 		preventDefaultEvents: true
@@ -181,16 +181,18 @@ $( document ).ready(function() {
 	/* CREATE THUMBNAILS AFTER LOAD */
 	var imagesToGenerate = $('.images .image img[data-src]');
 
+	var thumbnailsFailed = [];
+
 	function generateThumbnail(image, imagesToGenerate)
 	{
-		var jqxhr = $.ajax(window.appRoot + "/ajax.generate.php?file=" +  image.attr('data-src'))
+		var jqxhr = $.ajax(window.appRoot + "/ajax.generate.php?file=" + image.attr('data-src'))
 		.done(function(html) {
 			if(html == 'success') {
-
 				image.attr('src', window.appRoot + '/cache/thumbnail' + image.attr('data-src'));
-
 			} else {
+				image.parent().remove();
 				console.log('Could not generate ' + image.attr('data-src'));
+				thumbnailsFailed.push(image.attr('data-src'));
 			}
 
 			image.removeClass('loading');
@@ -212,6 +214,13 @@ $( document ).ready(function() {
 
 			if(nextImageObject == false){
 				$('#information').html('');
+
+				if(thumbnailsFailed.length > 0){
+					var span = $('<span></span>').attr('title', thumbnailsFailed.join("\n"));
+					span.html('For ' + thumbnailsFailed.length + ' images it was not possible to generate a thumbnail');
+
+					$('#information').html(span);
+				}
 			} else {
 				generateThumbnail(nextImageObject, imagesToGenerate);
 			}
