@@ -217,7 +217,8 @@ $( document ).ready(function() {
 
 				if(thumbnailsFailed.length > 0){
 					var span = $('<span></span>').attr('title', thumbnailsFailed.join("\n"));
-					span.html('For ' + thumbnailsFailed.length + ' images it was not possible to generate a thumbnail');
+					var imagesText = thumbnailsFailed.length == 1 ? 'image' : 'images';
+					span.html('For <strong>' + thumbnailsFailed.length + ' ' + imagesText + '</strong> it was not possible to generate a thumbnail');
 
 					$('#information').html(span);
 				}
