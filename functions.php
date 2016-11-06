@@ -19,24 +19,34 @@ function getGdImageHandler($filePath)
 {
 	$extension = getExtension($filePath);
 
-	switch ($extension)
+	try
 	{
-		case 'gif':
-			$im =	imagecreatefromgif($filePath);
-			break;
-		case 'jpg':
-		case 'jpeg':
-			$im =	imagecreatefromjpeg($filePath);
-			break;
-		case 'png':
-			$im =	imagecreatefrompng($filePath);
-			break;
-		default:
-			die('Invalid image extension: ' . $extension);
-			break;
+		switch ($extension)
+		{
+			case 'gif':
+				$im = imagecreatefromgif($filePath);
+				break;
+			case 'jpg':
+			case 'jpeg':
+				$im = imagecreatefromjpeg($filePath);
+				break;
+			case 'png':
+				$im = imagecreatefrompng($filePath);
+				break;
+			default:
+				die('Invalid image extension: ' . $extension);
+				break;
+
+		}
+
+		return $im;
+	}
+	catch (Exception $e)
+	{
+		error_log('Could not create image handle for file "' . $filePath . '": ' . $e->getMessage());
+		return false;
 	}
 
-	return $im;
 }
 
 function updateDetailImage($sourceImageFilePath)
@@ -116,7 +126,6 @@ function cropImage($filePath, $width, $height, $outputFile)
 
 			if ($imageHandler == false)
 			{
-				error_log('Could not create image handle for file ' . $filePath . ' skipping');
 				return false;
 			}
 
@@ -207,7 +216,6 @@ function fitImage($filePath, $width, $height, $outputFile)
 
 			if ($imageHandler == false)
 			{
-				error_log('Could not create image handle for file ' . $filePath . ' skipping');
 				return false;
 			}
 
