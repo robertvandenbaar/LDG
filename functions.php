@@ -19,18 +19,37 @@ function getGdImageHandler($filePath)
 {
 	$extension = getExtension($filePath);
 
+	$type = exif_imagetype($filePath);
+
+	$error = 'The contents of file "' . $filePath . '" does not match the file extension';
+
 	try
 	{
 		switch ($extension)
 		{
 			case 'gif':
+				if($type != IMAGETYPE_GIF)
+				{
+					error_log($error);
+					return false;
+				}
 				$im = imagecreatefromgif($filePath);
 				break;
 			case 'jpg':
 			case 'jpeg':
+				if($type != IMAGETYPE_JPEG)
+				{
+					error_log($error);
+					return false;
+				}
 				$im = imagecreatefromjpeg($filePath);
 				break;
 			case 'png':
+				if($type != IMAGETYPE_PNG)
+				{
+					error_log($error);
+					return false;
+				}
 				$im = imagecreatefrompng($filePath);
 				break;
 			default:
@@ -38,6 +57,7 @@ function getGdImageHandler($filePath)
 				break;
 
 		}
+
 
 		return $im;
 	}
