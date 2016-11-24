@@ -89,7 +89,29 @@ function autoRotateImage($image)
 
     // Now that it's auto-rotated, make sure the EXIF data is correct in case the EXIF gets saved with the image!
     $image->setImageOrientation(imagick::ORIENTATION_TOPLEFT);
-} 
+}
+
+function autoRotateImageGd(&$image, $filename) {
+	$exif = @exif_read_data($filename);
+
+	if (!empty($exif['Orientation'])) {
+		switch ($exif['Orientation']) {
+			case 3:
+				$image = imagerotate($image, 180, 0);
+				break;
+
+			case 6:
+				$image = imagerotate($image, -90, 0);
+				break;
+
+			case 8:
+				$image = imagerotate($image, 90, 0);
+				break;
+		}
+	}
+}
+
+
 
 function updateDetailImage($sourceImageFilePath)
 {
@@ -201,6 +223,12 @@ function cropImage($filePath, $width, $height, $outputFile)
 
 			$d = imagecreatetruecolor($width, $height);
 			imagecopy($d, $imageHandlerResize, 0, 0, $offsetX, $offsetY, $width, $height);
+
+			if(defined('AUTO_ROTATE') && AUTO_ROTATE)
+			{
+				autoRotateImageGd($d, $filePath);
+			}
+
 			return imagejpeg($d, $outputFile, RESIZE_IMAGE_QUALITY);
 		}
 	}
@@ -272,6 +300,11 @@ function fitImage($filePath, $width, $height, $outputFile)
 			$imageHandlerResize = imagecreatetruecolor($resizeWidth, $resizeHeight);
 
 			imagecopyresampled ($imageHandlerResize, $imageHandler, 0, 0, 0, 0, $resizeWidth, $resizeHeight, $originalWidth, $originalHeight);
+
+			if(defined('AUTO_ROTATE') && AUTO_ROTATE)
+			{
+				autoRotateImageGd($imageHandlerResize, $filePath);
+			}
 
 			return imagejpeg($imageHandlerResize, $outputFile, RESIZE_IMAGE_QUALITY);
 		}
