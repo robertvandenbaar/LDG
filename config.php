@@ -31,6 +31,6 @@ define('FULL_SIZE_BY_DEFAULT', false);
 /**
  * Whether to auto rotate images based on exif information
  */
-define('AUTO_ROTATE', true);
+define('AUTO_ROTATE', false);
 
 ?>
