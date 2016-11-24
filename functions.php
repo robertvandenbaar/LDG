@@ -88,7 +88,8 @@ function autoRotateImage($image)
     }
 
     // Now that it's auto-rotated, make sure the EXIF data is correct in case the EXIF gets saved with the image!
-    $image->setImageOrientation(imagick::ORIENTATION_TOPLEFT);
+    //$image->setImageOrientation(imagick::ORIENTATION_TOPLEFT);
+	$image->stripImage();
 }
 
 function autoRotateImageGd(&$image, $filename) {
@@ -179,13 +180,18 @@ function cropImage($filePath, $width, $height, $outputFile)
 		if (class_exists('Imagick'))
 		{
 			$imagick = new Imagick($filePath);
-			$imagick->cropThumbnailImage($width, $height);
-			$imagick->setImageCompressionQuality(RESIZE_IMAGE_QUALITY);
-			$imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
+
 			if(defined('AUTO_ROTATE') && AUTO_ROTATE)
 			{
 				autoRotateImage($imagick);
+				$imagick->writeImage($outputFile);
+				$imagick = new Imagick($outputFile);
 			}
+
+			$imagick->cropThumbnailImage($width, $height);
+			$imagick->setImageCompressionQuality(RESIZE_IMAGE_QUALITY);
+			$imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
+
 			return $imagick->writeImage($outputFile);
 		}
 		else
@@ -224,11 +230,6 @@ function cropImage($filePath, $width, $height, $outputFile)
 			$d = imagecreatetruecolor($width, $height);
 			imagecopy($d, $imageHandlerResize, 0, 0, $offsetX, $offsetY, $width, $height);
 
-			if(defined('AUTO_ROTATE') && AUTO_ROTATE)
-			{
-				autoRotateImageGd($d, $filePath);
-			}
-
 			return imagejpeg($d, $outputFile, RESIZE_IMAGE_QUALITY);
 		}
 	}
@@ -240,6 +241,73 @@ function cropImage($filePath, $width, $height, $outputFile)
 }
 
 function fitImage($filePath, $width, $height, $outputFile)
+{
+	list($originalWidth, $originalHeight) = getimagesize($filePath);
+
+	$resizeWidth = $resizeHeight = null;
+
+	$resizeDimensions = getResizeDimensions($filePath, $width, $height);
+
+	if ($resizeDimensions === false)
+	{
+		return;
+	}
+
+	extract($resizeDimensions);
+
+	try
+	{
+		if (class_exists('Imagick'))
+		{
+			$imagick = new Imagick($filePath);
+			if(defined('AUTO_ROTATE') && AUTO_ROTATE)
+			{
+				autoRotateImage($imagick);
+				$imagick->writeImage($outputFile);
+				$imagick = new Imagick($outputFile);
+
+				/* calculate the dimensions again */
+				$resizeDimensions = getResizeDimensions($outputFile, $width, $height);
+
+				if ($resizeDimensions === false)
+				{
+					return;
+				}
+
+				extract($resizeDimensions);
+
+			}
+			$imagick->resizeImage($resizeWidth, $resizeHeight, Imagick::FILTER_LANCZOS, 1, false);
+			$imagick->setImageCompressionQuality(RESIZE_IMAGE_QUALITY);
+			$imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
+
+			return $imagick->writeImage($outputFile);
+		}
+		else
+		{
+			$imageHandler = getGdImageHandler($filePath);
+
+			if ($imageHandler == false)
+			{
+				return false;
+			}
+
+			$imageHandlerResize = imagecreatetruecolor($resizeWidth, $resizeHeight);
+
+			imagecopyresampled ($imageHandlerResize, $imageHandler, 0, 0, 0, 0, $resizeWidth, $resizeHeight, $originalWidth, $originalHeight);
+
+			return imagejpeg($imageHandlerResize, $outputFile, RESIZE_IMAGE_QUALITY);
+		}
+	}
+	catch (Exception $e)
+	{
+		error_log('Could not create resized image ' . $e->getMessage());
+	}
+
+	return false;
+}
+
+function getResizeDimensions($filePath, $width, $height)
 {
 	list($originalWidth, $originalHeight) = getimagesize($filePath);
 
@@ -274,47 +342,8 @@ function fitImage($filePath, $width, $height, $outputFile)
 		$resizeHeight = ceil($originalHeight / ($originalWidth/$width));
 	}
 
-	try
-	{
-		if (class_exists('Imagick'))
-		{
-			$imagick = new Imagick($filePath);
-			$imagick->resizeImage($resizeWidth, $resizeHeight, Imagick::FILTER_LANCZOS, 1, false);
-			$imagick->setImageCompressionQuality(RESIZE_IMAGE_QUALITY);
-			$imagick->setImageCompression(Imagick::COMPRESSION_JPEG);
-			if(defined('AUTO_ROTATE') && AUTO_ROTATE)
-			{
-				autoRotateImage($imagick);
-			}
-			return $imagick->writeImage($outputFile);
-		}
-		else
-		{
-			$imageHandler = getGdImageHandler($filePath);
+	return array('resizeWidth' => $resizeWidth, 'resizeHeigt' => $resizeHeight);
 
-			if ($imageHandler == false)
-			{
-				return false;
-			}
-
-			$imageHandlerResize = imagecreatetruecolor($resizeWidth, $resizeHeight);
-
-			imagecopyresampled ($imageHandlerResize, $imageHandler, 0, 0, 0, 0, $resizeWidth, $resizeHeight, $originalWidth, $originalHeight);
-
-			if(defined('AUTO_ROTATE') && AUTO_ROTATE)
-			{
-				autoRotateImageGd($imageHandlerResize, $filePath);
-			}
-
-			return imagejpeg($imageHandlerResize, $outputFile, RESIZE_IMAGE_QUALITY);
-		}
-	}
-	catch (Exception $e)
-	{
-		error_log('Could not create resized image ' . $e->getMessage());
-	}
-
-	return false;
 }
 
 function sanitizeFilename($string)
