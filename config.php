@@ -4,7 +4,7 @@
  * This speaks for itself
  * NOTE: do NOT add a trailing slash
  */
-define('IMAGE_BASE_DIR', '/var/www/testfoto');
+define('IMAGE_BASE_DIR', '/var/testfoto');
 
 /**
  * Dimensions of the thumbnails
@@ -27,5 +27,10 @@ define('RESIZE_IMAGE_QUALITY', 72);
  * Whether to start browsing in full-size at a new session
  */
 define('FULL_SIZE_BY_DEFAULT', false);
+
+/**
+ * Whether to auto rotate images based on exif information
+ */
+define('AUTO_ROTATE', true);
 
 ?>
