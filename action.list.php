@@ -178,7 +178,7 @@ foreach($images as $image)
 
 	$html .= htmlTagOpen('a', array('class' => 'image', 'href'  =>  $detailLink));
 
-	$imageAttributes = array('src' => $thumbnailSrc, 'alt' => 'image');
+	$imageAttributes = array('src' => $thumbnailSrc, 'alt' => basename($imageFilePath), 'title' => basename($imageFilePath));
 	if (!$thumbnailCurrent)
 	{
 		$imageAttributes['class'] = 'loading';
