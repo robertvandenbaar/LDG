@@ -1,2 +1,5 @@
-cache/
+cache
+data
+app/vendor
+.DS*
 .idea
