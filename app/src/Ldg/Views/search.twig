@@ -5,9 +5,14 @@
 	{% embed "header.twig" %}
 	{% endembed %}
 
-	{% embed "images.twig" %}
-	{% endembed %}
+	{% if images|length > 0 %}
 
+		{% set vars = {'origin': 'search'} %}
+		{% embed "images.twig" with vars %}
+		{% endembed %}
 
+	{% else %}
+		<p>No results</p>
+	{% endif %}
 
 {% endblock %}

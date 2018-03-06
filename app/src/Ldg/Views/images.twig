@@ -1,4 +1,4 @@
-<div class="images">
+<div class="images {{ origin == 'search' ? 'wide' : '' }}">
 
 	{% for image in images %}
 		<a class="image" href="{{ image.detailUrl }}">

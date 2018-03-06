@@ -20,6 +20,7 @@ a							{ color: #bbb; }
 
 div.navigation				{ padding-top: 16px; width: 30%; margin-right: 1%; float: left; }
 div.images					{ padding-top: 10px; width: 69%; float: left;  }
+div.images.wide				{ width: 100%; float: none; }
 
 a.folder					{ text-decoration: none; display: block; background: #666; color: #ddd; padding-left: 10px; line-height: 30px; height: 30px; overflow: hidden; margin-bottom: 2px; }
 a.folder:hover				{ background: #777; color: #eee; }
