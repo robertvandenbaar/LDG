@@ -1,0 +1,14 @@
+{
+    "image_base_dir": "/mnt/data/ExportedPhotos/photos/",
+    "thumbnail_width": 120,
+    "thumbnail_height": 80,
+    "detail_width": 1024,
+    "full_size_by_default": false,
+    "auto_rotate": true,
+    "supported_extensions": [
+        "jpg",
+        "jpeg",
+        "gif",
+        "png"
+    ]
+}

@@ -1,0 +1,31 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+	{% embed "header.twig" %}
+	{% endembed %}
+
+	<div class="navigation">
+		<div class="folders">
+			{% if folder_up is defined %}
+				<a class="folder up" href="{{ folder_up.url }}"> .. </a>
+			{% endif %}
+
+			{% for folder in folders %}
+				<a class="folder" href="{{ folder.url }}">{{ folder.name }}</a>
+			{% endfor %}
+		</div>
+		<div class="other-files">
+			{% if other_files|length > 0 %}
+				<p class="other-file-header">Files in this folder</p>
+				{% for other_file in other_files %}
+					<a class="folder" href="{{ other_file.originalUrl }}">{{ other_file.name }}</a>
+				{% endfor %}
+			{% endif %}
+		</div>
+	</div>
+
+	{% embed "images.twig" %}
+	{% endembed %}
+
+{% endblock %}

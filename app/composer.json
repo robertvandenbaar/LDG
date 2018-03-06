@@ -1,0 +1,15 @@
+{
+  	"name" : "LDG",
+	"license": "LGPL-2.1-only",
+	"autoload": {
+	  "psr-4": {
+		"Ldg\\": "src/Ldg/"
+	  }
+	},
+    "require": {
+        "miljar/php-exif": "~0.6.0",
+		"vakata/image": "^2.0",
+	  	"twig/twig": "^1.18",
+	  	"dfridrich/php-mime-type" : "^2"
+    }
+}
