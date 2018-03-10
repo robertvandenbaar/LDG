@@ -9,7 +9,7 @@ read, no write actions are performed on the original files. For all images a sma
 image will be generated (on the fly or using cron.php).
 
 ## Requirements
-* PHP 5.3
+* PHP 5.4 and up
 * Apache with mod_rewrite
 * Either PHP's GD library but preferably the Imagick extension (and ImageMagick installed)
 
