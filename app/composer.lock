@@ -1,0 +1,237 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "775467a711d3ac7e6f4c2e1294283460",
+    "packages": [
+        {
+            "name": "dfridrich/php-mime-type",
+            "version": "v2.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dfridrich/PhpMimeType.git",
+                "reference": "adaefb4a0de58a5c6a9c21c83ef2592e9cd28be7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dfridrich/PhpMimeType/zipball/adaefb4a0de58a5c6a9c21c83ef2592e9cd28be7",
+                "reference": "adaefb4a0de58a5c6a9c21c83ef2592e9cd28be7",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8|^5.0",
+                "symfony/http-foundation": "^2.8 || ^3.0"
+            },
+            "suggest": {
+                "symfony/http-foundation": "Allows you to get prepared Symfony response."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Defr\\PhpMimeType\\": "src/",
+                    "Defr\\": "legacy/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dennis Fridrich",
+                    "email": "fridrich.dennis@gmail.com"
+                }
+            ],
+            "description": "Simple PHP class for guessing file mime type based on file extension with ability to use in Symfony project.",
+            "homepage": "https://github.com/dfridrich/PhpMimeType",
+            "keywords": [
+                "mimetype",
+                "php"
+            ],
+            "time": "2018-01-26T11:24:13+00:00"
+        },
+        {
+            "name": "miljar/php-exif",
+            "version": "v0.6.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHPExif/php-exif.git",
+                "reference": "e43cc30608824d7f3466653b52bbbb71874b5b02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHPExif/php-exif/zipball/e43cc30608824d7f3466653b52bbbb71874b5b02",
+                "reference": "e43cc30608824d7f3466653b52bbbb71874b5b02",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "~2.2",
+                "phpunit/phpunit": "3.7.*",
+                "satooshi/php-coveralls": "~0.6",
+                "sebastian/phpcpd": "1.4.*@stable",
+                "squizlabs/php_codesniffer": "1.4.*@stable"
+            },
+            "suggest": {
+                "ext-exif": "Use exif PHP extension as adapter",
+                "lib-exiftool": "Use perl lib exiftool as adapter"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExif": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tom Van Herreweghe",
+                    "homepage": "http://theanalogguy.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Object-Oriented EXIF parsing",
+            "keywords": [
+                "IPTC",
+                "exif",
+                "exiftool",
+                "jpeg",
+                "tiff"
+            ],
+            "time": "2017-02-06T14:40:26+00:00"
+        },
+        {
+            "name": "twig/twig",
+            "version": "v1.35.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "9c24f2cd39dc1906b76879e099970b7e53724601"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9c24f2cd39dc1906b76879e099970b7e53724601",
+                "reference": "9c24f2cd39dc1906b76879e099970b7e53724601",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "psr/container": "^1.0",
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~3.3@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.35-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_": "lib/"
+                },
+                "psr-4": {
+                    "Twig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "http://twig.sensiolabs.org/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "http://twig.sensiolabs.org",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2018-03-03T16:21:29+00:00"
+        },
+        {
+            "name": "vakata/image",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vakata/image.git",
+                "reference": "4bf7b80682ed4cef52297cc4cbf79c36659ae14e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vakata/image/zipball/4bf7b80682ed4cef52297cc4cbf79c36659ae14e",
+                "reference": "4bf7b80682ed4cef52297cc4cbf79c36659ae14e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0.0"
+            },
+            "require-dev": {
+                "clean/phpdoc-md": "dev-master",
+                "codeclimate/php-test-reporter": "dev-master",
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "vakata\\image\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "vakata",
+                    "email": "github@vakata.com",
+                    "homepage": "http://www.vakata.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Image manipulation helper class",
+            "homepage": "https://github.com/vakata/image",
+            "keywords": [
+                "image",
+                "vakata"
+            ],
+            "time": "2017-01-26T13:56:46+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.4"
+    },
+    "platform-dev": []
+}

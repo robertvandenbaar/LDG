@@ -1,0 +1,21 @@
+<div id="header">
+	<div id="breadcrumb">
+
+		<a href="{{ base_url }}/">Home</a>
+
+		{% for breadcrumb_part in breadcrumb_parts %}
+			<a {% if breadcrumb_part.isLast == true %} class="last" {% endif %} href="{{ breadcrumb_part.path }}">{{ breadcrumb_part.title }}</a>
+		{% endfor %}
+
+	</div>
+
+	<em id="information"></em>
+
+	<div id="search">
+		<form method="POST" action="{{ base_url }}/search">
+			<input type="text" name="q" placeholder="Search in all images ..."/>
+			<input type="submit" name="submitbutton" value="Search" />
+		</form>
+	</div>
+
+</div>
