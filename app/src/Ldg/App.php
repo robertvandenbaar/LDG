@@ -117,8 +117,6 @@ class App
 
 		$image = new \Ldg\Model\Image(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
 
-		$image->updateIndex();
-
 		// update the cache image so next time it won't have to go through php
 		if ($image->updateDetail())
 		{
@@ -299,7 +297,8 @@ class App
 		}
 
 		$variables = [
-			'images' => $images
+			'images' => $images,
+			'index_count' => $index->getIndexCount()
 		];
 
 		echo $this->twig->render('search.twig', $variables);

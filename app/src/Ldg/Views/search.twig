@@ -12,7 +12,17 @@
 		{% endembed %}
 
 	{% else %}
-		<p>No results</p>
+		<p>
+			No results.
+
+			{% if index_count == 0 %}
+				Check if cron is enabled.
+			{% else %}
+				check your search query.
+			{% endif %}
+
+		</p>
+
 	{% endif %}
 
 {% endblock %}
