@@ -2,6 +2,97 @@ $( document ).ready(function() {
 
 	setLoadingImage();
 
+	$("#image-nav-info").click(function(){
+
+		// if the info block is already visible than act as a toggle
+		if ($("#info").is(":visible"))
+		{
+			$("#info").hide();
+			return;
+		}
+
+		$('#info_inner').html('');
+
+		var jqxhr = $.ajax(window.appRoot + "/info?file=" +  $("#slider img").attr('src'))
+		.done(function(content) {
+
+			var result = JSON.parse(content);
+
+			if (result.result == true)
+			{
+				var responseHtml = $('<table/>');
+				responseHtml.append( '<tr><td>Filename</td><td>' + result.filename + '</td></tr>');
+
+				var data = result.data;
+
+				if (data)
+				{
+					$.each(result.data, function(key, val){
+
+						if ($.isArray(val))
+						{
+							var items=[];
+							items.push('<td>'+ key +'</td>');
+							items.push('<td>'+ val.join(', ') +'</td>');
+							responseHtml.append($('<tr/>', {html: items.join('')}));
+						}
+						// show object as separate properties
+						else if (typeof(val) == 'object')
+						{
+							$.each(val, function(subkey, subval){
+								var items=[];
+
+								// even more objects at this level, then just show a JSON representation
+								if (typeof(subval) == 'object')
+								{
+									val = JSON.stringify(val);
+								}
+
+								items.push('<td>'+ key + ' (' + subkey + ')</td>');
+								items.push('<td>'+ subval +'</td>');
+
+								responseHtml.append($('<tr/>', {html: items.join('')}));
+							});
+
+						}
+						else
+						{
+							var items=[];
+							items.push('<td>'+ key +'</td>');
+							items.push('<td>'+ val +'</td>');
+							responseHtml.append($('<tr/>', {html: items.join('')}));
+						}
+						
+					});
+				}
+				else
+				{
+					responseHtml.append( '<tr><td colspan="2">No additional information could be retrieved</td></tr>');
+				}
+
+			}
+			else
+			{
+				var responseHtml = $('<p>Error fetchin file information</p>');
+			}
+
+			$('#info_inner').append(responseHtml);
+
+			$("#info").show();
+
+		})
+		.fail(function() {
+			console.log('Request for fetching info failed');
+		});
+
+	});
+
+	$("#info_close").click(function(){
+
+		$("#info").hide();
+
+	});
+
 	$("#image-nav-size").click(function () {
 
 		if ($(this).hasClass('active'))
@@ -43,11 +134,11 @@ $( document ).ready(function() {
 		});
 
 		var jqxhr = $.ajax(window.appRoot + "/?full-size=" +  fullSize.toString())
-		.done(function(html) {
+		.done(function(content) {
 
 		})
 		.fail(function() {
-			console.log('Ajax request ajax.change.size.php failed');
+			console.log('Request for size changing failed');
 		});
 
 		$(this).toggleClass('active');
@@ -181,15 +272,13 @@ $( document ).ready(function() {
 	/* CREATE THUMBNAILS AFTER LOAD */
 	var imagesToGenerate = $('.images .image img[data-src]');
 
-	console.log(imagesToGenerate.length);
-
 	var thumbnailsFailed = [];
 
 	function generateThumbnail(image, imagesToGenerate)
 	{
 		var jqxhr = $.ajax(window.appRoot + "/update_thumbnail" + image.attr('data-src'))
-		.done(function(html) {
-			if(html == 'success') {
+		.done(function(content) {
+			if(content == 'success') {
 				image.attr('src', window.appRoot + '/cache/thumbnail' + image.attr('data-src'));
 			} else {
 				image.parent().remove();
@@ -230,7 +319,7 @@ $( document ).ready(function() {
 
 		})
 		.fail(function() {
-			console.log('Ajax request ajax.generate.php failed');
+			console.log('Request for generation thumbnail failed');
 		})
 		.always(function() {
 			//alert( "complete" );

@@ -2,13 +2,15 @@
 
 namespace Ldg;
 
+use Ldg\Model\File;
+
 class App
 {
 	protected $twig;
 	protected $setting;
 	protected $parts;
 
-	protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search'];
+	protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info'];
 
 	function __construct()
 	{
@@ -107,6 +109,9 @@ class App
 				break;
 			case 'search':
 				$this->renderSearch();
+				break;
+			case 'info':
+				$this->renderInfo();
 				break;
 		}
 	}
@@ -304,5 +309,43 @@ class App
 		echo $this->twig->render('search.twig', $variables);
 
 	}
+
+	function renderInfo()
+	{
+		$file = $_REQUEST['file'];
+
+		foreach (['/cache/detail', '/detail', '/original'] as $begin)
+		{
+			if (substr($file, 0, strlen($begin)) == $begin)
+			{
+				$file = substr($file, strlen($begin));
+				continue;
+			}
+		}
+
+		$file = \Ldg\Setting::get('image_base_dir') . $file;
+
+		$fileObject = new \Ldg\Model\Image($file);
+
+		if (!$fileObject->fileExists() || !$fileObject->isValidPath())
+		{
+			echo json_encode(['result' => false, 'error' => 'File ' . $fileObject->getPath() . 'could not be found']);
+			exit;
+		}
+
+		$exif = $fileObject->getExif();
+
+		$response = ['result' => true, 'filename' => $fileObject->getName()];
+
+		if ($exif)
+		{
+			$response['data'] = $exif->getData();
+		}
+
+		echo json_encode($response);
+		exit;
+
+	}
+
 
 }
