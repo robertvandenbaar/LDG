@@ -70,6 +70,11 @@ class Search
 		return $results;
 	}
 
+	function getIndexCount()
+	{
+		return count($this->index);
+	}
+
 	function save()
 	{
 		file_put_contents($this->indexFile, json_encode($this->index, JSON_PRETTY_PRINT));
