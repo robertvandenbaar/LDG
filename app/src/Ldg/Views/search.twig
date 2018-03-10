@@ -1,0 +1,28 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
+
+	{% embed "header.twig" %}
+	{% endembed %}
+
+	{% if images|length > 0 %}
+
+		{% set vars = {'origin': 'search'} %}
+		{% embed "images.twig" with vars %}
+		{% endembed %}
+
+	{% else %}
+		<p>
+			No results.
+
+			{% if index_count == 0 %}
+				Check if cron is enabled.
+			{% else %}
+				check your search query.
+			{% endif %}
+
+		</p>
+
+	{% endif %}
+
+{% endblock %}

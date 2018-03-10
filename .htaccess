@@ -1,3 +1,7 @@
 RewriteEngine On
+RewriteRule settings.json - [F]
+RewriteRule cron.php - [F]
+RewriteRule .gitignore - [F]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule . ./index.php [L]

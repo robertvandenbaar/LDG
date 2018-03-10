@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="nl" xml:lang="nl">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Photos</title>
+	<meta name="viewport" content="initial-scale=1.0, width=device-width" />
+	<link rel="stylesheet" href="{{ base_url }}/assets/css/style.css">
+	<script src="{{ base_url }}/assets/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="{{ base_url }}/assets/js/jquery.touchwipe.min.js"></script>
+	<script type="text/javascript" src="{{ base_url }}/assets/js/app.js"></script>
+</head>
+<body>
+<div id="page">
+	{% block content %}
+	{% endblock %}
+	<div style="clear: both">
+
+	</div>
+</div>
+<script type="text/javascript">
+	window.appRoot = "{{ base_url }}";
+</script>
+<div id="overlay">
+	<div id="container">
+		<div id="image-nav">
+			<div id="image-nav-size" title="Change size">
+			</div>
+			<div id="image-nav-prev" title="Previous image">
+			</div>
+			<div id="image-nav-next" title="Next image">
+			</div>
+			<div id="image-nav-close" title="Close">
+			</div>
+		</div>
+		<div id="slider">
+			<img src="{{ base_url }}/assets/images/loading.gif" alt="Loading" />
+		</div>
+	</div>
+</div>
+</body>
+</html>

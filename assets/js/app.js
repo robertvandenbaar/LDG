@@ -1,12 +1,3 @@
-/**
- * Copyright (c) 2016 Robert van den Baar
- *
- * This program is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License as published by the Free
- * Software Foundation; either version 3 of the License, or (at your option)
- * any later version.  See COPYING for more details.
- */
-
 $( document ).ready(function() {
 
 	setLoadingImage();
@@ -26,6 +17,15 @@ $( document ).ready(function() {
 			var fullSize = true;
 		}
 
+		if (fullSize === true)
+		{
+			$(this).attr('title', 'Show resized version');
+		}
+		else
+		{
+			$(this).attr('title', 'Show original image');
+		}
+
 		$('#slider img').each(function () {
 
 			var imageSource = $(this).attr('src');
@@ -42,7 +42,7 @@ $( document ).ready(function() {
 			$(this).attr('href', linkHref);
 		});
 
-		var jqxhr = $.ajax(window.appRoot + "/ajax.change.size.php?full-size=" +  fullSize.toString())
+		var jqxhr = $.ajax(window.appRoot + "/?full-size=" +  fullSize.toString())
 		.done(function(html) {
 
 		})
@@ -181,11 +181,13 @@ $( document ).ready(function() {
 	/* CREATE THUMBNAILS AFTER LOAD */
 	var imagesToGenerate = $('.images .image img[data-src]');
 
+	console.log(imagesToGenerate.length);
+
 	var thumbnailsFailed = [];
 
 	function generateThumbnail(image, imagesToGenerate)
 	{
-		var jqxhr = $.ajax(window.appRoot + "/ajax.generate.php?file=" + image.attr('data-src'))
+		var jqxhr = $.ajax(window.appRoot + "/update_thumbnail" + image.attr('data-src'))
 		.done(function(html) {
 			if(html == 'success') {
 				image.attr('src', window.appRoot + '/cache/thumbnail' + image.attr('data-src'));
@@ -241,6 +243,13 @@ $( document ).ready(function() {
 
 		generateThumbnail(imagesToGenerate.first(), imagesToGenerate);
 	}
+
+	$('#system').on('click', function(){
+
+		$('#log').toggle();
+
+	});
+
 
 
 });
