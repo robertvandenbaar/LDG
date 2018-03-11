@@ -26,6 +26,11 @@ class File
 		return basename($this->path);
 	}
 
+	public function getFolderName()
+	{
+		return str_replace($this->getName(), '', $this->getRelativeLocation());
+	}
+
 	public function getExtension()
 	{
 		$parts = explode('.', $this->path);

@@ -336,7 +336,7 @@ class App
 
 		$exif = $fileObject->getExif();
 
-		$response = ['result' => true, 'filename' => $fileObject->getName()];
+		$response = ['result' => true, 'filename' => $fileObject->getName(), 'folder' => $fileObject->getFolderName()];
 
 		if ($exif)
 		{
