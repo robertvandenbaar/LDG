@@ -1,13 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
- <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
- <g>
-  <title>background</title>
-  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
- </g>
- <g>
-  <title>Layer 1</title>
-  <ellipse ry="170.5" rx="170.5" id="svg_1" cy="195.449997" cx="298" stroke-width="22" stroke="#FFF"  />
-  <rect id="svg_2" height="30" width="30" y="100" x="290" fill-opacity="null"  fill="#fff" />
-  <rect id="svg_5" height="160" width="30" y="140" x="290" fill-opacity="null"  fill="#fff"/>
- </g>
+  <ellipse ry="170" rx="170" id="svg_1" cy="200" cx="300" stroke-width="22" stroke="#FFF" fill="none" />
+  <rect height="30" width="30" y="100" x="290" fill="#FFF" />
+  <rect height="160" width="30" y="140" x="290" fill="#FFF"/>
 </svg>
