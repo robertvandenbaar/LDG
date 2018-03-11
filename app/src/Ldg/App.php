@@ -158,7 +158,7 @@ class App
 
 		header('Content-Type:' . \Defr\PhpMimeType\MimeType::get(new \SplFileInfo($file->getPath())));
 
-		if (!in_array($file->getExtension(), $this->imageExtensions))
+		if (!in_array($file->getExtension(), \Ldg\Setting::get('supported_extensions')))
 		{
 			header('Content-Description: File Transfer');
 			header('Content-Disposition: attachment; filename='.basename($file->getPath()));
