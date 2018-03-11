@@ -74,7 +74,7 @@ $( document ).ready(function() {
 			}
 			else
 			{
-				var responseHtml = $('<p>Error fetchin file information</p>');
+				var responseHtml = $('<p>Error fetching file information</p>');
 			}
 
 			$('#info_inner').append(responseHtml);
