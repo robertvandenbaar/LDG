@@ -15,7 +15,7 @@ a							{ color: #bbb; }
 
 #information				{ position: absolute; left: 42%; top: 0; display: inline-block; padding: 6px 8px; margin-left: 6px; color: #888; text-transform: lowercase; }
 
-#search_activate			{ background-size: auto 100%; z-index: 25; position: absolute; right: 0; top: 0; cursor:pointer; width: 26px; height: 26px; background-image: url('../images/svg/search.svg');	background-position: center; }
+#search_activate			{ background-size: auto 100%; position: absolute; right: 0; top: 0; cursor:pointer; width: 26px; height: 26px; background-image: url('../images/svg/search.svg');	background-position: center; }
 #search						{ display: none; position: absolute; right: 0; top: 0; }
 #search input				{ border-radius: 4px; height: 26px; border: 1px solid #000; padding: 2px 4px; vertical-align: top;}
 
