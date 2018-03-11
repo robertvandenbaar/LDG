@@ -38,7 +38,7 @@ a.image img					{ width: 100%; }
 #image-nav					{ height: 10% }
 #image-nav>div				{ height: 100%; background-size: auto 30%; background-repeat: no-repeat; float:left;}
 #image-nav-size				{ cursor:pointer; width: 5%; background-image: url('../images/svg/size.svg'); background-position: center; }
-#image-nav-size.active		{ background-image: url('../images/svg/size.svg');}
+#image-nav-size.active		{ background-image: url('../images/svg/size-active.svg');}
 #image-nav-info				{ cursor:pointer; width: 5%; background-image: url('../images/svg/info.svg'); background-position: center; }
 #image-nav-prev				{ width: 40%; background-image: url('../images/svg/prev.svg');	background-position: center; }
 #image-nav-next				{ width: 40%; background-image: url('../images/svg/next.svg');	background-position: center; }
