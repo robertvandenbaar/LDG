@@ -22,6 +22,7 @@ $( document ).ready(function() {
 			{
 				var responseHtml = $('<table/>');
 				responseHtml.append( '<tr><td>Filename</td><td>' + result.filename + '</td></tr>');
+				responseHtml.append( '<tr><td>Folder</td><td>' + result.folder + '</td></tr>');
 
 				var data = result.data;
 
