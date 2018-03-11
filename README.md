@@ -10,15 +10,15 @@ image will be generated (on the fly or using cron.php).
 
 ## Requirements
 * PHP 5.4 and up
-* Apache with mod_rewrite
+* Apache with mod_rewrite or nginx (nginx-light on Debian should suffice)
 * Either PHP's GD library but preferably the Imagick extension (and ImageMagick installed)
 
 ## Installation
 * Copy the contents in your DocumentRoot, this can also be a sub-folder
-* Install composer (if you haven't done so already) https://getcomposer.org/
-* cd app; composer install;
-* In settings.json, set image_base_dir
-* Set permissions to the 'cache' and 'data' folder so Apache can write to it
+* Install composer (if you haven't done so already). Get it from https://getcomposer.org/ or use your system's package management
+* ```cd app ; sudo -u ```*```webserver_user```*``` composer install ; cd ..```
+* Edit ```settings.json``` and correctly set ```image_base_dir```
+* Set permissions to the 'cache' and 'data' folder so your webserver process can write to it
 * Done
 
 ## Options
