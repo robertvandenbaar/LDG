@@ -12,8 +12,8 @@
 	<em id="information"></em>
 
 	<div id="search">
-		<form method="POST" action="{{ base_url }}/search">
-			<input type="text" name="q" placeholder="Search in all images ..."/>
+		<form method="GET" action="{{ base_url }}/search">
+			<input type="text" name="q" placeholder="Search for images ..." value="{{ q }}"/>
 			<input type="submit" name="submitbutton" value="Search" />
 		</form>
 	</div>

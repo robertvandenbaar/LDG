@@ -286,7 +286,7 @@ class App
 	function renderSearch()
 	{
 		$index = new \Ldg\Search();
-		$results = $index->search($_POST['q']);
+		$results = $index->search($_REQUEST['q']);
 
 		$images = [];
 
@@ -303,7 +303,8 @@ class App
 
 		$variables = [
 			'images' => $images,
-			'index_count' => $index->getIndexCount()
+			'index_count' => $index->getIndexCount(),
+			'q' => $_REQUEST['q']
 		];
 
 		echo $this->twig->render('search.twig', $variables);
