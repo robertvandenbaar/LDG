@@ -59,12 +59,26 @@ class Search
 	{
 		$results = [];
 
+		$words = explode(' ', trim($q));
+
 		foreach ($this->index as $key => $value)
 		{
-			if (stripos($value, $q) !== false)
+			$match = true;
+
+			foreach($words as $word)
+			{
+				if (stripos($value, $word) === false)
+				{
+					$match = false;
+					continue;
+				}
+			}
+
+			if ($match)
 			{
 				$results[$key] = $value;
 			}
+
 		}
 
 		return $results;
