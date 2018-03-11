@@ -242,17 +242,19 @@ class Image extends File
 
 	public function fixOrientation(\vakata\image\Image $image, $exif)
 	{
-		switch($exif->getOrientation())
+		// imagick and GD handle this different
+		if (extension_loaded('imagick'))
 		{
-			case 3:
-				$image->rotate(180);
-				break;
-			case 6:
-				$image->rotate(-90);
-				break;
-			case 8:
-				$image->rotate(90);
-				break;
+			$degrees = [3 => 180, 6 => 90, 8 => -90];
+		}
+		else
+		{
+			$degrees = [3 => 180, 6 => -90, 8 => 90];
+		}
+
+		if (array_key_exists($exif->getOrientation(), $degrees))
+		{
+			$image->rotate($degrees[$exif->getOrientation()]);
 		}
 	}
 }
