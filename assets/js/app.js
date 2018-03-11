@@ -1,6 +1,18 @@
 $( document ).ready(function() {
 
 	setLoadingImage();
+	
+	$("#search_activate").click(function(){
+
+		$("#search").show();
+		$(this).hide();
+
+	});
+
+	if(window.location.href.indexOf("search?q=") !== -1)
+	{
+		$("#search_activate").click();
+	}
 
 	$("#image-nav-info").click(function(){
 
