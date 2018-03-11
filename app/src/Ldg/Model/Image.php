@@ -252,9 +252,13 @@ class Image extends File
 			$degrees = [3 => 180, 6 => -90, 8 => 90];
 		}
 
-		if (array_key_exists($exif->getOrientation(), $degrees))
+		if ($exif)
 		{
-			$image->rotate($degrees[$exif->getOrientation()]);
+			if (array_key_exists($exif->getOrientation(), $degrees))
+			{
+				$image->rotate($degrees[$exif->getOrientation()]);
+			}
 		}
+
 	}
 }
