@@ -30,8 +30,11 @@ You can control the size of these images in settings.json.
 These images are created on the fly or you can use the cron.php to create these (and the thumbnails) all at once.
 
 ### Search
-You can search for images using the search box on the top right. To use the search feature you need to 
-use the cron.php file to generate the index (on a daily basis). You should run this command
+You can search for images using the search box on the top right. You can enter multiple words to further
+narrow the results.
+
+To use the search feature you need to 
+use the cron.php file to generate the index (on a daily basis for example). You should run this command
 as the webserver user, for example:
 ```bash
 sudo -u www-data php cron.php
