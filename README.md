@@ -35,5 +35,5 @@ You can search for images using the search box on the top right. The search inde
 It's preferred to use the cron.php file to generate the index (on a daily basis). You should run this command
 as the webserver user, for example:
 ```bash
-sudo -u www-data cron.php
+sudo -u www-data php cron.php
 ```
