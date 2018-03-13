@@ -15,17 +15,25 @@ image will be generated (on the fly or using cron.php).
 
 ## Installation
 * Copy the contents in your DocumentRoot, this can also be a sub-folder
-* Install composer (if you haven't done so already). Get it from https://getcomposer.org/ or use your system's package management
-* ```cd app ; sudo -u ```*```webserver_user```*``` composer install ; cd ..```
-* Edit ```settings.json``` and correctly set ```image_base_dir```
-* Set permissions to the 'cache' and 'data' folder so your webserver process can write to it
+* Install composer (if you haven't done so already). Get it from [https://getcomposer.org/](https://getcomposer.org/) or use your system's package management
+* `cd app`; `composer install`; `cd ..`;
+* Edit `settings.json` and correctly set `image_base_dir`
+* Set permissions to the 'cache' and 'data' folder so your webserver user can write to it
 * Done
 
-## Options
-You can choose to browse the default (large) images or view a re-sized version of the images. You can 
-control the size of these images in settings.json. This is convenient when you are browsing on a 
-slow connection. 
-These images are created
-on the fly or you can use the cron.php to create these (and the thumbnails) all at once (maybe adding 
-this script in a cron-tab so you don't have to wait for them to be generated (first time)).
+## Features
+
+### Image viewing
+You can choose to browse the original images or view a re-sized version of the images (default). 
+This is convenient when you are browsing on a slow connection. 
+You can control the size of these images in settings.json. 
+These images are created on the fly or you can use the cron.php to create these (and the thumbnails) all at once.
+
+### Search
 You can search for images using the search box on the top right. The search index is updated as images are being viewed but the preferred method is to use the cron.php
+
+It's preferred to use the cron.php file to generate the index (on a daily basis). You should run this command
+as the webserver user, for example:
+```bash
+sudo -u www-data cron.php
+```
