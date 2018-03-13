@@ -20,7 +20,7 @@ echo "--------------------------\n";
 $search = new Search();
 $search->resetIndex();
 
-function createCroppedImagesRecursively($baseDir)
+function createCroppedImagesRecursively($baseDir, $search)
 {
 	foreach (scandir($baseDir) as $file)
 	{
@@ -33,7 +33,7 @@ function createCroppedImagesRecursively($baseDir)
 
 		if (is_dir($fullPath))
 		{
-			createCroppedImagesRecursively($fullPath);
+			createCroppedImagesRecursively($fullPath, $search);
 			continue;
 		}
 
@@ -43,14 +43,19 @@ function createCroppedImagesRecursively($baseDir)
 		{
 			echo "Updating thumbnail and mid-size image for " . $fullPath . "\n";
 
-			$image->updateDetail();
+			// to speed up the cron process the detail images are not generated if the default option is full size
+			if (!Setting::get('full_size_by_default'))
+			{
+				$image->updateDetail();
+			}
 			$image->updateThumbnail();
-			$image->updateIndex();
+			$image->updateIndex($search);
 		}
 	}
 }
 
-createCroppedImagesRecursively(Setting::get('image_base_dir'));
+createCroppedImagesRecursively(Setting::get('image_base_dir'), $search);
+$search->save();
 
 echo "\n\nFinished\n";
 echo "--------------------------\n";

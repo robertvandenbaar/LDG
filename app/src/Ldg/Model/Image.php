@@ -147,7 +147,7 @@ class Image extends File
 		return file_exists($this->getThumbnailPath());
 	}
 
-	public function updateIndex()
+	public function updateIndex(\Ldg\Search $search)
 	{
 		$exif = $this->getExif();
 
@@ -158,9 +158,7 @@ class Image extends File
 			$data .= ' ' . implode(' ', (array)$exif->getKeywords());
 		}
 
-		$search = new \Ldg\Search();
 		$search->setEntry($this->getRelativeLocation(), $data);
-		$search->save();
 
 	}
 
