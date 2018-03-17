@@ -328,30 +328,35 @@ class App
 
 		$exif = $file->getExif();
 
-		$rawData = $exif->getRawData();
+		if ($exif)
+		{
+			$rawData = $exif->getRawData();
 
-		array_walk_recursive($rawData, function(&$item, $key){
+			array_walk_recursive($rawData, function(&$item, $key){
 
-			// strip these nasty tags
-			if (substr($key, 0,9) == 'Undefined')
-			{
-				$item = '';
-			}
+				// strip these nasty tags
+				if (substr($key, 0,9) == 'Undefined')
+				{
+					$item = '';
+				}
 
-			$detected = mb_detect_encoding($item);
+				$detected = mb_detect_encoding($item);
 
-			if ($detected == false || ($detected != 'UTF-8' && $detected != 'ASCII'))
-			{
-				$item = iconv('ISO-8859-1', 'UTF-8', $item);
-			}
+				if ($detected == false || ($detected != 'UTF-8' && $detected != 'ASCII'))
+				{
+					$item = iconv('ISO-8859-1', 'UTF-8', $item);
+				}
 
-		});
+			});
+
+			unset($rawData['FileName']);
+		}
 
 		$response = ['result' => true, 'filename' => $file->getName(), 'folder' => $file->getFolderName()];
 
-		if ($exif)
+		if (isset($rawData))
 		{
-			$response['data'] = $rawData;
+			$response['data'] = isset($rawData) ? $rawData : [];
 		}
 
 		echo json_encode($response);
