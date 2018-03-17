@@ -317,40 +317,46 @@ class App
 
 	function renderInfo()
 	{
-		$file = $_REQUEST['file'];
+		unset($this->parts[1]);
+		$file = new \Ldg\Model\Image(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
 
-		foreach (['/cache/detail', '/detail', '/original'] as $begin)
+		if (!$file->fileExists() || !$file->isValidPath())
 		{
-			if (substr($file, 0, strlen($begin)) == $begin)
-			{
-				$file = substr($file, strlen($begin));
-				continue;
-			}
-		}
-
-		$file = \Ldg\Setting::get('image_base_dir') . $file;
-
-		$fileObject = new \Ldg\Model\Image($file);
-
-		if (!$fileObject->fileExists() || !$fileObject->isValidPath())
-		{
-			echo json_encode(['result' => false, 'error' => 'File ' . $fileObject->getPath() . 'could not be found']);
+			echo json_encode(['result' => false, 'error' => 'File ' . $file->getPath() . 'could not be found']);
 			exit;
 		}
 
-		$exif = $fileObject->getExif();
+		$exif = $file->getExif();
 
-		$response = ['result' => true, 'filename' => $fileObject->getName(), 'folder' => $fileObject->getFolderName()];
+		$rawData = $exif->getRawData();
+
+		array_walk_recursive($rawData, function(&$item, $key){
+
+			// strip these nasty tags
+			if (substr($key, 0,9) == 'Undefined')
+			{
+				$item = '';
+			}
+
+			$detected = mb_detect_encoding($item);
+
+			if ($detected == false || ($detected != 'UTF-8' && $detected != 'ASCII'))
+			{
+				$item = iconv('ISO-8859-1', 'UTF-8', $item);
+			}
+
+		});
+
+		$response = ['result' => true, 'filename' => $file->getName(), 'folder' => $file->getFolderName()];
 
 		if ($exif)
 		{
-			$response['data'] = $exif->getData();
+			$response['data'] = $rawData;
 		}
 
 		echo json_encode($response);
 		exit;
 
 	}
-
 
 }
