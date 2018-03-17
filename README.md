@@ -17,7 +17,7 @@ image will be generated (on the fly or using cron.php).
 * Copy the contents in your DocumentRoot, this can also be a sub-folder
 * Install composer (if you haven't done so already). Get it from [https://getcomposer.org/](https://getcomposer.org/) or use your system's package management
 * `cd app`; `composer install`; `cd ..`;
-* Edit `settings.json` and correctly set `image_base_dir`
+* Edit `settings.json` and set `image_base_dir` to the directory where your images are located
 * Set permissions to the 'cache' and 'data' folder so your webserver user can write to it
 * Done
 
