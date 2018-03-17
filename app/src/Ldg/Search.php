@@ -67,7 +67,7 @@ class Search
 
 			foreach($words as $word)
 			{
-				if (stripos($value, $word) === false)
+				if (stripos($value, $word) === false && stripos($this->replaceDiacritics($value), $word) === false)
 				{
 					$match = false;
 					continue;
@@ -82,6 +82,17 @@ class Search
 		}
 
 		return $results;
+	}
+
+	function replaceDiacritics($string)
+	{
+		if (function_exists('iconv'))
+		{
+			return iconv('UTF-8','ASCII//TRANSLIT', $string);
+		}
+
+		return $string;
+
 	}
 
 	function getIndexCount()
