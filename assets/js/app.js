@@ -25,7 +25,14 @@ $( document ).ready(function() {
 
 		$('#info_inner').html('');
 
-		var jqxhr = $.ajax(window.appRoot + "/info?file=" +  $("#slider img").attr('src'))
+		var imageSource = $("#slider img").attr('src');
+
+		var from = /(\/cache\/detail\/)|(\/detail\/)|(\/original\/)/;
+		var to = '/info/';
+
+		imageSource = imageSource.replace(from, to);
+
+		var jqxhr = $.ajax(imageSource)
 		.done(function(content) {
 
 			var result = JSON.parse(content);
