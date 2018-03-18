@@ -6,6 +6,7 @@ $( document ).ready(function() {
 
 		$("#search").show();
 		$(this).hide();
+		$("#q").focus();
 
 	});
 
