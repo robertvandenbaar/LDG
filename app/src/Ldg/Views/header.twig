@@ -1,13 +1,12 @@
 <div id="header">
-	<div id="breadcrumb">
+	<ol id="breadcrumb">
 
-		<a href="{{ base_url }}/">Home</a>
-
+		<li><a {% if breadcrumb_parts|length == 0 %} class="single" {% endif %} href="{{ base_url }}/"><img alt="home" width="20px" height="20px" src="{{ base_url }}/assets/images/svg/home.svg" /></a></li>
 		{% for breadcrumb_part in breadcrumb_parts %}
-			<a {% if breadcrumb_part.isLast == true %} class="last" {% endif %} href="{{ breadcrumb_part.path }}">{{ breadcrumb_part.title }}</a>
+			<li><a {% if breadcrumb_part.isLast == true %} class="last" {% endif %} href="{{ breadcrumb_part.path }}">{{ breadcrumb_part.title }}</a></li>
 		{% endfor %}
 
-	</div>
+	</ol>
 
 	<em id="information"></em>
 
