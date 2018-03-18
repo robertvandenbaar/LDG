@@ -8,7 +8,7 @@
 	<div class="navigation">
 		<div class="folders">
 			{% if folder_up is defined %}
-				<a class="folder up" href="{{ folder_up.url }}"> .. </a>
+				<a class="folder up" title="Parent folder" href="{{ folder_up.url }}"> <img width="16" height="16" src="{{ base_url }}/assets/images/svg/prev.svg" alt="Parent folder"/></a>
 			{% endif %}
 
 			{% for folder in folders %}
