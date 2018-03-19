@@ -2,5 +2,5 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="580" height="580" xmlns="http://www.w3.org/2000/svg">
 	<ellipse ry="140" rx="140" id="svg_1" cy="195.449997" cx="298" stroke-width="40" stroke="#ddd" fill="none" />
-	<line x1="60" y1="360" x2="170" y2="280" stroke="#FFF" stroke-width="60"/>
+	<line x1="60" y1="360" x2="170" y2="280" stroke="#ddd" stroke-width="60"/>
 </svg>

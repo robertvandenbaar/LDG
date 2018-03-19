@@ -7,18 +7,20 @@
 
 	{% if images|length > 0 %}
 
+		<p id="search_result">Found {{ images|length }} result{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
+
 		{% set vars = {'origin': 'search'} %}
 		{% embed "images.twig" with vars %}
 		{% endembed %}
 
 	{% else %}
-		<p>
-			No results.
+		<p id="search_result">
+			No results found for "{{ q }}".
 
 			{% if index_count == 0 %}
 				Check if cron is enabled.
 			{% else %}
-				check your search query.
+				Check your search query.
 			{% endif %}
 
 		</p>
