@@ -334,17 +334,17 @@ class App
 
 			array_walk_recursive($rawData, function(&$item, $key){
 
-				// strip these nasty tags
-				if (substr($key, 0,9) == 'Undefined')
-				{
-					$item = '';
-				}
-
 				$detected = mb_detect_encoding($item);
 
-				if ($detected == false || ($detected != 'UTF-8' && $detected != 'ASCII'))
+				if ($detected != 'UTF-8' && $detected != 'ASCII')
 				{
-					$item = iconv('ISO-8859-1', 'UTF-8', $item);
+					$item = iconv($detected, 'UTF-8', $item);
+				}
+
+				// some nasty tags can't be json encoded
+				if (json_encode($item) === false)
+				{
+					$item = '-';
 				}
 
 			});
