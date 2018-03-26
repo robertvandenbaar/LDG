@@ -302,7 +302,7 @@ a.image img {
 
 #image-nav > div {
 	height : 100%;
-	/*background-color: #2f52cc;*/
+	background-color: #2a2a2a;
 	background-size : auto 30%;
 	background-repeat : no-repeat;
 	float : left;
@@ -310,47 +310,47 @@ a.image img {
 
 #image-nav-size {
 	cursor : pointer;
-	width : 7%;
-	background-image : url('../images/svg/size.svg?v=12');
+	width : 8%;
+	background-image : url('../images/svg/size.svg');
 	background-position : center;
 	background-size : auto 40%;
 }
 
 #image-nav-size.active {
-	background-image : url('../images/svg/size-active.svg?v=12');
+	background-image : url('../images/svg/size-active.svg');
 }
 
 #image-nav-info {
 	cursor : pointer;
-	width : 7%;
-	background-image : url('../images/svg/info.svg?v=12');
+	width : 8%;
+	background-image : url('../images/svg/info.svg');
 	background-position : center;
 }
 
 #image-nav-rotate {
 	cursor : pointer;
-	width : 6%;
-	background-image : url('../images/svg/rotate.svg?v=12');
+	width : 9%;
+	background-image : url('../images/svg/rotate.svg');
 	background-position : center;
 	background-size : auto 40% !important;
 }
 
 #image-nav-prev {
-	width : 30%;
-	background-image : url('../images/svg/prev.svg?v=12');
+	width : 25%;
+	background-image : url('../images/svg/prev.svg');
 	background-position : center;
 }
 
 #image-nav-next {
-	width : 30%;
-	background-image : url('../images/svg/next.svg?v=12');
+	width : 25%;
+	background-image : url('../images/svg/next.svg');
 	background-position : center;
 }
 
 #image-nav-close {
 	cursor : pointer;
-	width : 20%;
-	background-image : url('../images/svg/close.svg?v=12');
+	width : 25%;
+	background-image : url('../images/svg/close.svg');
 	background-position : center;
 }
 
