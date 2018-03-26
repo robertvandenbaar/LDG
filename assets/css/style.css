@@ -300,58 +300,48 @@ a.image img {
 	height : 10%;
 }
 
-#image-nav > div {
+#image-nav div {
 	height : 100%;
 	background-color: #2a2a2a;
-	background-size : auto 30%;
+	background-size : auto 40%;
 	background-repeat : no-repeat;
+	background-position : center;
 	float : left;
+	cursor : pointer;
 }
 
-#image-nav-size {
-	cursor : pointer;
+#image-nav div#image-nav-size {
 	width : 8%;
 	background-image : url('../images/svg/size.svg');
-	background-position : center;
-	background-size : auto 40%;
 }
 
-#image-nav-size.active {
+#image-nav div#image-nav-size.active {
 	background-image : url('../images/svg/size-active.svg');
 }
 
-#image-nav-info {
-	cursor : pointer;
+#image-nav div#image-nav-info {
 	width : 8%;
 	background-image : url('../images/svg/info.svg');
-	background-position : center;
 }
 
-#image-nav-rotate {
-	cursor : pointer;
+#image-nav div#image-nav-rotate {
 	width : 9%;
 	background-image : url('../images/svg/rotate.svg');
-	background-position : center;
-	background-size : auto 40% !important;
 }
 
-#image-nav-prev {
+#image-nav div#image-nav-prev {
 	width : 25%;
 	background-image : url('../images/svg/prev.svg');
-	background-position : center;
 }
 
-#image-nav-next {
+#image-nav div#image-nav-next {
 	width : 25%;
 	background-image : url('../images/svg/next.svg');
-	background-position : center;
 }
 
-#image-nav-close {
-	cursor : pointer;
+#image-nav div#image-nav-close {
 	width : 25%;
 	background-image : url('../images/svg/close.svg');
-	background-position : center;
 }
 
 #info {
