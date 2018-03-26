@@ -15,6 +15,63 @@ $( document ).ready(function() {
 		$("#search_activate").click();
 	}
 
+	$("#image-nav-rotate").click(function(event){
+
+		var imageSource = $("#slider img").attr('src');
+
+		var index = imageSource.indexOf('?');
+
+		if (index !== -1)
+		{
+			imageSource = imageSource.substring(0, index);
+		}
+
+		var from = /(\/cache\/detail\/)|(\/detail\/)|(\/original\/)/;
+		var to = '/rotate/';
+		var toDetail = '/cache/detail/';
+
+		var imageSourceDetail = imageSource.replace(from, toDetail);
+		imageSource = imageSource.replace(from, to);
+
+		if (event.ctrlKey || event.metaKey)
+		{
+			imageSource += '?invert';
+		}
+
+		var jqxhr = $.ajax(imageSource)
+			.done(function(content) {
+
+				$("#slider img").attr('src', imageSourceDetail + "?t=" + new Date().getTime());
+
+				var result = JSON.parse(content);
+
+				$('.images .image').each(function () {
+					var linkHref = $(this).attr('href');
+					if (linkHref == imageSourceDetail)
+					{
+						console.log(linkHref);
+						linkHref = linkHref + '?t=' + new Date().getTime();
+					}
+					$(this).attr('href', linkHref);
+				});
+
+				if (result.result == true)
+				{
+
+				}
+				else
+				{
+
+				}
+
+
+			})
+			.fail(function() {
+				console.log('Request for fetching info failed');
+			});
+
+	});
+
 	$("#image-nav-info").click(function(){
 
 		// if the info block is already visible than act as a toggle

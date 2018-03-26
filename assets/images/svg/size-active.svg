@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
- <rect transform="rotate(-45, 300, 200)" height="225" width="225" y="84" x="183" stroke-width="22" stroke="#FFF" fill="#FFF"/>
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="520" height="520" xmlns="http://www.w3.org/2000/svg">
+	<rect transform="rotate(45, 70, 330)" height="300" width="300" y="0" x="0" stroke-width="32" stroke="#eee" fill="#eee" />
 </svg>
