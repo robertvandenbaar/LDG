@@ -1,7 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
-  <ellipse ry="170" rx="170" id="svg_1" cy="200" cx="300" stroke-width="22" stroke="#FFF" fill="none" />
-  <rect height="30" width="30" y="100" x="290" fill="#FFF" />
-  <rect height="160" width="30" y="140" x="290" fill="#FFF"/>
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="520" height="520" xmlns="http://www.w3.org/2000/svg">
+	<ellipse ry="220" rx="220" id="svg_1" cy="260" cx="260" stroke-width="32" stroke="#eee" fill="none" />
+	<line x1="260" y1="120" x2="260" y2="152" stroke="#eee" stroke-width="32"/>
+	<line x1="260" y1="180" x2="260" y2="402" stroke="#eee" stroke-width="32"/>
 </svg>

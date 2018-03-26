@@ -10,7 +10,7 @@ class App
 	protected $setting;
 	protected $parts;
 
-	protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info'];
+	protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info', 'rotate'];
 
 	function __construct()
 	{
@@ -116,6 +116,9 @@ class App
 				break;
 			case 'info':
 				$this->renderInfo();
+				break;
+			case 'rotate':
+				$this->renderRotate();
 				break;
 		}
 	}
@@ -358,6 +361,29 @@ class App
 		{
 			$response['data'] = isset($rawData) ? $rawData : [];
 		}
+
+		echo json_encode($response);
+		exit;
+
+	}
+
+	function renderRotate()
+	{
+		unset($this->parts[1]);
+		$file = new \Ldg\Model\Image(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
+
+		if (!$file->fileExists() || !$file->isValidPath())
+		{
+			echo json_encode(['result' => false, 'error' => 'File ' . $file->getPath() . 'could not be found']);
+			exit;
+		}
+
+		$image = new \vakata\image\Image(file_get_contents($file->getDetailPath()));
+		$image->rotate(isset($_GET['invert']) ? -90 : 90);
+
+		$success = file_put_contents($file->getDetailPath(), $image->toJPG());
+
+		$response = ['result' => $success];
 
 		echo json_encode($response);
 		exit;
