@@ -10,15 +10,8 @@ $( document ).ready(function() {
 
 	});
 
-	if(window.location.href.indexOf("search?q=") !== -1)
+	function stripQuery(imageSource)
 	{
-		$("#search_activate").click();
-	}
-
-	$("#image-nav-rotate").click(function(event){
-
-		var imageSource = $("#slider img").attr('src');
-
 		var index = imageSource.indexOf('?');
 
 		if (index !== -1)
@@ -26,45 +19,62 @@ $( document ).ready(function() {
 			imageSource = imageSource.substring(0, index);
 		}
 
+		return imageSource;
+	}
+
+	function updateTimestamp(url)
+	{
+		return stripQuery(url) + '?t=' + new Date().getTime();
+	}
+
+	if(window.location.href.indexOf("search?q=") !== -1)
+	{
+		$("#search_activate").click();
+	}
+
+	$("#image-nav-rotate").click(function(event){
+
+		if (window.fullSize)
+		{
+			return;
+		}
+
+		var imageSource = stripQuery($("#slider img").attr('src'));
+
 		var from = /(\/cache\/detail\/)|(\/detail\/)|(\/original\/)/;
 		var to = '/rotate/';
 		var toDetail = '/cache/detail/';
 
 		var imageSourceDetail = imageSource.replace(from, toDetail);
-		imageSource = imageSource.replace(from, to);
+		var imageSourceRotate = imageSource.replace(from, to);
 
 		if (event.ctrlKey || event.metaKey)
 		{
-			imageSource += '?invert';
+			imageSourceRotate += '?invert';
 		}
 
-		var jqxhr = $.ajax(imageSource)
+		var jqxhr = $.ajax(imageSourceRotate)
 			.done(function(content) {
 
-				$("#slider img").attr('src', imageSourceDetail + "?t=" + new Date().getTime());
+				$("#slider img").attr('src', updateTimestamp(imageSourceDetail));
 
 				var result = JSON.parse(content);
 
 				$('.images .image').each(function () {
-					var linkHref = $(this).attr('href');
-					if (linkHref == imageSourceDetail)
+					var linkHref = stripQuery($(this).attr('href'));
+
+					if (linkHref == imageSource)
 					{
-						console.log(linkHref);
-						linkHref = linkHref + '?t=' + new Date().getTime();
+						// update link to the image
+						linkHref = updateTimestamp(linkHref);
+
+						// update thumbnail url
+						$(this).find('img').each(function(){
+							$(this).attr('src', updateTimestamp($(this).attr('src')));
+						});
 					}
 					$(this).attr('href', linkHref);
 				});
-
-				if (result.result == true)
-				{
-
-				}
-				else
-				{
-
-				}
-
-
 			})
 			.fail(function() {
 				console.log('Request for fetching info failed');
@@ -185,6 +195,10 @@ $( document ).ready(function() {
 			var to = '/original/';
 			var fullSize = true;
 		}
+
+		window.fullSize = fullSize;
+
+		updateFullSizeButton();
 
 		if (fullSize === true)
 		{
@@ -417,6 +431,17 @@ $( document ).ready(function() {
 
 	});
 
+	function updateFullSizeButton()
+	{
+		if (window.fullSize)
+		{
+			$("#image-nav-rotate").css({'opacity':0.5, 'cursor': 'default'}).attr('title', 'You can\'t rotate the original image');
+		}
+		else
+		{
+			$("#image-nav-rotate").css({'opacity':1, 'cursor': 'pointer'}).attr('title', 'Click to rotate');
+		}
+	}
 
-
+	updateFullSizeButton();
 });
