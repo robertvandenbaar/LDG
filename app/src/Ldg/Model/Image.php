@@ -38,11 +38,11 @@ class Image extends File
 
 		if (file_exists($detailCacheFile))
 		{
-			return BASE_URL . '/cache/detail' . $this->getRelativeLocation();
+			return BASE_URL . '/cache/detail' . $this->getRelativeLocation() . '?t=' . filemtime($this->getDetailPath());
 		}
 		else
 		{
-			return BASE_URL . '/detail' . $this->getRelativeLocation();
+			return BASE_URL . '/detail' . $this->getRelativeLocation() . '?t=' . filemtime($this->getDetailPath());
 		}
 
 	}
@@ -54,7 +54,7 @@ class Image extends File
 
 	public function getOriginalUrl()
 	{
-		return BASE_URL . '/original' . $this->getRelativeLocation();
+		return BASE_URL . '/original' . $this->getRelativeLocation() . '?t=' . filemtime($this->getPath());
 	}
 
 	public function getThumbnailPath()
@@ -71,7 +71,7 @@ class Image extends File
 
 		if (file_exists($this->getThumbnailPath()))
 		{
-			return BASE_URL . '/cache/thumbnail' . str_replace(\Ldg\Setting::get('image_base_dir'), '', $this->path);
+			return BASE_URL . '/cache/thumbnail' . str_replace(\Ldg\Setting::get('image_base_dir'), '', $this->path) . '?t=' . filemtime($this->getThumbnailPath());
 		}
 		else
 		{
@@ -84,7 +84,7 @@ class Image extends File
 		return file_exists($this->getThumbnailPath()) && filectime($this->getThumbnailPath()) >= filectime($this->getPath());
 	}
 
-	public function updateThumbnail()
+	public function updateThumbnail($updateFromDetailImage = false)
 	{
 		if (!$this->fileExists())
 		{
@@ -103,7 +103,7 @@ class Image extends File
 		$thumbnailPath = $this->getThumbnailPath();
 
 		// thumbnail file exits and is newer than the original, no action required
-		if (file_exists($thumbnailPath) && filemtime($thumbnailPath) >= filemtime($this->getPath()))
+		if ($updateFromDetailImage === false && file_exists($thumbnailPath) && filemtime($thumbnailPath) >= filemtime($this->getPath()))
 		{
 			return true;
 		}
@@ -120,11 +120,18 @@ class Image extends File
 
 		try
 		{
-			$image = new \vakata\image\Image(file_get_contents($this->getPath()));
-
-			if ($exif && \Ldg\Setting::get('auto_rotate'))
+			if ($updateFromDetailImage)
 			{
-				$this->fixOrientation($image, $exif);
+				$image = new \vakata\image\Image(file_get_contents($this->getDetailPath()));
+			}
+			else
+			{
+				$image = new \vakata\image\Image(file_get_contents($this->getPath()));
+
+				if ($exif && \Ldg\Setting::get('auto_rotate'))
+				{
+					$this->fixOrientation($image, $exif);
+				}
 			}
 
 			$resizedImage = $image->crop(
@@ -162,7 +169,7 @@ class Image extends File
 
 	}
 
-	public function updateDetail()
+	public function updateDetail($updateCurrent = false, $fixedRotate = null)
 	{
 		if (!$this->fileExists())
 		{
@@ -179,7 +186,7 @@ class Image extends File
 		$detailPath = $this->getDetailPath();
 
 		// detail file exits and is newer than the original, no action required
-		if (file_exists($detailPath) && filemtime($detailPath) >= filemtime($this->getPath()))
+		if ($updateCurrent === false && file_exists($detailPath) && filemtime($detailPath) >= filemtime($this->getPath()))
 		{
 			return true;
 		}
@@ -198,24 +205,45 @@ class Image extends File
 
 		try
 		{
-			$image = new \vakata\image\Image(file_get_contents($this->getPath()));
-
-			if ($exif && \Ldg\Setting::get('auto_rotate'))
+			if ($updateCurrent)
 			{
-				$this->fixOrientation($image, $exif);
+				if (file_exists($this->getDetailPath()))
+				{
+					$image = new \vakata\image\Image(file_get_contents($this->getDetailPath()));
+				}
+				else
+				{
+					$image = new \vakata\image\Image(file_get_contents($this->getPath()));
+				}
+			}
+			else
+			{
+				$image = new \vakata\image\Image(file_get_contents($this->getPath()));
+			}
+
+			if ($fixedRotate == null)
+			{
+				if ($exif && \Ldg\Setting::get('auto_rotate'))
+				{
+					$this->fixOrientation($image, $exif);
+				}
+			}
+			else
+			{
+				$image->rotate($fixedRotate);
 			}
 
 			$resizedImage = $image->crop(\Ldg\Setting::get('detail_width'))->toJpg();
 
 			if (!file_put_contents($this->getDetailPath(), $resizedImage))
 			{
+
 				\Ldg\Log::addEntry('error', 'Could not save detail image from image: ' . $this->getRelativeLocation());
 			}
 		}
 		catch (\Exception $e)
 		{
 			\Ldg\Log::addEntry('error', 'Could create detail image from image: ' . $this->getRelativeLocation() . '. ' . $e->getMessage());
-
 			return false;
 		}
 

@@ -19,12 +19,13 @@
 </div>
 <script type="text/javascript">
 	window.appRoot = "{{ base_url }}";
+	window.fullSize = "{{ full_size }}";
 </script>
 <div id="overlay">
 
 	<div id="container">
 		<div id="image-nav">
-			<div id="image-nav-size" title="Change size">
+			<div id="image-nav-size" title="Change size" {% if full_size %} class="active" {% endif %}>
 			</div>
 			<div id="image-nav-info" title="Information">
 			</div>

@@ -1,7 +1,7 @@
 <div class="images {{ origin == 'search' ? 'wide' : '' }}">
 
 	{% for image in images %}
-		<a class="image" href="{{ image.detailUrl }}">
+		<a class="image" href="{{ image.preferredUrl }}">
 
 			{% if image.isThumbnailCurrent == 1 %}
 				<img title="{{ image.name }}" alt="{{ image.name }}" id="{{ random() }}" src="{{ image.thumbnailUrl }}" />

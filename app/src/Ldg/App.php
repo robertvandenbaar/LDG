@@ -14,12 +14,13 @@ class App
 
 	function __construct()
 	{
+		session_start();
+
 		$this->checkPermissions();
 
 		$this->checkFullSize();
 
 		$this->loadTemplate();
-
 	}
 
 	function checkPermissions()
@@ -37,23 +38,26 @@ class App
 
 	function checkFullSize()
 	{
-		if (\Ldg\Setting::get('full_size_by_default') === true)
+		// overwrite full-size option
+		if (isset($_GET['full-size']))
 		{
-			$_SESSION['full-size'] = true;
+			if ($_GET['full-size'] == 'true')
+			{
+				$_SESSION['full-size'] = true;
+			}
+			else
+			{
+				$_SESSION['full-size'] = false;
+			}
+			var_dump($_SESSION['full-size']);
+			exit;
 		}
 		else
 		{
-			if (isset($_GET['full-size']))
+			// this is a new session, set the default value
+			if (!isset($_SESSION['full-size']))
 			{
-				if ($_GET['full-size'] == 'true')
-				{
-					$_SESSION['full-size'] = true;
-				}
-				else
-				{
-					$_SESSION['full-size'] = false;
-				}
-				exit;
+				$_SESSION['full-size'] = \Ldg\Setting::get('full_size_by_default');
 			}
 		}
 	}
@@ -63,6 +67,7 @@ class App
 		$loader = new \Twig_Loader_Filesystem(BASE_DIR . '/app/src/Ldg/Views');
 		$twig = new \Twig_Environment($loader);
 		$twig->addGlobal('base_url', BASE_URL);
+		$twig->addGlobal('full_size', $_SESSION['full-size']);
 
 		$this->twig = $twig;
 	}
@@ -378,12 +383,14 @@ class App
 			exit;
 		}
 
-		$image = new \vakata\image\Image(file_get_contents($file->getDetailPath()));
-		$image->rotate(isset($_GET['invert']) ? -90 : 90);
+		$rotateValue = isset($_GET['invert']) ? -90 : 90;
 
-		$success = file_put_contents($file->getDetailPath(), $image->toJPG());
+		$updateDetail = $file->updateDetail(true, $rotateValue);
+		$updateThumbnail = $file->updateThumbnail(true);
 
-		$response = ['result' => $success];
+		$success = $updateDetail && $updateThumbnail;
+
+		$response = ['result' => $success, 'direction' => $rotateValue];
 
 		echo json_encode($response);
 		exit;
