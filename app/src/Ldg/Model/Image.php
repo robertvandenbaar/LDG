@@ -38,23 +38,32 @@ class Image extends File
 
 		if (file_exists($detailCacheFile))
 		{
-			return BASE_URL . '/cache/detail' . $this->getRelativeLocation() . '?t=' . filemtime($this->getDetailPath());
+			return BASE_URL . '/cache/detail' . $this->getRelativeLocation() . '?t=' . $this->getFileModificationTime($this->getDetailPath());
 		}
 		else
 		{
-			return BASE_URL . '/detail' . $this->getRelativeLocation() . '?t=' . filemtime($this->getDetailPath());
+			return BASE_URL . '/detail' . $this->getRelativeLocation() . '?t=' . $this->getFileModificationTime($this->getDetailPath());
+		}
+	}
+
+	public function getFileModificationTime($path)
+	{
+		if (file_exists($path))
+		{
+			return filemtime($path);
 		}
 
+		return false;
 	}
 
 	public function isDetailCurrent()
 	{
-		return file_exists($this->getDetailPath()) && filectime($this->getDetailPath()) >= filectime($this->getPath());
+		return file_exists($this->getDetailPath()) && $this->getFileModificationTime($this->getDetailPath()) >= $this->getFileModificationTime($this->getPath());
 	}
 
 	public function getOriginalUrl()
 	{
-		return BASE_URL . '/original' . $this->getRelativeLocation() . '?t=' . filemtime($this->getPath());
+		return BASE_URL . '/original' . $this->getRelativeLocation() . '?t=' . $this->getFileModificationTime($this->getPath());
 	}
 
 	public function getThumbnailPath()
@@ -71,7 +80,7 @@ class Image extends File
 
 		if (file_exists($this->getThumbnailPath()))
 		{
-			return BASE_URL . '/cache/thumbnail' . str_replace(\Ldg\Setting::get('image_base_dir'), '', $this->path) . '?t=' . filemtime($this->getThumbnailPath());
+			return BASE_URL . '/cache/thumbnail' . str_replace(\Ldg\Setting::get('image_base_dir'), '', $this->path) . '?t=' . $this->getFileModificationTime($this->getThumbnailPath());
 		}
 		else
 		{
@@ -81,7 +90,7 @@ class Image extends File
 
 	public function isThumbnailCurrent()
 	{
-		return file_exists($this->getThumbnailPath()) && filectime($this->getThumbnailPath()) >= filectime($this->getPath());
+		return file_exists($this->getThumbnailPath()) && $this->getFileModificationTime($this->getThumbnailPath()) >= $this->getFileModificationTime($this->getPath());
 	}
 
 	public function updateThumbnail($updateFromDetailImage = false)
@@ -97,8 +106,6 @@ class Image extends File
 			\Ldg\Log::addEntry('error','Image does not have a valid path: ' . $this->getPath());
 			return false;
 		}
-
-		$exif = $this->getExif();
 
 		$thumbnailPath = $this->getThumbnailPath();
 
@@ -128,9 +135,9 @@ class Image extends File
 			{
 				$image = new \vakata\image\Image(file_get_contents($this->getPath()));
 
-				if ($exif && \Ldg\Setting::get('auto_rotate'))
+				if (\Ldg\Setting::get('auto_rotate'))
 				{
-					$this->fixOrientation($image, $exif);
+					$this->fixOrientation($image);
 				}
 			}
 
@@ -156,13 +163,13 @@ class Image extends File
 
 	public function updateIndex(\Ldg\Search $search)
 	{
-		$exif = $this->getExif();
+		$metadata = $this->getMetadata();
 
 		$data = $this->getRelativeLocation();
 
-		if (isset($exif) && $exif && $exif->getKeywords())
+		if ($metadata && $metadata->getKeywords())
 		{
-			$data .= ' ' . implode(' ', (array)$exif->getKeywords());
+			$data .= ' ' . implode(' ', (array)$metadata->getKeywords());
 		}
 
 		$search->setEntry($this->getRelativeLocation(), $data);
@@ -193,8 +200,6 @@ class Image extends File
 
 		$detailDir = dirname($detailPath);
 
-		$exif = $this->getExif();
-
 		if (!is_dir($detailDir))
 		{
 			if (!mkdir($detailDir, 0777, true))
@@ -223,9 +228,9 @@ class Image extends File
 
 			if ($fixedRotate == null)
 			{
-				if ($exif && \Ldg\Setting::get('auto_rotate'))
+				if (\Ldg\Setting::get('auto_rotate'))
 				{
-					$this->fixOrientation($image, $exif);
+					$this->fixOrientation($image);
 				}
 			}
 			else
@@ -250,24 +255,15 @@ class Image extends File
 		return file_exists($this->getDetailPath());
 	}
 
-	public function getExif()
+	public function getMetadata()
 	{
-		try
-		{
-			$reader = \PHPExif\Reader\Reader::factory(\PHPExif\Reader\Reader::TYPE_NATIVE);
-			$exif = $reader->read($this->getPath());
-		}
-		catch (\Exception $e)
-		{
-			\Ldg\Log::addEntry('notice', 'Could not read exif information from image: ' . $this->getPath());
-			return false;
-		}
-
-		return $exif;
+		return new \Ldg\Metadata($this->getPath());
 	}
 
-	public function fixOrientation(\vakata\image\Image $image, $exif)
+	public function fixOrientation(\vakata\image\Image $image)
 	{
+		$metadata = $this->getMetadata();
+
 		// imagick and GD handle this different
 		if (extension_loaded('imagick'))
 		{
@@ -278,11 +274,11 @@ class Image extends File
 			$degrees = [3 => 180, 6 => -90, 8 => 90];
 		}
 
-		if ($exif && $exif->getOrientation() > 0)
+		if ($metadata && $metadata->getOrientation() > 0)
 		{
-			if (array_key_exists($exif->getOrientation(), $degrees))
+			if (array_key_exists($metadata->getOrientation(), $degrees))
 			{
-				$image->rotate($degrees[$exif->getOrientation()]);
+				$image->rotate($degrees[$metadata->getOrientation()]);
 			}
 		}
 
