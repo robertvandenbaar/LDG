@@ -8,7 +8,6 @@
 	},
     "require": {
 	  	"php": ">=5.4",
-        "miljar/php-exif": "~0.6.0",
 		"vakata/image": "^2.0",
 	  	"twig/twig": "^1.18",
 	  	"dfridrich/php-mime-type" : "^2"

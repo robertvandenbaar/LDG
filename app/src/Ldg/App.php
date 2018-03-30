@@ -334,11 +334,11 @@ class App
 			exit;
 		}
 
-		$exif = $file->getExif();
+		$metadata = $file->getMetadata();
 
-		if ($exif)
+		if ($metadata)
 		{
-			$rawData = $exif->getRawData();
+			$rawData = $metadata->getRawExifData();
 
 			array_walk_recursive($rawData, function(&$item, $key){
 
@@ -360,7 +360,16 @@ class App
 			unset($rawData['FileName']);
 		}
 
-		$response = ['result' => true, 'filename' => $file->getName(), 'folder' => $file->getFolderName()];
+		$response = [
+			'result' => true,
+			'filename' => $file->getName(),
+			'folder' => $file->getFolderName()
+		];
+
+		if ($metadata->getKeywords())
+		{
+			$rawData = array_merge(array('Keywords' => $metadata->getKeywords()), $rawData);
+		}
 
 		if (isset($rawData))
 		{
