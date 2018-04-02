@@ -25,7 +25,11 @@
 		</div>
 	</div>
 
-	{% embed "images.twig" %}
-	{% endembed %}
+	<div class="content {{ origin == 'search' ? 'wide' : '' }}">
+		<p id="information"></p>
+
+		{% embed "images.twig" %}
+		{% endembed %}
+	</div>
 
 {% endblock %}
