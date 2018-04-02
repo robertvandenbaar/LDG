@@ -397,6 +397,7 @@ $( document ).ready(function() {
 
 			if(nextImageObject == false){
 				$('#information').html('');
+				$('#information').hide();
 
 				if(thumbnailsFailed.length > 0){
 					var span = $('<span></span>').attr('title', thumbnailsFailed.join("\n"));
@@ -404,6 +405,7 @@ $( document ).ready(function() {
 					span.html('For <strong>' + thumbnailsFailed.length + ' ' + imagesText + '</strong> it was not possible to generate a thumbnail');
 
 					$('#information').html(span);
+					$('#information').show();
 				}
 			} else {
 				generateThumbnail(nextImageObject, imagesToGenerate);
@@ -420,6 +422,7 @@ $( document ).ready(function() {
 
 	if (imagesToGenerate.length > 0)
 	{
+		$('#information').show();
 		$('#information').append($("<span>Generating " + imagesToGenerate.length + " thumbnails in the background ...</span>").attr("id", "generating-images"));
 
 		generateThumbnail(imagesToGenerate.first(), imagesToGenerate);

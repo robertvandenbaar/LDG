@@ -122,14 +122,11 @@ a {
 }
 
 #information {
-	position : absolute;
-	left : 42%;
-	top : 12px;
-	display : inline-block;
-	padding : 6px 8px;
-	margin-left : 6px;
+	padding : 10px 0px;
+	margin : 0 4px;
 	color : #888;
-	text-transform : lowercase;
+	font-style: italic;
+	display: none;
 }
 
 #search_activate {
@@ -451,12 +448,6 @@ a.image img {
 	a.folder {
 		line-height : 40px;
 		height : 40px;
-	}
-
-	#information {
-		top : 4px;
-		max-width : 150px;
-		overflow : hidden;
 	}
 
 }
