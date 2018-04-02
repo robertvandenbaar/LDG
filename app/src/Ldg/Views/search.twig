@@ -5,16 +5,20 @@
 	{% embed "header.twig" %}
 	{% endembed %}
 
+	<div class="content wide">
+
 	{% if images|length > 0 %}
 
-		<p id="search_result">Found {{ images|length }} result{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
+		<p>Found {{ images|length }} result{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
 
-		{% set vars = {'origin': 'search'} %}
-		{% embed "images.twig" with vars %}
-		{% endembed %}
+
+			{% set vars = {'origin': 'search'} %}
+			{% embed "images.twig" with vars %}
+			{% endembed %}
+
 
 	{% else %}
-		<p id="search_result">
+		<p>
 			No results found for "{{ q }}".
 
 			{% if index_count == 0 %}
@@ -26,5 +30,7 @@
 		</p>
 
 	{% endif %}
+
+	</div>
 
 {% endblock %}
