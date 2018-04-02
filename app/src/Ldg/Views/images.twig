@@ -1,15 +1,11 @@
-<div class="images {{ origin == 'search' ? 'wide' : '' }}">
-	<p id="information"></p>
-
+<div class="images">
 	{% for image in images %}
 		<a class="image" href="{{ image.preferredUrl }}">
-
 			{% if image.isThumbnailCurrent == 1 %}
 				<img title="{{ image.name }}" alt="{{ image.name }}" id="{{ random() }}" src="{{ image.thumbnailUrl }}" />
 			{% else %}
 				<img title="{{ image.name }}" alt="{{ image.name }}" id="{{ random() }}" src="{{ image.thumbnailUrl }}" data-src="{{ image.relativeLocation }}"/>
 			{% endif %}
-
 		</a>
 	{% endfor %}
 </div>
