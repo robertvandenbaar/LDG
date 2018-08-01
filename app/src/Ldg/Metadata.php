@@ -60,4 +60,37 @@ class Metadata
 
 		return false;
 	}
+
+	public function getDateTaken()
+	{
+		foreach (['DateTimeOriginal', 'DateTimeDigitized', 'DateTime'] as $date)
+		{
+			if (isset($this->exif[$date]))
+			{
+				$time = strtotime($this->exif[$date]);
+
+				if ($time)
+				{
+					return $time;
+				}
+			}
+		}
+
+		if (isset($this->exif['FileDateTime']))
+		{
+			return $this->exif['FileDateTime'];
+		}
+
+		return null;
+	}
+
+	public function getTakenDateFormatted()
+	{
+		$text = strftime('%c', $this->exif['FileDateTime']);
+		$text .= '-' . $this->exif['DateTime'];
+		$text .= '-' . $this->exif['DateTimeOriginal'];
+		$text .= '-' . $this->exif['DateTimeDigitized'];
+
+		return $text;
+	}
 }
