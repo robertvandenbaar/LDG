@@ -246,6 +246,23 @@ class App
 			}
 		}
 
+		if (Setting::get('order_by_date_taken'))
+		{
+			usort($images, function($a, $b){
+
+				$dateTakenA = $a->getMetadata()->getDateTaken();
+				$dateTakenB = $b->getMetadata()->getDateTaken();
+
+				if ($dateTakenA == null || $dateTakenB == null || ($dateTakenA == $dateTakenB))
+				{
+					return 0;
+				}
+
+				return $dateTakenA < $dateTakenB ? -1 : 1;
+
+			});
+		}
+
 		$breadCrumbParts = [];
 
 		$buildPart = '';
