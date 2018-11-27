@@ -317,21 +317,32 @@ class App
 		$index = new \Ldg\Search();
 		$results = $index->search($_REQUEST['q']);
 
-		$images = [];
+		$images = $otherFiles = [];
 
 		foreach ($results as $path => $result)
 		{
-			$imagePath = \Ldg\Setting::get('image_base_dir') . $path;
+			$fullPath = \Ldg\Setting::get('image_base_dir') . $path;
 
 			// check if the file hasn't been deleted after last index
-			if (file_exists($imagePath))
+			if (file_exists($fullPath))
 			{
-				$images[] = new \Ldg\Model\Image($imagePath);
+				$file = new \Ldg\Model\File($fullPath);
+				$extension = $file->getExtension();
+
+				if (in_array($extension, \Ldg\Setting::get('supported_extensions')))
+				{
+					$images[] = new \Ldg\Model\Image($fullPath);
+				}
+				else
+				{
+					$otherFiles[] = $file;
+				}
 			}
 		}
 
 		$variables = [
 			'images' => $images,
+			'other_files' => $otherFiles,
 			'index_count' => $index->getIndexCount(),
 			'q' => $_REQUEST['q']
 		];
