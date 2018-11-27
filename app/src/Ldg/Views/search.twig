@@ -5,12 +5,24 @@
 	{% embed "header.twig" %}
 	{% endembed %}
 
-	<div class="content wide">
+	{% if other_files|length > 0 %}
+		<div class="navigation">
+			<p class="search-count">Found {{ other_files|length }} regular file{% if other_files|length != 1 %}s{% endif %} for "{{ q }}"</p>
+			<div class="other-files">
+				{% for other_file in other_files %}
+					<a class="other-file" href="{{ other_file.originalUrl }}">{{ other_file.name }}</a>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="content">
+	{% else %}
+		<div class="content wide">
+	{% endif %}
+
 
 	{% if images|length > 0 %}
 
-		<p>Found {{ images|length }} result{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
-
+		<p>Found {{ images|length }} image{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
 
 			{% set vars = {'origin': 'search'} %}
 			{% embed "images.twig" with vars %}
@@ -19,12 +31,10 @@
 
 	{% else %}
 		<p>
-			No results found for "{{ q }}".
+			No images found for "{{ q }}"
 
 			{% if index_count == 0 %}
 				Check if cron is enabled.
-			{% else %}
-				Check your search query.
 			{% endif %}
 
 		</p>

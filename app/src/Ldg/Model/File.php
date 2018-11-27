@@ -57,6 +57,16 @@ class File
 		return BASE_URL . $this->getRelativeLocation();
 	}
 
+	public function getFileModificationTime($path)
+	{
+		if (file_exists($path))
+		{
+			return filemtime($path);
+		}
+
+		return false;
+	}
+
 	public function isValidPath()
 	{
 		$path = realpath($this->path);
@@ -69,7 +79,10 @@ class File
 		}
 
 		return true;
-
 	}
 
+	public function updateIndex(\Ldg\Search $search)
+	{
+		$search->setEntry($this->getRelativeLocation(), $this->getRelativeLocation());
+	}
 }

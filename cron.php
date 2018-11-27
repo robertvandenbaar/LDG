@@ -3,6 +3,7 @@
 use Ldg\Search;
 use Ldg\Setting;
 use Ldg\Model\Image;
+use Ldg\Model\File;
 
 define('BASE_DIR', dirname(__FILE__));
 
@@ -20,7 +21,7 @@ echo "--------------------------\n";
 $search = new Search();
 $search->resetIndex();
 
-function createCroppedImagesRecursively($baseDir, $search)
+function updateRecursively($baseDir, $search)
 {
 	foreach (scandir($baseDir) as $file)
 	{
@@ -33,28 +34,32 @@ function createCroppedImagesRecursively($baseDir, $search)
 
 		if (is_dir($fullPath))
 		{
-			createCroppedImagesRecursively($fullPath, $search);
+			updateRecursively($fullPath, $search);
 			continue;
 		}
 
-		$image = new Image($fullPath);
+		$file = new File($fullPath);
 
-		if (in_array($image->getExtension(), Setting::get('supported_extensions')))
+		if (in_array($file->getExtension(), Setting::get('supported_extensions')))
 		{
+			$file = new Image($fullPath);
+
 			echo "Updating thumbnail and mid-size image for " . $fullPath . "\n";
 
 			// to speed up the cron process the detail images are not generated if the default option is full size
 			if (!Setting::get('full_size_by_default'))
 			{
-				$image->updateDetail();
+				$file->updateDetail();
 			}
-			$image->updateThumbnail();
-			$image->updateIndex($search);
+			$file->updateThumbnail();
+
 		}
+
+		$file->updateIndex($search);
 	}
 }
 
-createCroppedImagesRecursively(Setting::get('image_base_dir'), $search);
+updateRecursively(Setting::get('image_base_dir'), $search);
 $search->save();
 
 echo "\n\nFinished\n";

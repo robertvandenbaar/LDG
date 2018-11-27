@@ -19,7 +19,7 @@
 			{% if other_files|length > 0 %}
 				<p class="other-file-header">Files in this folder</p>
 				{% for other_file in other_files %}
-					<a class="folder" href="{{ other_file.originalUrl }}">{{ other_file.name }}</a>
+					<a class="other-file" href="{{ other_file.originalUrl }}">{{ other_file.name }}</a>
 				{% endfor %}
 			{% endif %}
 		</div>

@@ -5,13 +5,6 @@ namespace Ldg\Model;
 
 class Image extends File
 {
-
-	public function getExtension()
-	{
-		$parts = explode('.', $this->path);
-		return strtolower(end($parts));
-	}
-
 	public function getPreferredUrl()
 	{
 		if (isset($_SESSION['full-size']) && $_SESSION['full-size'] === true)
@@ -44,16 +37,6 @@ class Image extends File
 		{
 			return BASE_URL . '/detail' . $this->getRelativeLocation() . '?t=' . $this->getFileModificationTime($this->getDetailPath());
 		}
-	}
-
-	public function getFileModificationTime($path)
-	{
-		if (file_exists($path))
-		{
-			return filemtime($path);
-		}
-
-		return false;
 	}
 
 	public function isDetailCurrent()
