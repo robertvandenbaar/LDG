@@ -65,9 +65,16 @@ class Search
 		{
 			$match = true;
 
+			$searchValue = $value;
+
+			if (isset($_REQUEST['include_file_path']))
+            {
+                $searchValue .= $key;
+            }
+
 			foreach($words as $word)
 			{
-				if (stripos($value, $word) === false && stripos($this->replaceDiacritics($value), $word) === false)
+				if (stripos($searchValue, $word) === false && stripos($this->replaceDiacritics($searchValue), $word) === false)
 				{
 					$match = false;
 					continue;

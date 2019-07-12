@@ -1,13 +1,10 @@
 <div id="header">
 	<ol id="breadcrumb">
-
 		<li><a {% if breadcrumb_parts|length == 0 %} class="single" {% endif %} href="{{ base_url }}/"><img alt="home" width="20px" height="20px" src="{{ base_url }}/assets/images/svg/home.svg" /></a></li>
 		{% for breadcrumb_part in breadcrumb_parts %}
 			<li><a {% if breadcrumb_part.isLast == true %} class="last" {% endif %} href="{{ breadcrumb_part.path }}">{{ breadcrumb_part.title }}</a></li>
 		{% endfor %}
-
 	</ol>
-
 	<div id="search_activate">
 
 	</div>
@@ -15,7 +12,10 @@
 		<form method="GET" action="{{ base_url }}/search">
 			<input type="text" id="q" name="q" placeholder="Search for images ..." value="{{ q }}"/>
 			<input type="submit" id="submitbutton" name="submitbutton" value="Search" />
+			<div id="search_options">
+				<input type="checkbox" id="include_file_path" name="include_file_path" {% if include_file_path %}checked="checked"{% endif %}/>
+				<label for="include_file_path">Search in file path</label>
+			</div>
 		</form>
 	</div>
-
 </div>

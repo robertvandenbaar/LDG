@@ -83,6 +83,6 @@ class File
 
 	public function updateIndex(\Ldg\Search $search)
 	{
-		$search->setEntry($this->getRelativeLocation(), $this->getRelativeLocation());
+		$search->setEntry($this->getRelativeLocation(), basename($this->path));
 	}
 }
