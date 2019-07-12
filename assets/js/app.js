@@ -115,7 +115,21 @@ $( document ).ready(function() {
 
 				if (data)
 				{
-					$.each(result.data, function(key, val){
+					$.each(data, function(key, val){
+						if (key.indexOf('DateTime') === 0) {
+							var items = [];
+							items.push('<td>'+ key +'</td>');
+							items.push('<td>'+ val +'</td>');
+							responseHtml.append($('<tr/>', {html: items.join('')}));
+						}
+					});
+
+
+					$.each(data, function(key, val){
+
+						if (key.indexOf('DateTime') === 0) {
+							return;
+						}
 
 						if ($.isArray(val))
 						{
@@ -145,10 +159,24 @@ $( document ).ready(function() {
 						}
 						else
 						{
-							var items=[];
+							var items = [];
 							items.push('<td>'+ key +'</td>');
 							items.push('<td>'+ val +'</td>');
 							responseHtml.append($('<tr/>', {html: items.join('')}));
+
+							if (key == 'FileDateTime' && parseInt(val) > 0)
+							{
+								var date = new Date(val*1000);
+								if (date)
+								{
+									var items = [];
+									items.push('<td>'+ key +' (formatted)</td>');
+									items.push('<td>'+ date.toLocaleDateString() +'</td>');
+									responseHtml.append($('<tr/>', {html: items.join('')}));
+								}
+
+							}
+
 						}
 						
 					});
