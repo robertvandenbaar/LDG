@@ -143,6 +143,9 @@ a {
 	position : absolute;
 	right : 10px;
 	top : 12px;
+	background: #000;
+	padding: 10px;
+	border-radius : 4px;
 }
 
 #search input {
@@ -154,7 +157,19 @@ a {
 	background: #222;
 	color: #FFF;
 	border: 1px solid #555;
+}
 
+#search #search_options {
+	padding-top: 6px;
+
+}
+
+#search #search_options input, #search #search_options label {
+	vertical-align: middle;
+}
+
+#search input#include_file_path {
+	height: auto;
 }
 
 #search #submitbutton {

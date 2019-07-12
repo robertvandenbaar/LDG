@@ -344,7 +344,8 @@ class App
 			'images' => $images,
 			'other_files' => $otherFiles,
 			'index_count' => $index->getIndexCount(),
-			'q' => $_REQUEST['q']
+			'q' => $_REQUEST['q'],
+            'include_file_path' => isset($_REQUEST['include_file_path'])
 		];
 
 		echo $this->twig->render('search.twig', $variables);

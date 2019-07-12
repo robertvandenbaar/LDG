@@ -148,7 +148,7 @@ class Image extends File
 	{
 		$metadata = $this->getMetadata();
 
-		$data = $this->getRelativeLocation();
+		$data = basename($this->path);
 
 		if ($metadata && $metadata->getKeywords())
 		{
@@ -156,7 +156,6 @@ class Image extends File
 		}
 
 		$search->setEntry($this->getRelativeLocation(), $data);
-
 	}
 
 	public function updateDetail($updateCurrent = false, $fixedRotate = null)
