@@ -11,5 +11,6 @@
         "jpeg",
         "gif",
         "png"
-    ]
+    ],
+    "images_per_page": 40
 }

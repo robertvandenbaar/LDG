@@ -276,11 +276,25 @@ class App
 			$breadCrumbParts[] = new \Ldg\Model\BreadcrumbPart(BASE_URL . $buildPart, $part, ++$i == count($this->parts));
 		}
 
-		$variables = [
+        $imagesPerPage = Setting::get('images_per_page');
+
+        $pagination = new \Ldg\Pagination();
+        $pagination->totalItems = count($images);
+        $pagination->currentPage = $this->getPage();
+        $pagination->itemsPerPage = $imagesPerPage;
+
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+        $pagination->baseUrl = $path;
+
+        $images = array_slice($images, ($this->getPage()-1) * $imagesPerPage, $imagesPerPage);
+
+        $variables = [
 			'folders' => $folders,
 			'images' => $images,
 			'other_files' => $otherFiles,
 			'breadcrumb_parts' => $breadCrumbParts,
+            'pagination' => $pagination
 		];
 
 		if (count($this->parts) > 0)
@@ -340,17 +354,46 @@ class App
 			}
 		}
 
+		$imagesPerPage = Setting::get('images_per_page');
+
+        $pagination = new \Ldg\Pagination();
+        $pagination->totalItems = count($images);
+        $pagination->currentPage = $this->getPage();
+        $pagination->itemsPerPage = $imagesPerPage;
+
+        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+        $pagination->baseUrl = $path . '?q=' . $_REQUEST['q'];
+
+        $totalNrImages = count($images);
+
+		$images = array_slice($images, ($this->getPage()-1) * $imagesPerPage, $imagesPerPage);
+
 		$variables = [
 			'images' => $images,
 			'other_files' => $otherFiles,
 			'index_count' => $index->getIndexCount(),
 			'q' => $_REQUEST['q'],
-            'include_file_path' => isset($_REQUEST['include_file_path'])
+            'include_file_path' => isset($_REQUEST['include_file_path']),
+            'pagination' => $pagination,
+            'total_nr_images' => $totalNrImages
 		];
 
 		echo $this->twig->render('search.twig', $variables);
 
 	}
+
+	function getPage()
+    {
+        $page = 1;
+
+        if (isset($_REQUEST['page']))
+        {
+            $page = max(1, intval($_REQUEST['page']));
+        }
+
+        return $page;
+    }
 
 	function renderInfo()
 	{
