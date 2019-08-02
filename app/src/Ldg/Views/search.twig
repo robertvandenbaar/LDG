@@ -20,9 +20,9 @@
 	{% endif %}
 
 
-	{% if images|length > 0 %}
+	{% if total_nr_images > 0 %}
 
-		<p>Found {{ images|length }} image{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
+		<p>Found {{ total_nr_images }} image{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
 
 			{% set vars = {'origin': 'search'} %}
 			{% embed "images.twig" with vars %}
@@ -40,6 +40,9 @@
 		</p>
 
 	{% endif %}
+
+	{% embed "pagination.twig" %}
+	{% endembed %}
 
 	</div>
 

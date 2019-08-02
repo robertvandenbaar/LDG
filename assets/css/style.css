@@ -425,6 +425,38 @@ a.image img {
 	border-radius : 3px;
 }
 
+div.pagination {
+	clear: both;
+}
+
+div.pagination ul {
+	list-style: none;
+	margin: 0 0 0 6px;
+	padding: 12px 0 0 0;
+}
+
+div.pagination ul li {
+	border: 1px solid #777;
+	float: left;
+	text-align: center;
+	margin-right: 6px;
+}
+
+div.pagination ul li.inactive {
+	opacity: 0.4;
+}
+
+div.pagination a {
+	padding: 4px 6px;
+	display: inline-block;
+	min-width: 28px;
+	text-decoration: none;
+}
+
+div.pagination ul li.next {
+	margin-right: 20px;
+}
+
 @media screen and (max-width:1740px) {
 	a.image {
 		width : 12.5%;

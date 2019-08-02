@@ -15,7 +15,8 @@ class Setting
 		'detail_width' => 1024,
 		'full_size_by_default' => false,
 		'auto_rotate' => true,
-		'supported_extensions' => ['jpg','jpeg','gif','png']
+		'supported_extensions' => ['jpg','jpeg','gif','png'],
+        'images_per_page' => 10
 	];
 
 	public static function get($key)
