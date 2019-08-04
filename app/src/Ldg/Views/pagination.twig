@@ -3,7 +3,7 @@
 		<ul>
 			{% if pagination.currentPage != 1 %}
 				<li>
-					<a href="{{ pagination.baseUrl }}{% if '?' in pagination.baseUrl %}&amp;{% else %}?{% endif %}page={{ pagination.currentPage-1 }}">Previous</a>
+					<a href="{{ pagination.getBaseUrl }}{% if '?' in pagination.getBaseUrl %}&amp;{% else %}?{% endif %}page={{ pagination.currentPage-1 }}">Previous</a>
 				</li>
 			{% else %}
 				<li class="inactive">
@@ -12,7 +12,7 @@
 			{% endif %}
 			{% if pagination.currentPage != pagination.getNumberOfPages %}
 				<li class="next">
-					<a href="{{ pagination.baseUrl }}{% if '?' in pagination.baseUrl %}&amp;{% else %}?{% endif %}page={{ pagination.currentPage+1 }}">Next</a>
+					<a href="{{ pagination.getBaseUrl }}{% if '?' in pagination.getBaseUrl %}&amp;{% else %}?{% endif %}page={{ pagination.currentPage+1 }}">Next</a>
 				</li>
 			{% else %}
 				<li class="next inactive">
@@ -22,7 +22,7 @@
 
 			{% for i in 1..pagination.getNumberOfPages %}
 				<li {% if pagination.currentPage == loop.index  %} class="inactive"{% endif %}>
-					<a href="{{ pagination.baseUrl }}{% if '?' in pagination.baseUrl %}&amp;{% else %}?{% endif %}page={{ loop.index }}">{{ loop.index }}</a>
+					<a href="{{ pagination.getBaseUrl }}{% if '?' in pagination.getBaseUrl %}&amp;{% else %}?{% endif %}page={{ loop.index }}">{{ loop.index }}</a>
 				</li>
 			{% endfor %}
 		</ul>
