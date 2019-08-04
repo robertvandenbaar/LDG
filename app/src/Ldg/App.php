@@ -283,10 +283,6 @@ class App
         $pagination->currentPage = $this->getPage();
         $pagination->itemsPerPage = $imagesPerPage;
 
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-        $pagination->baseUrl = $path;
-
         $images = array_slice($images, ($this->getPage()-1) * $imagesPerPage, $imagesPerPage);
 
         $variables = [
@@ -360,10 +356,6 @@ class App
         $pagination->totalItems = count($images);
         $pagination->currentPage = $this->getPage();
         $pagination->itemsPerPage = $imagesPerPage;
-
-        $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-
-        $pagination->baseUrl = $path . '?q=' . $_REQUEST['q'];
 
         $totalNrImages = count($images);
 
