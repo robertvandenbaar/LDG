@@ -1,29 +1,49 @@
 {% if pagination.getNumberOfPages > 1 %}
-	<div class="pagination">
+	<div id="pagination">
 		<ul>
 			{% if pagination.currentPage != 1 %}
 				<li>
-					<a href="{{ pagination.getBaseUrl }}{% if '?' in pagination.getBaseUrl %}&amp;{% else %}?{% endif %}page={{ pagination.currentPage-1 }}">Previous</a>
+					<a href="{{ pagination.getBaseUrl }}{% if '?' in pagination.getBaseUrl %}&amp;{% else %}?{% endif %}page={{ pagination.currentPage-1 }}">&larr; Previous</a>
 				</li>
 			{% else %}
 				<li class="inactive">
-					<a  href="#">Previous</a>
+					<a href="#">&larr; Previous</a>
 				</li>
 			{% endif %}
 			{% if pagination.currentPage != pagination.getNumberOfPages %}
 				<li class="next">
-					<a href="{{ pagination.getBaseUrl }}{% if '?' in pagination.getBaseUrl %}&amp;{% else %}?{% endif %}page={{ pagination.currentPage+1 }}">Next</a>
+					<a href="{{ pagination.getBaseUrl }}{% if '?' in pagination.getBaseUrl %}&amp;{% else %}?{% endif %}page={{ pagination.currentPage+1 }}">Next &rarr;</a>
 				</li>
 			{% else %}
 				<li class="next inactive">
-					<a href="#">Next</a>
+					<a href="#">Next &rarr;</a>
 				</li>
 			{% endif %}
 
 			{% for i in 1..pagination.getNumberOfPages %}
-				<li {% if pagination.currentPage == loop.index  %} class="inactive"{% endif %}>
-					<a href="{{ pagination.getBaseUrl }}{% if '?' in pagination.getBaseUrl %}&amp;{% else %}?{% endif %}page={{ loop.index }}">{{ loop.index }}</a>
-				</li>
+
+				{% set show = 0 %}
+				{% set minPage = pagination.currentPage - 3 %}
+				{% set maxPage = pagination.currentPage + 3 %}
+
+				{% if loop.index == 1 or pagination.getNumberOfPages == loop.index %}
+					{% set show = 1 %}
+				{% endif %}
+
+				{% if loop.index > minPage and loop.index < maxPage %}
+					{% set show = 1 %}
+				{% endif %}
+
+				{% if show == 1 %}
+					<li {% if pagination.currentPage == loop.index  %} class="inactive"{% endif %}>
+						<a href="{{ pagination.getBaseUrl }}{% if '?' in pagination.getBaseUrl %}&amp;{% else %}?{% endif %}page={{ loop.index }}">{{ loop.index }}</a>
+					</li>
+				{% else %}
+					{% if loop.index == minPage or loop.index == maxPage %}
+						<li class="space">&hellip;</li>
+					{% endif %}
+				{% endif %}
+
 			{% endfor %}
 		</ul>
 	</div>
