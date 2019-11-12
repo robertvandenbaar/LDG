@@ -155,7 +155,11 @@ class Image extends File
 			$data .= ' ' . implode(' ', (array)$metadata->getKeywords());
 		}
 
-		$search->setEntry($this->getRelativeLocation(), $data);
+		$meta = $this->getMetadata();
+
+		$metadata = ['date_taken' => $meta->getDateTaken()];
+
+		$search->setEntry($this->getRelativeLocation(), $data, $metadata);
 	}
 
 	public function updateDetail($updateCurrent = false, $fixedRotate = null)

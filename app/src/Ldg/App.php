@@ -49,7 +49,6 @@ class App
 			{
 				$_SESSION['full-size'] = false;
 			}
-			var_dump($_SESSION['full-size']);
 			exit;
 		}
 		else
@@ -283,6 +282,13 @@ class App
         $pagination->currentPage = $this->getPage();
         $pagination->itemsPerPage = $imagesPerPage;
 
+        $latestImages = [];
+
+        if (count($images) == 0 && count($this->parts) == 0) {
+            $index = new \Ldg\Search();
+            $latestImages = $index->getLatestFiles();
+        }
+
         $images = array_slice($images, ($this->getPage()-1) * $imagesPerPage, $imagesPerPage);
 
         $variables = [
@@ -290,7 +296,8 @@ class App
 			'images' => $images,
 			'other_files' => $otherFiles,
 			'breadcrumb_parts' => $breadCrumbParts,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'latest_images' => $latestImages,
 		];
 
 		if (count($this->parts) > 0)

@@ -5,7 +5,7 @@
 	{% embed "header.twig" %}
 	{% endembed %}
 
-	<div class="navigation">
+	<div id="navigation">
 		<div class="folders">
 			{% if folder_up is defined %}
 				<a class="folder up" title="Parent folder" href="{{ folder_up.url }}"> <img width="16" height="16" src="{{ base_url }}/assets/images/svg/prev.svg" alt="Parent folder"/></a>
@@ -25,14 +25,25 @@
 		</div>
 	</div>
 
-	<div class="content">
+	<div id="content">
 		<p id="information"></p>
 
-		{% embed "images.twig" %}
-		{% endembed %}
+		{% if images|length > 0 %}
+			{% embed "images.twig" %}
+			{% endembed %}
 
-		{% embed "pagination.twig" %}
-		{% endembed %}
+			{% embed "pagination.twig" %}
+			{% endembed %}
+		{% else %}
+
+			{% if latest_images|length > 0 %}
+				<h1>Latest images</h1>
+				{% embed "images.twig" with {'images': latest_images} %}
+				{% endembed %}
+			{% endif %}
+
+		{% endif %}
+
 	</div>
 
 {% endblock %}

@@ -6,7 +6,7 @@
 	{% endembed %}
 
 	{% if other_files|length > 0 %}
-		<div class="navigation">
+		<div id="navigation">
 			<p class="search-count">Found {{ other_files|length }} regular file{% if other_files|length != 1 %}s{% endif %} for "{{ q }}"</p>
 			<div class="other-files">
 				{% for other_file in other_files %}
@@ -14,9 +14,9 @@
 				{% endfor %}
 			</div>
 		</div>
-		<div class="content">
+		<div id="content">
 	{% else %}
-		<div class="content wide">
+		<div id="content" class="wide">
 	{% endif %}
 
 

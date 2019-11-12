@@ -2,6 +2,8 @@
 
 namespace Ldg;
 
+use Ldg\Model\Image;
+
 class Search
 {
 	protected $index = null;
@@ -50,9 +52,11 @@ class Search
 
 	}
 
-	function setEntry($key, $value)
+	function setEntry($key, $value, $metadata = [])
 	{
-		$this->index[$key] = $value;
+	    $data = array_merge(['search_data' => $value, 'metadata' => $metadata]);
+
+        $this->index[$key] = $data;
 	}
 
 	function search($q)
@@ -65,7 +69,11 @@ class Search
 		{
 			$match = true;
 
-			$searchValue = $value;
+			if (is_string($value)) {
+                $searchValue = $value;
+            } else {
+                $searchValue = $value['search_data'];
+            }
 
 			if (isset($_REQUEST['include_file_path']))
             {
@@ -83,7 +91,7 @@ class Search
 
 			if ($match)
 			{
-				$results[$key] = $value;
+				$results[$key] = $searchValue;
 			}
 
 		}
@@ -111,4 +119,36 @@ class Search
 	{
 		file_put_contents($this->indexFile, json_encode($this->index, JSON_PRETTY_PRINT));
 	}
+
+	function getLatestFiles($limit = 20)
+    {
+        $sort = $this->index;
+
+        $sort = array_filter($sort, function($el){
+            return isset($el['metadata']) && isset($el['metadata']['date_taken']);
+        });
+
+        uasort($sort, function($a, $b){
+           $dateA = strtotime($a['metadata']['date_taken']);
+           $dateB = strtotime($b['metadata']['date_taken']);
+
+           if ($dateA == $dateB) {
+               return 0;
+           }
+
+           return $dateA > $dateB ? -1 : 1;
+
+        });
+
+        $sliced = array_slice($sort, 0, $limit);
+
+        $return = [];
+
+        foreach ($sliced as $key => $image) {
+            $return[] = new Image($key);
+        }
+
+        return $return;
+
+    }
 }
