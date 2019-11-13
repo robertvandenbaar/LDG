@@ -129,8 +129,8 @@ class Search
         });
 
         uasort($sort, function($a, $b){
-           $dateA = strtotime($a['metadata']['date_taken']);
-           $dateB = strtotime($b['metadata']['date_taken']);
+           $dateA = $a['metadata']['date_taken'];
+           $dateB = $b['metadata']['date_taken'];
 
            if ($dateA == $dateB) {
                return 0;
