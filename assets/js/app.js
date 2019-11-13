@@ -10,6 +10,13 @@ $( document ).ready(function() {
 
 	});
 
+	$('#q').on('blur', function() {
+		if ($(this).val().length == 0) {
+			$('#search').hide();
+			$('#search_activate').show();
+		}
+	});
+
 	function stripQuery(imageSource)
 	{
 		var index = imageSource.indexOf('?');
