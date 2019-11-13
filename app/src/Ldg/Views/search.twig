@@ -5,29 +5,29 @@
 	{% embed "header.twig" %}
 	{% endembed %}
 
-	{% if other_files|length > 0 %}
-		<div id="navigation">
+	<div id="navigation">
+
+		{% if total_nr_images > 0 %}
+			<p class="search-count">Found {{ total_nr_images }} image{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
+		{% endif %}
+
+		{% if other_files|length > 0 %}
 			<p class="search-count">Found {{ other_files|length }} regular file{% if other_files|length != 1 %}s{% endif %} for "{{ q }}"</p>
 			<div class="other-files">
 				{% for other_file in other_files %}
 					<a class="other-file" href="{{ other_file.originalUrl }}">{{ other_file.name }}</a>
 				{% endfor %}
 			</div>
-		</div>
-		<div id="content">
-	{% else %}
-		<div id="content" class="wide">
-	{% endif %}
+		{% endif %}
 
+	</div>
+	<div id="content">
 
 	{% if total_nr_images > 0 %}
 
-		<p>Found {{ total_nr_images }} image{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
-
-			{% set vars = {'origin': 'search'} %}
-			{% embed "images.twig" with vars %}
-			{% endembed %}
-
+		{% set vars = {'origin': 'search'} %}
+		{% embed "images.twig" with vars %}
+		{% endembed %}
 
 	{% else %}
 		<p>
