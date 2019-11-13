@@ -65,7 +65,11 @@ class Search
 
 		$words = explode(' ', trim($q));
 
-		foreach ($this->index as $key => $value)
+		$sortedIndex = $this->index;
+
+		uasort($sortedIndex, [$this, 'sortByDateTaken']);
+
+		foreach ($sortedIndex as $key => $value)
 		{
 			$match = true;
 
@@ -120,27 +124,33 @@ class Search
 		file_put_contents($this->indexFile, json_encode($this->index, JSON_PRETTY_PRINT));
 	}
 
+	function sortByDateTaken($a, $b)
+	{
+		if (!isset($a['metadata']) || !isset($a['metadata']['date_taken'])) {
+			return 0;
+		}
+
+		if (!isset($b['metadata']) || !isset($b['metadata']['date_taken'])) {
+			return 0;
+		}
+
+		$dateA = $a['metadata']['date_taken'];
+		$dateB = $b['metadata']['date_taken'];
+
+		if ($dateA == $dateB) {
+			return 0;
+		}
+
+		return $dateA > $dateB ? -1 : 1;
+	}
+
 	function getLatestFiles($limit = 20)
     {
-        $sort = $this->index;
+        $sortedIndex = $this->index;
 
-        $sort = array_filter($sort, function($el){
-            return isset($el['metadata']) && isset($el['metadata']['date_taken']);
-        });
+        uasort($sortedIndex, [$this, 'sortByDateTaken']);
 
-        uasort($sort, function($a, $b){
-           $dateA = $a['metadata']['date_taken'];
-           $dateB = $b['metadata']['date_taken'];
-
-           if ($dateA == $dateB) {
-               return 0;
-           }
-
-           return $dateA > $dateB ? -1 : 1;
-
-        });
-
-        $sliced = array_slice($sort, 0, $limit);
+        $sliced = array_slice($sortedIndex, 0, $limit);
 
         $return = [];
 
