@@ -9,6 +9,13 @@
 
 		{% if total_nr_images > 0 %}
 			<p class="search-count">Found {{ total_nr_images }} image{% if images|length != 1 %}s{% endif %} for "{{ q }}"</p>
+		{% else %}
+			<p class="search-count">
+				No images found for "{{ q }}"
+				{% if index_count == 0 %}
+					Check if cron is enabled.
+				{% endif %}
+			</p>
 		{% endif %}
 
 		{% if other_files|length > 0 %}
@@ -23,26 +30,16 @@
 	</div>
 	<div id="content">
 
-	{% if total_nr_images > 0 %}
+		{% if total_nr_images > 0 %}
 
-		{% set vars = {'origin': 'search'} %}
-		{% embed "images.twig" with vars %}
+			{% set vars = {'origin': 'search'} %}
+			{% embed "images.twig" with vars %}
+			{% endembed %}
+
+		{% endif %}
+
+		{% embed "pagination.twig" %}
 		{% endembed %}
-
-	{% else %}
-		<p>
-			No images found for "{{ q }}"
-
-			{% if index_count == 0 %}
-				Check if cron is enabled.
-			{% endif %}
-
-		</p>
-
-	{% endif %}
-
-	{% embed "pagination.twig" %}
-	{% endembed %}
 
 	</div>
 

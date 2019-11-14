@@ -6,7 +6,7 @@ body {
 	font-size : 72%;
 	margin : 0;
 	padding : 0;
-	background : #2f2f2f;
+	background : #444;
 	color : #eee;
 	font-family : Arial, "Sans-Serif";
 }
@@ -22,14 +22,11 @@ h1, h2, h3, h4 {
 }
 
 #page {
-	background : #555;
 	display: grid;
 	grid-template-columns: 1fr 3fr;
 }
 
 #header {
-	border-top-right-radius : 3px;
-	border-top-left-radius : 3px;
 	background : #0d0d0d;
 	grid-column-start: 1;
 	grid-column-end: 4;
@@ -134,6 +131,11 @@ h1, h2, h3, h4 {
 	display: none;
 }
 
+.search_options_open {
+	font-size: 30px;
+	padding-right: 8px;
+}
+
 #search_activate {
 	background-size : auto 100%;
 	position : absolute;
@@ -149,11 +151,10 @@ h1, h2, h3, h4 {
 #search {
 	display : none;
 	position : absolute;
-	right : 10px;
-	top : 12px;
+	right : 0px;
+	top : 0px;
 	background: #000;
 	padding: 10px;
-	border-radius : 4px;
 }
 
 #search input {
@@ -168,6 +169,7 @@ h1, h2, h3, h4 {
 }
 
 #search #search_options {
+	display: none;
 	padding-top: 6px;
 }
 
@@ -220,7 +222,7 @@ h1, h2, h3, h4 {
 a.folder {
 	text-decoration : none;
 	display : block;
-	background : #444;
+	background : #333;
 	color : #ddd;
 	padding-left : 10px;
 	line-height : 32px;
@@ -245,6 +247,10 @@ a.folder.up:hover {
 
 a.folder.up img {
 	vertical-align : middle;
+}
+
+div.other-files {
+	padding-bottom: 8px;
 }
 
 a.other-file {
@@ -275,7 +281,7 @@ a.other-file {
 
 
 a.image {
-	background-color: #444;
+	background-color: #333;
 	color: #fff;
 	border-radius: 5px;
 	padding: 4px;
@@ -438,27 +444,30 @@ a.image img {
 
 #pagination {
 	clear: both;
-}
-
-#pagination ul {
+	padding: 10px 0;
+	margin: 0;
 	list-style: none;
-	padding: 12px 0 0 0;
+	display: block;
+	min-height: 46px;
 }
 
-#pagination ul li {
+#pagination li {
 	border: 1px solid #777;
 	float: left;
 	text-align: center;
 	margin-right: 6px;
 	border-radius: 2px;
+	padding: 4px;
+	background: #555;
+	display: inline-block;
 }
 
-#pagination ul li.space {
-	border: none;
+#pagination li.space {
+	padding: 4px 0;
 }
 
-#pagination ul li.inactive {
-	opacity: 0.4;
+#pagination li.inactive {
+	opacity: 0.3;
 }
 
 #pagination a {
@@ -468,7 +477,7 @@ a.image img {
 	text-decoration: none;
 }
 
-#pagination ul li.next {
+#pagination li.next {
 	margin-right: 20px;
 }
 
@@ -482,7 +491,7 @@ a.image img {
 	}
 
 	#content {
-		padding: 10px;
+		padding: 0 10px 10px 10px;
 	}
 
 	#navigation {

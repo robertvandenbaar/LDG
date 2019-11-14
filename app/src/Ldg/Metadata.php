@@ -63,25 +63,9 @@ class Metadata
 
 	public function getDateTaken()
 	{
-		foreach (['DateTimeOriginal', 'DateTimeDigitized', 'DateTime'] as $date)
-		{
-			if (isset($this->exif[$date]))
-			{
-				$time = strtotime($this->exif[$date]);
-
-				if ($time)
-				{
-					return $time;
-				}
-			}
+		if (isset($this->exif['DateTimeOriginal'])) {
+			return strtotime($this->exif['DateTimeOriginal']);
 		}
-
-		if (isset($this->exif['FileDateTime']))
-		{
-			return $this->exif['FileDateTime'];
-		}
-
-		return null;
 	}
 
 	public function getTakenDateFormatted()
