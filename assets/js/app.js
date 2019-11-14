@@ -2,12 +2,14 @@ $( document ).ready(function() {
 
 	setLoadingImage();
 	
-	$("#search_activate").click(function(){
-
+	$('#search_activate').on('click', function(){
 		$("#search").show();
 		$(this).hide();
 		$("#q").focus();
+	});
 
+	$('.search_options_open').on('click', function() {
+		$('#search #search_options').toggle();
 	});
 
 	$('#q').on('blur', function() {
