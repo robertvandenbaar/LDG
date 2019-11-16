@@ -4,16 +4,15 @@ namespace Ldg\Model;
 
 class Folder extends File
 {
-	function getUrl()
-	{
-		$url = parent::getUrl();
+    function getUrl()
+    {
+        $url = parent::getUrl();
 
-		if (empty($url))
-		{
-			return '/';
-		}
+        if (empty($url)) {
+            return '/';
+        }
 
-		return $url;
-	}
+        return $url;
+    }
 
 }

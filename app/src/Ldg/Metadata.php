@@ -66,6 +66,7 @@ class Metadata
 		if (isset($this->exif['DateTimeOriginal'])) {
 			return strtotime($this->exif['DateTimeOriginal']);
 		}
+		return false;
 	}
 
 	public function getTakenDateFormatted()
