@@ -12,8 +12,7 @@ class Pagination
 
     public function getNumberOfPages()
     {
-        if ($this->itemsPerPage > 0)
-        {
+        if ($this->itemsPerPage > 0) {
             return ceil($this->totalItems / $this->itemsPerPage);
         }
 
@@ -26,13 +25,11 @@ class Pagination
 
         $params = $_GET;
 
-        if (isset($params['page']))
-        {
+        if (isset($params['page'])) {
             unset($params['page']);
         }
 
-        if (count($params) > 0)
-        {
+        if (count($params) > 0) {
             $path .= '?' . http_build_query($params);
         }
 
