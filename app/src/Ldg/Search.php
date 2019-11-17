@@ -54,18 +54,30 @@ class Search
         $this->index[$key] = $data;
     }
 
+    public function hasFilter()
+    {
+        $filters = ['camera', 'limit_to_keyword_search'];
+
+        foreach ($filters as $filter) {
+            if (isset($_REQUEST[$filter]) && strlen($_REQUEST[$filter]) > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function search($q)
     {
         $results = [];
 
         $words = explode(' ', trim($q));
+        $words = array_filter($words,'strlen');
 
         $sortedIndex = $this->index;
 
         uasort($sortedIndex, [$this, 'sortByDateTaken']);
 
         foreach ($sortedIndex as $key => $value) {
-            $match = true;
 
             if (is_string($value)) {
                 $searchValue = $value;
@@ -73,22 +85,29 @@ class Search
                 $searchValue = $value['search_data'];
             }
 
-            if (isset($_REQUEST['include_file_path'])) {
+            if (!isset($_REQUEST['limit_to_keyword_search'])) {
                 $searchValue .= $key;
             }
 
-            foreach ($words as $word) {
-                if (stripos($searchValue, $word) === false && stripos($this->replaceDiacritics($searchValue),
-                        $word) === false
-                ) {
-                    $match = false;
+            if (isset($_REQUEST['camera']) && strlen($_REQUEST['camera']) > 0) {
+                if (!isset($value['metadata']) || !isset($value['metadata']['model'])) {
+                    continue;
+                }
+
+                if ($value['metadata']['model'] != $_REQUEST['camera']) {
                     continue;
                 }
             }
 
-            if ($match) {
-                $results[$key] = $searchValue;
+            if (!empty($words)) {
+                foreach ($words as $word) {
+                    if (stripos($searchValue, $word) === false && stripos($this->replaceDiacritics($searchValue), $word) === false) {
+                        continue 2;
+                    }
+                }
             }
+
+            $results[$key] = $searchValue;
 
         }
 
@@ -150,6 +169,38 @@ class Search
         }
 
         return $return;
+
+    }
+
+    public function getUniqueCameras()
+    {
+        $cams = [];
+
+        foreach ($this->index as $item) {
+            if ($item['metadata']) {
+                $cam = '';
+                $make = isset($item['metadata']['make']) ? $item['metadata']['make'] : '';
+                $model = isset($item['metadata']['model']) ? $item['metadata']['model'] : '';
+
+                if (strlen($make) > 0 && strlen($model) > 0) {
+
+                    // if make not in model name, add it to the canName;
+                    if (strpos($model, $make) === false) {
+                        $camName = $make . ' ' . $model;
+                    } else {
+                        $camName = $model;
+                    }
+
+                    if (strlen($camName) > 0) {
+                        $cams[$model] = $camName;
+                    }
+                }
+            }
+        }
+
+        asort($cams);
+
+        return $cams;
 
     }
 }

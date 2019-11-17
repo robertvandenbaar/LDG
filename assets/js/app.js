@@ -118,68 +118,28 @@ $(document).ready(function()
                 if (data) {
                     $.each(data, function(key, val)
                     {
-                        if (key.indexOf('DateTime') === 0) {
-                            var items = [];
-                            items.push('<td>' + key + '</td>');
-                            items.push('<td>' + val + '</td>');
-                            responseHtml.append($('<tr/>', {html: items.join('')}));
+                        var items = [];
+
+                        if (key.indexOf('Date') !== -1) {
+                            dateObj = new Date(val * 1000);
+                            val = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString();
                         }
+
+                        if (key.indexOf('GPS') !== -1 && val.length > 0) {
+                            val = '<a target="_blank" href="https://maps.google.nl/?q=' + val.join(', ') +'">' + val.join(', ') +'</a>'
+                        }
+
+                        if (key.indexOf('Keywords') !== -1 && val.length > 0) {
+                            val = val.join(', ');
+                        }
+
+                        items.push('<td>' + key + '</td>');
+                        items.push('<td>' + (val == false ? '' : val) + '</td>');
+                        responseHtml.append($('<tr/>', {html: items.join('')}));
                     });
 
+                    responseHtml.append('<tr><td>Full metadata</td><td><a target="_blank" href="' + result.link_to_full_exif + '">Link (technical)</a></td></tr>');
 
-                    $.each(data, function(key, val)
-                    {
-
-                        if (key.indexOf('DateTime') === 0) {
-                            return;
-                        }
-
-                        if ($.isArray(val)) {
-                            var items = [];
-                            items.push('<td>' + key + '</td>');
-                            items.push('<td>' + val.join(', ') + '</td>');
-                            responseHtml.append($('<tr/>', {html: items.join('')}));
-                        }
-                        // show object as separate properties
-                        else {
-                            if (typeof(val) == 'object') {
-                                $.each(val, function(subkey, subval)
-                                {
-                                    var items = [];
-
-                                    // even more objects at this level, then just show a JSON representation
-                                    if (typeof(subval) == 'object') {
-                                        val = JSON.stringify(val);
-                                    }
-
-                                    items.push('<td>' + key + ' (' + subkey + ')</td>');
-                                    items.push('<td>' + subval + '</td>');
-
-                                    responseHtml.append($('<tr/>', {html: items.join('')}));
-                                });
-
-                            }
-                            else {
-                                var items = [];
-                                items.push('<td>' + key + '</td>');
-                                items.push('<td>' + val + '</td>');
-                                responseHtml.append($('<tr/>', {html: items.join('')}));
-
-                                if (key == 'FileDateTime' && parseInt(val) > 0) {
-                                    var date = new Date(val * 1000);
-                                    if (date) {
-                                        var items = [];
-                                        items.push('<td>' + key + ' (formatted)</td>');
-                                        items.push('<td>' + date.toLocaleDateString() + '</td>');
-                                        responseHtml.append($('<tr/>', {html: items.join('')}));
-                                    }
-
-                                }
-
-                            }
-                        }
-
-                    });
                 }
                 else {
                     responseHtml.append('<tr><td colspan="2">No additional information could be retrieved</td></tr>');
