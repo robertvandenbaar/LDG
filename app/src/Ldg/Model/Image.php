@@ -54,13 +54,17 @@ class Image extends File
 
     public function getThumbnailUrl()
     {
-
         if (file_exists($this->getThumbnailPath())) {
             return BASE_URL . '/cache/thumbnail' . str_replace(\Ldg\Setting::get('image_base_dir'), '',
                     $this->path) . '?t=' . $this->getFileModificationTime($this->getThumbnailPath());
         } else {
             return 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
         }
+    }
+
+    public function getInfoDetailUrl()
+    {
+        return BASE_URL . '/info_detail' . $this->getRelativeLocation();
     }
 
     public function isThumbnailCurrent()
@@ -136,7 +140,15 @@ class Image extends File
 
         $meta = $this->getMetadata();
 
-        $metadata = ['date_taken' => $meta->getDateTaken()];
+        $metadata = [
+            'date_taken' => $meta->getDateTaken(),
+            'make' => $meta->getMake(),
+            'model' => $meta->getModel(),
+            'aperture' => $meta->getAperture(),
+            'shutterspeed' => $meta->getShutterSpeed(),
+            'iso' => $meta->getIso(),
+            'lens' => $meta->getLens(),
+        ];
 
         $search->setEntry($this->getRelativeLocation(), $data, $metadata);
     }

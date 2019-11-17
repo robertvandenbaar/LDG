@@ -3,6 +3,7 @@
 namespace Ldg;
 
 use Ldg\Model\File;
+use Ldg\Model\Image;
 
 class App
 {
@@ -10,7 +11,7 @@ class App
     protected $setting;
     protected $parts;
 
-    protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info', 'rotate'];
+    protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info', 'info_detail', 'rotate'];
 
     function __construct()
     {
@@ -106,6 +107,9 @@ class App
                 break;
             case 'info':
                 $this->renderInfo();
+                break;
+            case 'info_detail':
+                $this->renderInfoDetail();
                 break;
             case 'rotate':
                 $this->renderRotate();
@@ -259,6 +263,8 @@ class App
 
         $images = array_slice($images, ($this->getPage() - 1) * $imagesPerPage, $imagesPerPage);
 
+        $search = new Search();
+
         $variables = [
             'folders' => $folders,
             'images' => $images,
@@ -266,6 +272,7 @@ class App
             'breadcrumb_parts' => $breadCrumbParts,
             'pagination' => $pagination,
             'latest_images' => $latestImages,
+            'unique_cams' => $search->getUniqueCameras()
         ];
 
         if (count($this->parts) > 0) {
@@ -331,11 +338,17 @@ class App
             'images' => $images,
             'other_files' => $otherFiles,
             'index_count' => $index->getIndexCount(),
-            'q' => $_REQUEST['q'],
-            'include_file_path' => isset($_REQUEST['include_file_path']),
             'pagination' => $pagination,
-            'total_nr_images' => $totalNrImages
+            'total_nr_images' => $totalNrImages,
+            'unique_cams' => $index->getUniqueCameras(),
+            'filter_active' => $index->hasFilter()
         ];
+
+        $forwardRequestParameters = ['q', 'limit_to_keyword_search', 'camera'];
+
+        foreach ($forwardRequestParameters as $parameter) {
+            $variables[$parameter] = isset($_REQUEST[$parameter]) ? $_REQUEST[$parameter] : false;
+        }
 
         echo $this->twig->render('search.twig', $variables);
 
@@ -364,44 +377,57 @@ class App
 
         $metadata = $file->getMetadata();
 
-        if ($metadata) {
-            $rawData = $metadata->getRawExifData();
-
-            array_walk_recursive($rawData, function (&$item, $key) {
-
-                $detected = mb_detect_encoding($item);
-
-                if ($detected != 'UTF-8' && $detected != 'ASCII') {
-                    $item = iconv($detected, 'UTF-8', $item);
-                }
-
-                // some nasty tags can't be json encoded
-                if (json_encode($item) === false) {
-                    $item = '-';
-                }
-
-            });
-
-            unset($rawData['FileName']);
-        }
-
         $response = [
             'result' => true,
             'filename' => $file->getName(),
-            'folder' => $file->getFolderName()
+            'folder' => $file->getFolderName(),
+            'link_to_full_exif' => $file->getInfoDetailUrl()
         ];
 
-        if ($metadata->getKeywords()) {
-            $rawData = array_merge(array('Keywords' => $metadata->getKeywords()), $rawData);
-        }
+        $data = [
+            'Keywords' => $metadata->getKeywords(),
+            'Camera Make' => $metadata->getMake(),
+            'Camera Model' => $metadata->getModel(),
+            'Date taken' => $metadata->getDateTaken(),
+            'Date creation' => $metadata->getDate(),
+            'Date modification' => $metadata->getDateFile(),
+            'Shutterspeed' => $metadata->getFormattedShutterSpeed($metadata->getShutterSpeed()),
+            'Aperture' => $metadata->getFormattedAperture($metadata->getAperture()),
+            'ISO' => $metadata->getIso(),
+            'Focal Length' => $metadata->getFocalLength(),
+            'GPS' => $metadata->getGpsData()
 
-        if (isset($rawData)) {
-            $response['data'] = isset($rawData) ? $rawData : [];
-        }
+        ];
+
+        $response['data'] = $data;
 
         echo json_encode($response);
         exit;
+    }
 
+    function renderInfoDetail()
+    {
+        unset($this->parts[1]);
+        $file = new \Ldg\Model\Image(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
+
+        if (!$file->fileExists() || !$file->isValidPath()) {
+            echo json_encode(['result' => false, 'error' => 'File ' . $file->getPath() . 'could not be found']);
+            exit;
+        }
+
+        $metadata = $file->getMetadata();
+
+        echo '<body style="margin: 0; padding: 0; background: #000;">';
+        echo '<pre style="background: #222; color: #ddd; padding: 10px;">';
+        echo '<h1 style="margin: 0;">EXIF</h1>';
+        var_dump($metadata->getRawExifData());
+        echo '</pre>';
+        echo '<pre style="background: #333; color: #aaa; padding: 10px;">';
+        echo '<h1 style="margin: 0;">IPTC</h1>';
+        var_dump($metadata->getRawIptcData());
+        echo '</pre>';
+        echo '</body>';
+        die();
     }
 
     function renderRotate()
