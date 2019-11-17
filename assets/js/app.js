@@ -125,11 +125,11 @@ $(document).ready(function()
                             val = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString();
                         }
 
-                        if (key.indexOf('GPS') !== -1 && val.length > 0) {
+                        if (key.indexOf('GPS') !== -1 && val != false && val.length > 0) {
                             val = '<a target="_blank" href="https://maps.google.nl/?q=' + val.join(', ') +'">' + val.join(', ') +'</a>'
                         }
 
-                        if (key.indexOf('Keywords') !== -1 && val.length > 0) {
+                        if (key.indexOf('Keywords') !== -1 && val != false && val.length > 0) {
                             val = val.join(', ');
                         }
 
@@ -138,7 +138,7 @@ $(document).ready(function()
                         responseHtml.append($('<tr/>', {html: items.join('')}));
                     });
 
-                    responseHtml.append('<tr><td>Full metadata</td><td><a target="_blank" href="' + result.link_to_full_exif + '">Link (technical)</a></td></tr>');
+                    responseHtml.append('<tr><td></td><td><a target="_blank" href="' + result.link_to_full_exif + '">Show full metadata (technical)</a></td></tr>');
 
                 }
                 else {
