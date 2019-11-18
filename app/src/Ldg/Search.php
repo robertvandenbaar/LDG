@@ -66,6 +66,27 @@ class Search
         return false;
     }
 
+    function matchesMetadataFilter($value, $requestParameter, $metadataProperty)
+    {
+        if (!isset($_REQUEST[$requestParameter])) {
+            return true;
+        }
+
+        if ( strlen($_REQUEST[$requestParameter]) == 0) {
+            return true;
+        }
+
+        if (!isset($value['metadata']) || !isset($value['metadata'][$metadataProperty])) {
+            return false;
+        }
+
+        if ($value['metadata'][$metadataProperty] == $_REQUEST[$requestParameter]) {
+            return true;
+        }
+
+        return false;
+    }
+
     function search($q)
     {
         $results = [];
@@ -89,14 +110,12 @@ class Search
                 $searchValue .= $key;
             }
 
-            if (isset($_REQUEST['camera']) && strlen($_REQUEST['camera']) > 0) {
-                if (!isset($value['metadata']) || !isset($value['metadata']['model'])) {
-                    continue;
-                }
+            if (!$this->matchesMetadataFilter($value,'camera', 'model')) {
+                continue;
+            }
 
-                if ($value['metadata']['model'] != $_REQUEST['camera']) {
-                    continue;
-                }
+            if (!$this->matchesMetadataFilter($value,'lens', 'lens')) {
+                continue;
             }
 
             if (!empty($words)) {
@@ -175,16 +194,14 @@ class Search
     public function getUniqueCameras()
     {
         $cams = [];
-
         foreach ($this->index as $item) {
             if ($item['metadata']) {
-                $cam = '';
                 $make = isset($item['metadata']['make']) ? $item['metadata']['make'] : '';
                 $model = isset($item['metadata']['model']) ? $item['metadata']['model'] : '';
 
                 if (strlen($make) > 0 && strlen($model) > 0) {
 
-                    // if make not in model name, add it to the canName;
+                    // if make not in model name, add it to the camName;
                     if (strpos($model, $make) === false) {
                         $camName = $make . ' ' . $model;
                     } else {
@@ -199,8 +216,26 @@ class Search
         }
 
         asort($cams);
-
         return $cams;
+    }
 
+    public function getUniqueLenses()
+    {
+        $lenses = [];
+        foreach ($this->index as $item) {
+            if ($item['metadata']) {
+                if (isset($item['metadata']['lens'])) {
+                    $lens = $item['metadata']['lens'];
+                    $lens = trim($lens);
+                    $lens = trim($lens, '-');
+                    if (strlen($lens) > 0) {
+                        $lenses[$lens] = $lens;
+                    }
+                }
+            }
+        }
+
+        asort($lenses);
+        return $lenses;
     }
 }

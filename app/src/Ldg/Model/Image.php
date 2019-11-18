@@ -147,6 +147,7 @@ class Image extends File
             'aperture' => $meta->getAperture(),
             'shutterspeed' => $meta->getShutterSpeed(),
             'iso' => $meta->getIso(),
+            'focal_length' => $meta->getFocalLength(),
             'lens' => $meta->getLens(),
         ];
 
