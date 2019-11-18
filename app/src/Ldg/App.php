@@ -272,7 +272,9 @@ class App
             'breadcrumb_parts' => $breadCrumbParts,
             'pagination' => $pagination,
             'latest_images' => $latestImages,
-            'unique_cams' => $search->getUniqueCameras()
+            'unique_cams' => $search->getUniqueCameras(),
+            'unique_lenses' => $search->getUniqueLenses(),
+
         ];
 
         if (count($this->parts) > 0) {
@@ -341,10 +343,11 @@ class App
             'pagination' => $pagination,
             'total_nr_images' => $totalNrImages,
             'unique_cams' => $index->getUniqueCameras(),
+            'unique_lenses' => $index->getUniqueLenses(),
             'filter_active' => $index->hasFilter()
         ];
 
-        $forwardRequestParameters = ['q', 'limit_to_keyword_search', 'camera'];
+        $forwardRequestParameters = ['q', 'limit_to_keyword_search', 'camera', 'lens'];
 
         foreach ($forwardRequestParameters as $parameter) {
             $variables[$parameter] = isset($_REQUEST[$parameter]) ? $_REQUEST[$parameter] : false;
@@ -388,9 +391,10 @@ class App
             'Keywords' => $metadata->getKeywords(),
             'Camera Make' => $metadata->getMake(),
             'Camera Model' => $metadata->getModel(),
+            'Lens' => $metadata->getLens(),
             'Date taken' => $metadata->getDateTaken(),
-            'Date creation' => $metadata->getDate(),
-            'Date modification' => $metadata->getDateFile(),
+            'Date created' => $metadata->getDate(),
+            'Date modified' => $metadata->getDateFile(),
             'Shutterspeed' => $metadata->getFormattedShutterSpeed($metadata->getShutterSpeed()),
             'Aperture' => $metadata->getFormattedAperture($metadata->getAperture()),
             'ISO' => $metadata->getIso(),

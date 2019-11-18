@@ -210,21 +210,11 @@ class Metadata
         return false;
     }
 
-    public function getTakenDateFormatted()
-    {
-        $text = strftime('%c', $this->exif['FileDateTime']);
-        $text .= '-' . $this->exif['DateTime'];
-        $text .= '-' . $this->exif['DateTimeOriginal'];
-        $text .= '-' . $this->exif['DateTimeDigitized'];
-
-        return $text;
-    }
-
     function getGpsData()
     {
-        if ($this->exif["GPSLongitude"] && $this->exif["GPSLatitude"]) {
-            $lon = $this->getGps($this->exif["GPSLongitude"], $this->exif['GPSLongitudeRef']);
-            $lat = $this->getGps($this->exif["GPSLatitude"], $this->exif['GPSLatitudeRef']);
+        if ($this->exif['GPSLongitude'] && $this->exif['GPSLatitude']) {
+            $lon = $this->getGps($this->exif['GPSLongitude'], $this->exif['GPSLongitudeRef']);
+            $lat = $this->getGps($this->exif['GPSLatitude'], $this->exif['GPSLatitudeRef']);
             return [$lat, $lon];
         }
 
@@ -240,7 +230,6 @@ class Metadata
         $flip = ($hemi == 'W' or $hemi == 'S') ? -1 : 1;
 
         return $flip * ($degrees + $minutes / 60 + $seconds / 3600);
-
     }
 
     protected function gps2Num($coordPart) {
@@ -255,5 +244,4 @@ class Metadata
 
         return floatval($parts[0]) / floatval($parts[1]);
     }
-
 }
