@@ -11,7 +11,7 @@ class App
     protected $setting;
     protected $parts;
 
-    protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info', 'info_detail', 'rotate'];
+    protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info', 'rotate'];
 
     function __construct()
     {
@@ -397,43 +397,16 @@ class App
             'ISO' => $metadata->getIso(),
             'Focal Length' => $metadata->getFormattedFocalLength($metadata->getFocalLength()),
             'GPS' => $metadata->getGpsData(),
-            'Exposure Mode' => $metadata->getExposureMode(),
-            'Exposure Program' => $metadata->getExposureProgram(),
-            'File Size' => $metadata->getFileSize(),
+            'Exposure' => trim($metadata->getExposureMode() . ', ' . $metadata->getExposureProgram(), ', '),
             'File Date' => $metadata->getDateFile(),
+            'Orignal File Size' => $metadata->getFileSize(),
             'Original dimensions' => $metadata->getHeight() > 0 && $metadata->getWidth() > 0 ? $metadata->getHeight() . ' x ' . $metadata->getWidth() : false
-
         ];
 
         $response['data'] = $data;
 
         echo json_encode($response);
         exit;
-    }
-
-    function renderInfoDetail()
-    {
-        unset($this->parts[1]);
-        $file = new \Ldg\Model\Image(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
-
-        if (!$file->fileExists() || !$file->isValidPath()) {
-            echo json_encode(['result' => false, 'error' => 'File ' . $file->getPath() . 'could not be found']);
-            exit;
-        }
-
-        $metadata = $file->getMetadata();
-
-        echo '<body style="margin: 0; padding: 0; background: #000;">';
-        echo '<pre style="background: #222; color: #ddd; padding: 10px;">';
-        echo '<h1 style="margin: 0;">EXIF</h1>';
-        var_dump($metadata->getRawExifData());
-        echo '</pre>';
-        echo '<pre style="background: #333; color: #aaa; padding: 10px;">';
-        echo '<h1 style="margin: 0;">IPTC</h1>';
-        var_dump($metadata->getRawIptcData());
-        echo '</pre>';
-        echo '</body>';
-        die();
     }
 
     function renderRotate()
