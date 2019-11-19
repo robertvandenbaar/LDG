@@ -211,6 +211,10 @@ h1, h2, h3, h4 {
 	background: linear-gradient(0deg, rgba(17,17,17,1) 0%, rgba(31,31,31,1) 90%);
 }
 
+#search #q {
+	outline: none;
+}
+
 #search #q.search_active {
 	border-color: #175cc4;
 	background: #163c5b;

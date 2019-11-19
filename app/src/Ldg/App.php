@@ -382,8 +382,7 @@ class App
 
         $response = [
             'result' => true,
-            'filename' => $file->getName(),
-            'folder' => $file->getFolderName(),
+            'file' => trim($file->getFolderName(), '/') . '/' . $file->getName(),
             'link_to_full_exif' => $file->getInfoDetailUrl()
         ];
 
@@ -398,8 +397,12 @@ class App
             'Shutterspeed' => $metadata->getFormattedShutterSpeed($metadata->getShutterSpeed()),
             'Aperture' => $metadata->getFormattedAperture($metadata->getAperture()),
             'ISO' => $metadata->getIso(),
-            'Focal Length' => $metadata->getFocalLength(),
-            'GPS' => $metadata->getGpsData()
+            'Focal Length' => $metadata->getFormattedFocalLength($metadata->getFocalLength()),
+            'GPS' => $metadata->getGpsData(),
+            'Exposure Mode' => $metadata->getExposureMode(),
+            'Exposure Program' => $metadata->getExposureProgram(),
+            'File size' => $metadata->getFileSize(),
+            'Original dimensions' => $metadata->getHeight() > 0 && $metadata->getWidth() > 0 ? $metadata->getHeight() . ' x ' . $metadata->getWidth() : false
 
         ];
 
