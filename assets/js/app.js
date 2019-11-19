@@ -132,7 +132,7 @@ $(document).ready(function()
                             val = val.join(', ');
                         }
 
-                        if (key.indexOf('File size') !== -1 && val > 0) {
+                        if (key.indexOf('File Size') !== -1 && val > 0) {
                             val = bytesToSize(val);
                         }
 

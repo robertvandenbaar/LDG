@@ -267,9 +267,22 @@ class Metadata
 
     public function getDateFile()
     {
-        if (isset($this->exif['FileDateTime'])) {
-            return $this->exif['FileDateTime'];
+        $date1 = 0;
+        if (isset($this->exif['FileDateTime']) && $this->exif['FileDateTime'] > 0) {
+            $date1 = $this->exif['FileDateTime'];
+
         }
+        $date2 = 0;
+        if (isset($this->exif['DateTime'])) {
+            $date2 = strtotime($this->exif['DateTime']);
+        }
+
+        $date = max($date1, $date2);
+
+        if ($date > 0) {
+            return $date;
+        }
+
         return false;
     }
 

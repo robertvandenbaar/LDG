@@ -392,8 +392,6 @@ class App
             'Camera Model' => $metadata->getModel(),
             'Lens' => $metadata->getLens(),
             'Date taken' => $metadata->getDateTaken(),
-            'Date created' => $metadata->getDate(),
-            'Date modified' => $metadata->getDateFile(),
             'Shutterspeed' => $metadata->getFormattedShutterSpeed($metadata->getShutterSpeed()),
             'Aperture' => $metadata->getFormattedAperture($metadata->getAperture()),
             'ISO' => $metadata->getIso(),
@@ -401,7 +399,8 @@ class App
             'GPS' => $metadata->getGpsData(),
             'Exposure Mode' => $metadata->getExposureMode(),
             'Exposure Program' => $metadata->getExposureProgram(),
-            'File size' => $metadata->getFileSize(),
+            'File Size' => $metadata->getFileSize(),
+            'File Date' => $metadata->getDateFile(),
             'Original dimensions' => $metadata->getHeight() > 0 && $metadata->getWidth() > 0 ? $metadata->getHeight() . ' x ' . $metadata->getWidth() : false
 
         ];
