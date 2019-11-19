@@ -286,14 +286,6 @@ class Metadata
         return false;
     }
 
-    public function getDate()
-    {
-        if (isset($this->exif['DateTime'])) {
-            return strtotime($this->exif['DateTime']);
-        }
-        return false;
-    }
-
     function getGpsData()
     {
         if ($this->exif['GPSLongitude'] && $this->exif['GPSLatitude']) {

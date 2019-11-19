@@ -141,8 +141,6 @@ $(document).ready(function()
                         responseHtml.append($('<tr/>', {html: items.join('')}));
                     });
 
-                    responseHtml.append('<tr><td></td><td><a target="_blank" href="' + result.link_to_full_exif + '">Show full metadata (technical)</a></td></tr>');
-
                 }
                 else {
                     responseHtml.append('<tr><td colspan="2">No additional information could be retrieved</td></tr>');
