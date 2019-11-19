@@ -63,6 +63,38 @@ class Metadata
         return false;
     }
 
+    public function getExposureMode()
+    {
+        $modes = [
+            0 => 'Auto exposure',
+            1 => 'Manual exposure',
+            2 => 'Auto bracket',
+        ];
+        if (isset($this->exif['ExposureMode']) && isset($modes[$this->exif['ExposureMode']])) {
+            return $modes[$this->exif['ExposureMode']];
+        }
+        return false;
+    }
+
+    public function getExposureProgram()
+    {
+        $programs = [
+            0 => 'Not defined',
+            1 => 'Manual',
+            2 => 'Normal program',
+            3 => 'Aperture priority',
+            4 => 'Shutter priority',
+            5 => 'Creative program',
+            6 => 'Action program',
+            7 => 'Portrait mode',
+            8 => 'Landscape mode',
+        ];
+        if (isset($this->exif['ExposureProgram']) && isset($programs[$this->exif['ExposureProgram']])) {
+            return $programs[$this->exif['ExposureProgram']];
+        }
+        return false;
+    }
+
     // maybe just Canon, idk
     public function getLens()
     {
@@ -177,12 +209,51 @@ class Metadata
         return false;
     }
 
+    public function getFormattedFocalLength($length)
+    {
+        if (!$length) {
+            return false;
+        }
+
+        return $length . ' mm';
+    }
+
     public function getRawIptcData()
     {
         if ($this->iptc) {
             return $this->iptc;
         }
 
+        return false;
+    }
+
+    public function getFileSize()
+    {
+        if (isset($this->exif['FileSize'])) {
+            return $this->exif['FileSize'];
+        }
+        return false;
+    }
+
+    public function getWidth()
+    {
+        if (isset($this->exif['ImageWidth'])) {
+            return $this->exif['ImageWidth'];
+        }
+        if (isset($this->exif['COMPUTED']) && isset($this->exif['COMPUTED']['Width'])) {
+            return $this->exif['COMPUTED']['Width'];
+        }
+        return false;
+    }
+
+    public function getHeight()
+    {
+        if (isset($this->exif['ImageLength'])) {
+            return $this->exif['ImageLength'];
+        }
+        if (isset($this->exif['COMPUTED']) && isset($this->exif['COMPUTED']['Height'])) {
+            return $this->exif['COMPUTED']['Height'];
+        }
         return false;
     }
 

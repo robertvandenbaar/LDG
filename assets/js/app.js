@@ -110,8 +110,7 @@ $(document).ready(function()
 
             if (result.result == true) {
                 var responseHtml = $('<table/>');
-                responseHtml.append('<tr><td>Filename</td><td>' + result.filename + '</td></tr>');
-                responseHtml.append('<tr><td>Folder</td><td>' + result.folder + '</td></tr>');
+                responseHtml.append('<tr><td>File</td><td>' + result.file + '</td></tr>');
 
                 var data = result.data;
 
@@ -120,7 +119,7 @@ $(document).ready(function()
                     {
                         var items = [];
 
-                        if (key.indexOf('Date') !== -1) {
+                        if (key.indexOf('Date') !== -1 && val != false) {
                             dateObj = new Date(val * 1000);
                             val = dateObj.toLocaleDateString() + ' ' + dateObj.toLocaleTimeString();
                         }
@@ -131,6 +130,10 @@ $(document).ready(function()
 
                         if (key.indexOf('Keywords') !== -1 && val != false && val.length > 0) {
                             val = val.join(', ');
+                        }
+
+                        if (key.indexOf('File size') !== -1 && val > 0) {
+                            val = bytesToSize(val);
                         }
 
                         items.push('<td>' + key + '</td>');
@@ -459,4 +462,11 @@ $(document).ready(function()
     }
 
     updateFullSizeButton();
+
+    function bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    }
 });
