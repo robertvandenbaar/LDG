@@ -79,7 +79,6 @@ class Metadata
     public function getExposureProgram()
     {
         $programs = [
-            0 => 'Not defined',
             1 => 'Manual',
             2 => 'Normal program',
             3 => 'Aperture priority',
