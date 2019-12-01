@@ -51,15 +51,11 @@ $(document).ready(function()
             imageSourceRotate += '?invert';
         }
 
-        var jqxhr = $.ajax(imageSourceRotate).done(function(content)
-        {
+        $.ajax(imageSourceRotate).done(function(content) {
 
             $('#slider img').attr('src', updateTimestamp(imageSourceDetail));
 
-            var result = JSON.parse(content);
-
-            $('.images .image').each(function()
-            {
+            $('.images .image').each(function() {
                 var linkHref = stripQuery($(this).attr('href'));
 
                 if (linkHref == imageSource) {
@@ -288,20 +284,19 @@ $(document).ready(function()
         $('#overlay #slider img').attr('src', window.appRoot + '/assets/images/loading.gif');
     }
 
-    $('#slider').touchwipe({
-        wipeLeft: function() {
-            showNextImage();
+    $("#slider").swipe( {
+
+        swipe:function(event, direction, distance, duration, fingerCount) {
+            if (fingerCount == 1) {
+                if (direction == 'left' ) {
+                    showNextImage();
+                }
+                if (direction == 'right') {
+                    showPreviousImage();
+                }
+            }
         },
-        wipeRight: function() {
-            showPreviousImage();
-        },
-            wipeUp: function() {
-        },
-        wipeDown: function() {
-        },
-        min_move_x: 10,
-        min_move_y: 10,
-        preventDefaultEvents: true,
+        fingers:$.fn.swipe.fingers.ONE
     });
 
     $(document).keydown(function(e)
@@ -401,7 +396,7 @@ $(document).ready(function()
             console.log('Request for generation thumbnail failed');
         }).always(function()
         {
-            //alert( "complete" );
+            //console.log( "complete" );
         });
     }
 

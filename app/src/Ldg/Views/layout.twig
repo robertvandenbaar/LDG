@@ -3,16 +3,26 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Photos</title>
-	<meta name="viewport" content="initial-scale=1.0, width=device-width" />
-	<link rel="stylesheet" href="{{ base_url }}/assets/css/style.css?v=5">
+	<meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes" />
 	<script src="{{ base_url }}/assets/js/jquery-3.3.1.min.js"></script>
+
+	<!--
 	<script type="text/javascript" src="{{ base_url }}/assets/js/jquery.touchwipe.min.js"></script>
-	<script type="text/javascript" src="{{ base_url }}/assets/js/app.js?v=5"></script>
+	-->
+
+	<script type="text/javascript" src="{{ base_url }}/assets/js/jquery.touchSwipe.js"></script>
+
+	<script type="text/javascript">
+		var version = Math.random().toString().replace('.', '');
+		document.write('<link rel="stylesheet" href="{{ base_url }}/assets/css/style.css?v=' + version +'">');
+		document.write('<script type="text/javascript" src="{{ base_url }}/assets/js/app.js?v=' + version +'"><\/script>');
+	</script>
+
 	<link rel="apple-touch-icon" sizes="180x180" href="{{ base_url }}/assets/images/favicon/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="{{ base_url }}/assets/images/favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="{{ base_url }}/assets/images/favicon/favicon-16x16.png">
 </head>
-<body>
+<body id="body">
 <div id="page">
 	{% block content %}
 	{% endblock %}
