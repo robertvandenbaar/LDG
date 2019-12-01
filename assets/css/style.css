@@ -268,8 +268,9 @@ a.folder {
 	background : #333;
 	color : #ddd;
 	padding-left : 10px;
-	line-height : 32px;
-	height : 32px;
+	font-size: 1.1em;
+	line-height : 34px;
+	height : 34px;
 	overflow : hidden;
 	margin-bottom : 2px;
 }
@@ -363,7 +364,7 @@ a.image img {
 #slider {
 	display : inline-block;
 	vertical-align : middle;
-	height : 90%;
+	height : 100%;
 	width : 100%;
 	position : relative;
 	text-align : center;
@@ -378,13 +379,13 @@ a.image img {
 	right : 0;
 	margin : auto;
 	user-select : none;
-	max-height : 90%;
+	max-height : 100%;
 	max-width : 100%;
-	transition : transform 2.9s ease;
 }
 
 #image-nav {
-	height : 10%;
+	height: 50px;
+	border-bottom: 1px solid #000;
 }
 
 #image-nav div {
@@ -442,23 +443,25 @@ a.image img {
 	height : 100%;
 	width : 72%;
 	background : #222;
+	border: 1px solid #111;
+	border-top: none;
 }
 
 #info #info_inner {
 	width : 100%;
 	height : 100%;
-	margin-top : 45px;
+	margin-top : 49px;
 }
 
 #info #info_close {
 	position : fixed;
-	right : 20px;
-	top : 10px;
+	right : 26px;
+	top : 15px;
 	z-index : 28;
 	background-image : url('../images/svg/close.svg?v=12');
 	background-position : center;
-	width : 24px;
-	height : 24px;
+	width : 20px;
+	height : 20px;
 	background-size : auto 100%;
 }
 
@@ -473,7 +476,7 @@ a.image img {
 }
 
 #info table tr td {
-	border-top : 1px solid #444;
+	border-top : 1px solid #111;
 	padding : 10px;
 }
 
@@ -524,6 +527,17 @@ a.image img {
 	margin-right: 20px;
 }
 
+#log {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 100px;
+	background: #c00;
+	color: #FFF;
+	z-index: 9999999999;
+}
+
 @media screen and (max-width:800px) {
 	body {
 		padding : 0;
@@ -539,6 +553,36 @@ a.image img {
 
 	#navigation {
 		padding-bottom: 0;
+	}
+
+	#image-nav div#image-nav-size {
+		width : 16.5%;
+	}
+
+	#image-nav div#image-nav-info {
+		width : 16.5%;
+	}
+
+	#image-nav div#image-nav-rotate {
+		width : 16.5%;
+	}
+
+	#image-nav div#image-nav-prev {
+		width : 16.5%;
+	}
+
+	#image-nav div#image-nav-next {
+		width : 16.5%;
+	}
+
+	#image-nav div#image-nav-close {
+		width : 17.5%;
+	}
+
+	a.folder {
+		line-height : 40px;
+		height : 40px;
+		font-size: 1.2em;
 	}
 
 }
