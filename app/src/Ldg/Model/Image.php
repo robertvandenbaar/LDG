@@ -151,7 +151,7 @@ class Image extends File
             'lens' => $meta->getLens(),
         ];
 
-        $search->setEntry($this->getRelativeLocation(), $data, $metadata);
+        $search->setEntry($this->getRelativeLocation(), $data, __CLASS__, $metadata);
     }
 
     public function updateDetail($updateCurrent = false, $fixedRotate = null)
