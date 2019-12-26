@@ -47,9 +47,9 @@ class Search
 
     }
 
-    function setEntry($key, $value, $metadata = [])
+    function setEntry($key, $value, $type, $metadata = [])
     {
-        $data = array_merge(['search_data' => $value, 'metadata' => $metadata]);
+        $data = array_merge(['search_data' => $value, 'type' => $type, 'metadata' => $metadata]);
 
         $this->index[$key] = $data;
     }
@@ -173,9 +173,16 @@ class Search
         return $dateA > $dateB ? -1 : 1;
     }
 
-    function getLatestFiles($limit = 20)
+    function getLatestImages($limit = 20)
     {
         $sortedIndex = $this->index;
+
+        $sortedIndex = array_filter($sortedIndex, function($element) {
+            if (isset($element['type'])) {
+                return $element['type'] == Image::class;
+            }
+            return true;
+        });
 
         uasort($sortedIndex, [$this, 'sortByDateTaken']);
 

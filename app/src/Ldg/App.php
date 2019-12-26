@@ -258,7 +258,7 @@ class App
 
         if (count($images) == 0 && count($this->parts) == 0) {
             $index = new \Ldg\Search();
-            $latestImages = $index->getLatestFiles();
+            $latestImages = $index->getLatestImages();
         }
 
         $images = array_slice($images, ($this->getPage() - 1) * $imagesPerPage, $imagesPerPage);
