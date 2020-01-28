@@ -435,4 +435,15 @@ $(document).ready(function()
         var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
         return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
     }
+
+    $('.play-video').on('click', function(){
+        $('#video_overlay').show();
+        $('#video_overlay video').attr('src', $(this).attr('data-url'));
+    });
+
+    $('#video-nav-close').on('click', function() {
+        $('#video_overlay').hide();
+        $('#video_overlay video').attr('src', '');
+    })
+
 });

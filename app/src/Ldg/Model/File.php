@@ -70,13 +70,25 @@ class File
     {
         $path = realpath($this->path);
 
-        $lengthBaseDir = strlen(\Ldg\Setting::get('image_base_dir'));
-
-        if (substr($path, 0, $lengthBaseDir) != \Ldg\Setting::get('image_base_dir')) {
-            return false;
+        $symlinkedDirs = \Ldg\Setting::get('symlinked_directories');
+        if (empty($symlinkedDirs)) {
+            $symlinkedDirs = [];
+        } else {
+            $symlinkedDirs = (array)$symlinkedDirs;
         }
 
-        return true;
+        $allowedPaths = [];
+        $allowedPaths[] = \Ldg\Setting::get('image_base_dir');
+        $allowedPaths = array_merge($allowedPaths, $symlinkedDirs);
+
+        foreach ($allowedPaths as $allowedPath) {
+
+            if (substr($path, 0, strlen($allowedPath)) == $allowedPath) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function updateIndex(\Ldg\Search $search)
