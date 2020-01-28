@@ -297,7 +297,7 @@ div.other-files {
 	padding-bottom: 8px;
 }
 
-a.other-file {
+a.other-file, div.video-links {
 	text-decoration : none;
 	display : block;
 	background : #333;
@@ -312,6 +312,10 @@ a.other-file {
 	background-position: top right;
 	background-size: 30px;
 	background-repeat: no-repeat;
+}
+
+div.video-links {
+	background-image: none !important;
 }
 
 
@@ -337,7 +341,7 @@ a.image img {
 	display: block;
 }
 
-#overlay {
+#overlay, #video_overlay {
 	display : none;
 	background : #111;
 	width : 100%;
@@ -361,7 +365,11 @@ a.image img {
 	user-select : none;
 }
 
-#slider {
+#video_overlay_container {
+	width: 800px; height: 500px; margin: 0 auto;
+}
+
+#slider, #video_player {
 	display : inline-block;
 	vertical-align : middle;
 	height : 100%;
@@ -431,6 +439,29 @@ a.image img {
 	width : 25%;
 	background-image : url('../images/svg/close.svg');
 }
+
+#video-nav {
+	height: 50px;
+	border-bottom: 1px solid #000;
+	background-color: #2a2a2a;
+}
+
+#video-nav div {
+	height : 100%;
+	background-color: #2a2a2a;
+	background-size : auto 40%;
+	background-repeat : no-repeat;
+	background-position : center;
+	float : left;
+	cursor : pointer;
+}
+
+#video-nav div#video-nav-close {
+	width : 25%;
+	float: right;
+	background-image : url('../images/svg/close.svg');
+}
+
 
 #info {
 	overflow-y : scroll;

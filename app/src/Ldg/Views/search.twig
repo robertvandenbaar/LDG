@@ -18,6 +18,17 @@
 			</p>
 		{% endif %}
 
+		{% if videos|length > 0 %}
+			<p class="search-count">Found {{ videos|length }} video{% if videos|length != 1 %}s{% endif %}</p>
+			{% for video in videos %}
+				<div class="video-links">
+					<a href="{{ video.originalUrl }}">Download</a>
+					<a href="#" class="play-video" data-url="{{ video.playUrl }}">Play</a>
+					{{ video.name }}
+				</div>
+			{% endfor %}
+		{% endif %}
+
 		{% if other_files|length > 0 %}
 			<p class="search-count">Found {{ other_files|length }} regular file{% if other_files|length != 1 %}s{% endif %}</p>
 			<div class="other-files">

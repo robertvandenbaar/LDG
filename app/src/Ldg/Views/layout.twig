@@ -23,42 +23,53 @@
 	<link rel="icon" type="image/png" sizes="16x16" href="{{ base_url }}/assets/images/favicon/favicon-16x16.png">
 </head>
 <body id="body">
-<div id="page">
-	{% block content %}
-	{% endblock %}
+	<div id="page">
+		{% block content %}
+		{% endblock %}
 
-</div>
-<script type="text/javascript">
-	window.appRoot = "{{ base_url }}";
-	window.fullSize = "{{ full_size }}";
-</script>
-<div id="overlay">
+	</div>
+	<script type="text/javascript">
+		window.appRoot = "{{ base_url }}";
+		window.fullSize = "{{ full_size }}";
+	</script>
+	<div id="overlay">
 
-	<div id="container">
-		<div id="image-nav">
-			<div id="image-nav-size" title="Change size" {% if full_size %} class="active" {% endif %}>
+		<div id="container">
+			<div id="image-nav">
+				<div id="image-nav-size" title="Change size" {% if full_size %} class="active" {% endif %}>
+				</div>
+				<div id="image-nav-info" title="Information">
+				</div>
+				<div id="image-nav-rotate" title="Rotate the image, use CTRL/CMD click to rotate counter clockwise">
+				</div>
+				<div id="image-nav-prev" title="Previous image">
+				</div>
+				<div id="image-nav-next" title="Next image">
+				</div>
+				<div id="image-nav-close" title="Close">
+				</div>
 			</div>
-			<div id="image-nav-info" title="Information">
+			<div id="slider">
+				<img src="{{ base_url }}/assets/images/loading.gif" alt="Loading" />
 			</div>
-			<div id="image-nav-rotate" title="Rotate the image, use CTRL/CMD click to rotate counter clockwise">
-			</div>
-			<div id="image-nav-prev" title="Previous image">
-			</div>
-			<div id="image-nav-next" title="Next image">
-			</div>
-			<div id="image-nav-close" title="Close">
-			</div>
-		</div>
-		<div id="slider">
-			<img src="{{ base_url }}/assets/images/loading.gif" alt="Loading" />
-		</div>
-		<div id="info">
-			<div id="info_close"></div>
-			<div id="info_inner">
+			<div id="info">
+				<div id="info_close"></div>
+				<div id="info_inner">
 
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-</body>
+	<div id="video_overlay" style="display: none;">
+		<div id="video-nav">
+			<div id="video-nav-close" title="Close">
+			</div>
+		</div>
+		<div id="video_overlay_container">
+			<video style="height: auto; max-height: 500px; width: 100%;" id="video_player" controls>
+				<source src="" type="video/mp4">
+			</video>
+		</div>
+	</div>
+	</body>
 </html>
