@@ -446,4 +446,8 @@ $(document).ready(function()
         $('#video_overlay video').attr('src', '');
     })
 
+    $('#search-files-header').on('click', function(){
+       $('#search-files-container').toggle();
+    });
+
 });

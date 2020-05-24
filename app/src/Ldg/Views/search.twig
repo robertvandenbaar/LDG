@@ -7,6 +7,29 @@
 
 	<div id="navigation">
 
+		{% if videos|length > 0 or other_files|length > 0 %}
+			<div id="search-files-header"><p class="search-count action">Show {{ videos|length + other_files|length }} file{% if videos|length + other_files|length != 1 %}s{% endif %}</p></div>
+			<div id="search-files-container">
+				{% if videos|length > 0 %}
+					{% for video in videos %}
+						<div class="video-links">
+							<a href="{{ video.originalUrl }}">Download</a>
+							<a href="#" class="play-video" data-url="{{ video.playUrl }}">Play</a>
+							{{ video.name }}
+						</div>
+					{% endfor %}
+				{% endif %}
+
+				{% if other_files|length > 0 %}
+					<div class="other-files">
+						{% for other_file in other_files %}
+							<a class="other-file" href="{{ other_file.originalUrl }}">{{ other_file.name }}</a>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+		{% endif %}
+
 		{% if total_nr_images > 0 %}
 			<p class="search-count">Found {{ total_nr_images }} image{% if images|length != 1 %}s{% endif %}</p>
 		{% else %}
@@ -16,26 +39,6 @@
 					Check if cron is enabled.
 				{% endif %}
 			</p>
-		{% endif %}
-
-		{% if videos|length > 0 %}
-			<p class="search-count">Found {{ videos|length }} video{% if videos|length != 1 %}s{% endif %}</p>
-			{% for video in videos %}
-				<div class="video-links">
-					<a href="{{ video.originalUrl }}">Download</a>
-					<a href="#" class="play-video" data-url="{{ video.playUrl }}">Play</a>
-					{{ video.name }}
-				</div>
-			{% endfor %}
-		{% endif %}
-
-		{% if other_files|length > 0 %}
-			<p class="search-count">Found {{ other_files|length }} regular file{% if other_files|length != 1 %}s{% endif %}</p>
-			<div class="other-files">
-				{% for other_file in other_files %}
-					<a class="other-file" href="{{ other_file.originalUrl }}">{{ other_file.name }}</a>
-				{% endfor %}
-			</div>
 		{% endif %}
 
 	</div>
