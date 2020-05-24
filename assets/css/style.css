@@ -249,6 +249,10 @@ h1, h2, h3, h4 {
 	margin-top: 0;
 }
 
+#navigation p.search-count.action {
+	background: #222;
+}
+
 #content {
 	padding: 10px 10px 10px 0;
 }
@@ -567,6 +571,10 @@ a.image img {
 	background: #c00;
 	color: #FFF;
 	z-index: 9999999999;
+}
+
+#search-files-container {
+	display: none;
 }
 
 @media screen and (max-width:800px) {
