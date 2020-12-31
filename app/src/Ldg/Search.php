@@ -81,7 +81,7 @@ class Search
             return true;
         }
 
-        if (!isset($value['metadata']) || !isset($value['metadata'][$metadataProperty])) {
+        if (!isset($value['metadata']) || !isset($value['metadata'][$metadataProperty]) || strlen($value['metadata'][$metadataProperty]) == 0) {
             return false;
         }
 
