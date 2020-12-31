@@ -9,6 +9,14 @@ class Search
     protected $index = null;
     protected $indexFile = null;
 
+    public $filters = [
+        'camera' => 'model',
+        'lens' => 'lens',
+        'year' => 'date_taken',
+        'month' => 'date_taken',
+        'day' => 'date_taken',
+    ];
+
     function __construct($indexFile = null)
     {
         if ($indexFile === null) {
@@ -56,7 +64,8 @@ class Search
 
     public function hasFilter()
     {
-        $filters = ['camera', 'limit_to_keyword_search'];
+        $filters = array_keys($this->filters);
+        $filters[] = 'limit_to_keyword_search';
 
         foreach ($filters as $filter) {
             if (isset($_REQUEST[$filter]) && strlen($_REQUEST[$filter]) > 0) {
@@ -68,16 +77,30 @@ class Search
 
     function matchesMetadataFilter($value, $requestParameter, $metadataProperty)
     {
-        if (!isset($_REQUEST[$requestParameter])) {
-            return true;
-        }
-
-        if ( strlen($_REQUEST[$requestParameter]) == 0) {
+        if (!isset($_REQUEST[$requestParameter]) || strlen($_REQUEST[$requestParameter]) == 0) {
             return true;
         }
 
         if (!isset($value['metadata']) || !isset($value['metadata'][$metadataProperty])) {
             return false;
+        }
+
+        if (in_array($requestParameter, ['year', 'month', 'day'])) {
+
+            switch ($requestParameter) {
+                case 'year':
+                    return date('Y', $value['metadata'][$metadataProperty]) == $_REQUEST[$requestParameter];
+                    break;
+                case 'month':
+                    return date('m', $value['metadata'][$metadataProperty]) == $_REQUEST[$requestParameter];
+                    break;
+                case 'day':
+                    return date('d', $value['metadata'][$metadataProperty]) == $_REQUEST[$requestParameter];
+                    break;
+                default:
+                    return false;
+                    break;
+            }
         }
 
         if ($value['metadata'][$metadataProperty] == $_REQUEST[$requestParameter]) {
@@ -110,12 +133,10 @@ class Search
                 $searchValue .= $key;
             }
 
-            if (!$this->matchesMetadataFilter($value,'camera', 'model')) {
-                continue;
-            }
-
-            if (!$this->matchesMetadataFilter($value,'lens', 'lens')) {
-                continue;
+            foreach ($this->filters as $requestParam => $filter) {
+                if (!$this->matchesMetadataFilter($value, $requestParam, $filter)) {
+                    continue 2;
+                }
             }
 
             if (!empty($words)) {
