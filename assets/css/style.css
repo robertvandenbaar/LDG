@@ -229,7 +229,12 @@ h1, h2, h3, h4 {
 }
 
 #search select {
-	width: 200px;
+	width: 240px;
+	padding: 2px;
+}
+
+#search select.date {
+	width: 78px;
 	padding: 2px;
 }
 

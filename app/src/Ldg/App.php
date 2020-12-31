@@ -357,10 +357,10 @@ class App
             'breadcrumb_parts' => $breadCrumbParts,
             'pagination' => $pagination,
             'latest_images' => $latestImages,
-            'unique_cams' => $search->getUniqueCameras(),
-            'unique_lenses' => $search->getUniqueLenses(),
 
         ];
+
+        $variables = $variables + $this->getDefaultListVariables($search);
 
         if (count($this->parts) > 0) {
             $variables['folder_up'] = new \Ldg\Model\Folder(dirname($listBaseDir));
@@ -430,12 +430,11 @@ class App
             'index_count' => $index->getIndexCount(),
             'pagination' => $pagination,
             'total_nr_images' => $totalNrImages,
-            'unique_cams' => $index->getUniqueCameras(),
-            'unique_lenses' => $index->getUniqueLenses(),
-            'filter_active' => $index->hasFilter()
         ];
 
-        $forwardRequestParameters = ['q', 'limit_to_keyword_search', 'camera', 'lens'];
+        $variables = $variables + $this->getDefaultListVariables($index);
+
+        $forwardRequestParameters = ['q', 'limit_to_keyword_search', 'camera', 'lens', 'year', 'month', 'day'];
 
         foreach ($forwardRequestParameters as $parameter) {
             $variables[$parameter] = isset($_REQUEST[$parameter]) ? $_REQUEST[$parameter] : false;
@@ -443,6 +442,26 @@ class App
 
         echo $this->twig->render('search.twig', $variables);
 
+    }
+
+    public function getDefaultListVariables($index)
+    {
+        $years = range(2000, date('Y'));
+        $months = range(1,12);
+        $monthsNames = [];
+        foreach ($months as $month) {
+            $monthsNames[] = strftime('%b', mktime(1, 1, 1, $month, 1));
+        }
+        $days = range(1,31);
+        return [
+            'index_count' => $index->getIndexCount(),
+            'unique_cams' => $index->getUniqueCameras(),
+            'unique_lenses' => $index->getUniqueLenses(),
+            'filter_active' => $index->hasFilter(),
+            'years' => array_combine($years, $years),
+            'months' => array_combine($months, $monthsNames),
+            'days' => array_combine($days, $years),
+        ];
     }
 
     function getPage()
