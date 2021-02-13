@@ -21,6 +21,10 @@ h1, h2, h3, h4 {
 	padding: 2px 0 10px 0;
 }
 
+#this_day, .this_day_year {
+	padding-top: 10px;
+}
+
 #page {
 	display: grid;
 	grid-template-columns: 1fr 3fr;
