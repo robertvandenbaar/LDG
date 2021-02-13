@@ -194,7 +194,7 @@ class Search
         return $dateA > $dateB ? -1 : 1;
     }
 
-    function getLatestImages($limit = 20)
+    function getLatestImages($limit = 10)
     {
         $sortedIndex = $this->index;
 
@@ -216,6 +216,27 @@ class Search
         }
 
         return $return;
+
+    }
+
+    function getOnThisDay()
+    {
+        $images = [];
+        foreach ($this->index as $key => $item) {
+
+            if (!isset($item['metadata']) || !isset($item['metadata']['date_taken'])) {
+                continue;
+            }
+
+            if (date('m-d', $item['metadata']['date_taken']) != date('m-d')) {
+                continue;
+            }
+            $year = date('Y', $item['metadata']['date_taken']);
+            $images[$year][] = new Image($key);
+        }
+
+        krsort($images);
+        return $images;
 
     }
 

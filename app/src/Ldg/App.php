@@ -338,11 +338,13 @@ class App
         $pagination->currentPage = $this->getPage();
         $pagination->itemsPerPage = $imagesPerPage;
 
-        $latestImages = [];
+        $latestImages = $onThisDay = [];
 
         if (count($images) == 0 && count($this->parts) == 0) {
             $index = new \Ldg\Search();
             $latestImages = $index->getLatestImages();
+            
+            $onThisDay = $index->getOnThisDay();
         }
 
         $images = array_slice($images, ($this->getPage() - 1) * $imagesPerPage, $imagesPerPage);
@@ -357,6 +359,7 @@ class App
             'breadcrumb_parts' => $breadCrumbParts,
             'pagination' => $pagination,
             'latest_images' => $latestImages,
+            'on_this_day' => $onThisDay
 
         ];
 

@@ -54,6 +54,20 @@
 				{% endembed %}
 			{% endif %}
 
+			{% if on_this_day|length > 0 %}
+				<div id="this_day">
+					<h1>On this day</h1>
+
+					{% for year,yearImages in on_this_day %}
+						<div class="this_day_year">
+							<h2>{{ year }}</h2>
+							{% embed "images.twig" with {'images': yearImages} %}
+							{% endembed %}
+							</div>
+					{% endfor %}
+				</div>
+			{% endif %}
+
 		{% endif %}
 
 	</div>
