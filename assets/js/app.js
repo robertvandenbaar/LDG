@@ -254,7 +254,7 @@ $(document).ready(function()
 
     function hasPreviousImage()
     {
-        return window.currentImage > 1;
+        return window.currentImage > 0;
     }
 
     function showNextImage()
