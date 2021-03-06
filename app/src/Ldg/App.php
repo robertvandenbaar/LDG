@@ -59,7 +59,7 @@ class App
         $twig = new \Twig_Environment($loader);
         $twig->addGlobal('base_url', BASE_URL);
         $twig->addGlobal('full_size', $_SESSION['full-size']);
-        $twig->addGlobal('version_ts', time());
+        $twig->addGlobal('version_ts', filemtime(BASE_DIR . '/assets/js/app.js') + filemtime(BASE_DIR . '/assets/css/style.css'));
 
         $this->twig = $twig;
     }
