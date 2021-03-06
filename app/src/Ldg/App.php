@@ -59,6 +59,7 @@ class App
         $twig = new \Twig_Environment($loader);
         $twig->addGlobal('base_url', BASE_URL);
         $twig->addGlobal('full_size', $_SESSION['full-size']);
+        $twig->addGlobal('version_ts', time());
 
         $this->twig = $twig;
     }
@@ -463,7 +464,7 @@ class App
             'filter_active' => $index->hasFilter(),
             'years' => array_combine($years, $years),
             'months' => array_combine($months, $monthsNames),
-            'days' => array_combine($days, $years),
+            'days' => array_combine($days, $days),
         ];
     }
 

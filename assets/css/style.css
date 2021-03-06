@@ -159,7 +159,7 @@ h1, h2, h3, h4 {
 	cursor : pointer;
 	width : 36px;
 	height : 36px;
-	background-image : url('../images/svg/search.svg?=12');
+	background-image : url('../images/svg/search.svg');
 	background-position : center;
 }
 
