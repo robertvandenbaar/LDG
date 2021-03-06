@@ -55,7 +55,7 @@ $(document).ready(function()
 
             $('#slider img').attr('src', updateTimestamp(imageSourceDetail));
 
-            $('.images .image').each(function() {
+            $('a.image').each(function() {
                 var linkHref = stripQuery($(this).attr('href'));
 
                 if (linkHref == imageSource) {
@@ -191,7 +191,7 @@ $(document).ready(function()
             $(this).attr('src', imageSource);
         });
 
-        $('.images .image').each(function() {
+        $('a.image').each(function() {
             var linkHref = $(this).attr('href');
             linkHref = linkHref.replace(from, to);
             $(this).attr('href', linkHref);
@@ -209,28 +209,26 @@ $(document).ready(function()
 
     window.currentImage = 0;
     window.totalImages = 0;
+    window.images = $('a.image');
 
     function startGallery(a)
     {
         $('#overlay').show();
+
+        window.currentImage = 0;
+        var counter = 0;
+        window.images.each(function(){
+            if (a.attr('href') == $(this).attr('href')) {
+                window.currentImage = counter;
+            }
+            counter++;
+        });
 
         setTimeout(function() {
 
             setLoadingImage();
 
             $('#overlay #slider img').attr('src', a.attr('href'));
-
-            var counter = 0;
-
-            window.totalImages = $('.images .image').length;
-
-            $('.images .image').each(function() {
-                counter++;
-
-                if ($('#overlay #slider img').attr('src') == $(this).attr('href')) {
-                    window.currentImage = counter;
-                }
-            });
 
             $('#image-nav-next').css({'opacity': 1, 'cursor': 'pointer'});
             $('#image-nav-prev').css({'opacity': 1, 'cursor': 'pointer'});
@@ -251,7 +249,7 @@ $(document).ready(function()
 
     function hasNextImage()
     {
-        return window.currentImage < window.totalImages;
+        return window.currentImage < window.images.length-1;
     }
 
     function hasPreviousImage()
@@ -262,14 +260,14 @@ $(document).ready(function()
     function showNextImage()
     {
         if (hasNextImage()) {
-            startGallery($('.images .image:nth-child(' + (window.currentImage + 1) + ')'));
+            startGallery($('a.image').eq(window.currentImage + 1));
         }
     }
 
     function showPreviousImage()
     {
         if (hasPreviousImage()) {
-            startGallery($('.images .image:nth-child(' + (window.currentImage - 1) + ')'));
+            startGallery($('a.image').eq(window.currentImage - 1));
         }
     }
 
@@ -336,13 +334,13 @@ $(document).ready(function()
         closeGallery();
     });
 
-    $('.images .image').click(function(e) {
+    $('a.image').click(function(e) {
         e.preventDefault();
         startGallery($(this));
     });
 
     /* CREATE THUMBNAILS AFTER LOAD */
-    var imagesToGenerate = $('.images .image img[data-src]');
+    var imagesToGenerate = $('a.image img[data-src]');
 
     var thumbnailsFailed = [];
 
