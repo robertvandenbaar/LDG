@@ -8,7 +8,7 @@
 	<div id="navigation">
 
 		{% if videos|length > 0 or other_files|length > 0 %}
-			<div id="search-files-header"><p class="search-count action">Show {{ videos|length + other_files|length }} file{% if videos|length + other_files|length != 1 %}s{% endif %}</p></div>
+			<div id="search-files-header"><p class="search-count action">Show&nbsp;{{ videos|length + other_files|length }} file{% if videos|length + other_files|length != 1 %}s{% endif %}</p></div>
 			<div id="search-files-container">
 				{% if videos|length > 0 %}
 					{% for video in videos %}
