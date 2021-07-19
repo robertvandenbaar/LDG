@@ -12,7 +12,7 @@ class Metadata
         if (file_exists($path)) {
             $this->exif = @exif_read_data($path);
 
-            getimagesize($path, $info);
+            @getimagesize($path, $info);
 
             $arrData = array();
             if (isset($info['APP13'])) {
