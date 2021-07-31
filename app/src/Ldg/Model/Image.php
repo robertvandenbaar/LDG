@@ -149,6 +149,8 @@ class Image extends File
             'iso' => $meta->getIso(),
             'focal_length' => $meta->getFocalLength(),
             'lens' => $meta->getLens(),
+            'lat' => $meta->getGpsData() ? $meta->getGpsData()[0] : null,
+            'long' => $meta->getGpsData() ? $meta->getGpsData()[1] : null,
         ];
 
         $search->setEntry($this->getRelativeLocation(), $data, __CLASS__, $metadata);
