@@ -287,4 +287,17 @@ class Search
         asort($lenses);
         return $lenses;
     }
+
+    public function getImagesWithGeo()
+    {
+        $images = [];
+        foreach ($this->index as $key => $item) {
+            if ($item['metadata']) {
+                if (isset($item['metadata']['lat']) && $item['metadata']['lat'] > 0) {
+                    $images[$key] = $item;
+                }
+            }
+        }
+        return $images;
+    }
 }

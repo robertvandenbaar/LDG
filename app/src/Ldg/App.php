@@ -11,7 +11,7 @@ class App
     protected $setting;
     protected $parts;
 
-    protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info', 'rotate', 'video_stream'];
+    protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info', 'rotate', 'video_stream', 'map_view'];
 
     function __construct()
     {
@@ -118,7 +118,21 @@ class App
             case 'video_stream':
                 $this->videoStream();
                 break;
+            case 'map_view':
+                $this->renderMap();
+                break;
+
         }
+    }
+
+    function renderMap()
+    {
+        $search = new Search();
+        $search->loadIndex();
+        $images = $search->getImagesWithGeo();
+
+        $variables = ['images' => $images];
+        echo $this->twig->render('map.twig', $variables);
     }
 
     function renderDetail()
@@ -341,11 +355,14 @@ class App
 
         $latestImages = $onThisDay = [];
 
+        $showMapLink = false;
+
         if (count($images) == 0 && count($this->parts) == 0) {
             $index = new \Ldg\Search();
             $latestImages = $index->getLatestImages();
             
             $onThisDay = $index->getOnThisDay();
+            $showMapLink = true;
         }
 
         $images = array_slice($images, ($this->getPage() - 1) * $imagesPerPage, $imagesPerPage);
@@ -360,8 +377,8 @@ class App
             'breadcrumb_parts' => $breadCrumbParts,
             'pagination' => $pagination,
             'latest_images' => $latestImages,
-            'on_this_day' => $onThisDay
-
+            'on_this_day' => $onThisDay,
+            'show_map_link' => $showMapLink
         ];
 
         $variables = $variables + $this->getDefaultListVariables($search);
