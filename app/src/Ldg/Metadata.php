@@ -287,7 +287,7 @@ class Metadata
 
     function getGpsData()
     {
-        if ($this->exif['GPSLongitude'] && $this->exif['GPSLatitude']) {
+        if (isset($this->exif['GPSLongitude']) && isset($this->exif['GPSLatitude'])) {
             $lon = $this->getGps($this->exif['GPSLongitude'], $this->exif['GPSLongitudeRef']);
             $lat = $this->getGps($this->exif['GPSLatitude'], $this->exif['GPSLatitudeRef']);
             return [$lat, $lon];
