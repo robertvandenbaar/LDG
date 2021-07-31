@@ -509,22 +509,22 @@ a.image img {
 	background-size : auto 100%;
 }
 
-#info table {
+#info table, #map_image_info table {
 	border-collapse : collapse;
 	width : 100%;
 }
 
-#info table tr th {
+#info table tr th, #map_image_info tr th {
 	padding : 10px;
 	text-align : left;
 }
 
-#info table tr td {
+#info table tr td, #map_image_info tr td {
 	border-top : 1px solid #111;
 	padding : 10px;
 }
 
-#info table tr:nth-child(odd) {
+#info table tr:nth-child(odd) , #map_image_info tr:nth-child(odd) {
 	background : #333;
 }
 
