@@ -355,14 +355,11 @@ class App
 
         $latestImages = $onThisDay = [];
 
-        $showMapLink = false;
-
         if (count($images) == 0 && count($this->parts) == 0) {
             $index = new \Ldg\Search();
             $latestImages = $index->getLatestImages();
             
             $onThisDay = $index->getOnThisDay();
-            $showMapLink = true;
         }
 
         $images = array_slice($images, ($this->getPage() - 1) * $imagesPerPage, $imagesPerPage);
@@ -378,7 +375,6 @@ class App
             'pagination' => $pagination,
             'latest_images' => $latestImages,
             'on_this_day' => $onThisDay,
-            'show_map_link' => $showMapLink
         ];
 
         $variables = $variables + $this->getDefaultListVariables($search);
