@@ -61,7 +61,7 @@
 					{% for year,yearImages in on_this_day %}
 						<div class="this_day_year">
 							<h2>{{ year }}</h2>
-							{% embed "images.twig" with {'images': yearImages} %}
+							{% embed "images.twig" with {'images': yearImages, 'source' : 'on_this_day'} %}
 							{% endembed %}
 							</div>
 					{% endfor %}
