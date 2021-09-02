@@ -15,24 +15,20 @@
 				<a class="folder" href="{{ folder.url }}">{{ folder.name }}</a>
 			{% endfor %}
 		</div>
-		<div class="videos">
-			{% if videos|length > 0 %}
-				<p class="other-file-header">Videos in this folder</p>
-				{% for video in videos %}
-					<div class="video-links">
-						<a href="{{ video.originalUrl }}">Download</a>
-						<a href="#" class="play-video" data-url="{{ video.playUrl }}">Play</a>
-						{{ video.name }}
-					</div>
-				{% endfor %}
-			{% endif %}
-		</div>
 		<div class="other-files">
 			{% if other_files|length > 0 %}
 				<p class="other-file-header">Files in this folder</p>
-				{% for other_file in other_files %}
-					<a class="other-file" href="{{ other_file.originalUrl }}">{{ other_file.name }}</a>
-				{% endfor %}
+				<div class="other-files">
+					{% for other_file in other_files %}
+						<div class="other-file">
+							<a class="file-name" href="{{ other_file.originalUrl }}">{{ other_file.name }}</a>
+							<a class="download-file" href="{{ other_file.originalUrl }}"></a>
+							{% if other_file.playable %}
+								<a class="play-video" href="#"  data-url="{{ other_file.playUrl }}"></a>
+							{% endif %}
+						</div>
+					{% endfor %}
+				</div>
 			{% endif %}
 		</div>
 	</div>
