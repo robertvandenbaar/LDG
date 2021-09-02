@@ -290,7 +290,7 @@ class App
             return;
         }
 
-        $folders = $images = $otherFiles = $videos = [];
+        $folders = $images = $otherFiles = [];
 
         $files = scandir($listBaseDir);
 
@@ -311,7 +311,7 @@ class App
                 if (in_array($extension, \Ldg\Setting::get('supported_extensions'))) {
                     $images[] = new \Ldg\Model\Image($fullPath);
                 } elseif (in_array($extension, \Ldg\Setting::get('supported_video_extensions'))) {
-                    $videos[] = new \Ldg\Model\Video($fullPath);
+                    $otherFiles[] = new \Ldg\Model\Video($fullPath);
                 } else {
                     $otherFiles[] = $file;
                 }
@@ -369,7 +369,6 @@ class App
         $variables = [
             'folders' => $folders,
             'images' => $images,
-            'videos' => $videos,
             'other_files' => $otherFiles,
             'breadcrumb_parts' => $breadCrumbParts,
             'pagination' => $pagination,
@@ -409,7 +408,7 @@ class App
         $index = new \Ldg\Search();
         $results = $index->search($_REQUEST['q']);
 
-        $images = $otherFiles = $videos = [];
+        $images = $otherFiles = [];
 
         foreach ($results as $path => $result) {
             $fullPath = \Ldg\Setting::get('image_base_dir') . $path;
@@ -422,7 +421,7 @@ class App
                 if (in_array($extension, \Ldg\Setting::get('supported_extensions'))) {
                     $images[] = new \Ldg\Model\Image($fullPath);
                 } elseif (in_array($extension, \Ldg\Setting::get('supported_video_extensions'))) {
-                    $videos[] = new \Ldg\Model\Video($fullPath);
+                    $otherFiles[] = new \Ldg\Model\Video($fullPath);
                 } else {
                     $otherFiles[] = $file;
                 }
@@ -442,7 +441,6 @@ class App
 
         $variables = [
             'images' => $images,
-            'videos' => $videos,
             'other_files' => $otherFiles,
             'index_count' => $index->getIndexCount(),
             'pagination' => $pagination,

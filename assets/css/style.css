@@ -310,7 +310,7 @@ div.other-files {
 	padding-bottom: 8px;
 }
 
-a.other-file, div.video-links {
+div.other-file, div.video-links {
 	text-decoration : none;
 	display : block;
 	background : #333;
@@ -321,10 +321,39 @@ a.other-file, div.video-links {
 	overflow : hidden;
 	margin-bottom : 2px;
 	border-radius: 3px;
+	/*background-image : url('../images/svg/download.svg');*/
+	/*background-position: top right;*/
+	/*background-size: 30px;*/
+	/*background-repeat: no-repeat;*/
+}
+
+.file-name {
+	min-width: 60%;
+	max-width: 200px;
+	overflow: hidden;
+	display: inline-block;
+}
+
+.download-file {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
 	background-image : url('../images/svg/download.svg');
 	background-position: top right;
 	background-size: 30px;
 	background-repeat: no-repeat;
+	float: right;
+}
+
+.play-video {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	background-image : url('../images/svg/play.svg');
+	background-position: center;
+	background-size: 20px;
+	background-repeat: no-repeat;
+	float: right;
 }
 
 div.video-links {
@@ -582,8 +611,27 @@ a.image img {
 	z-index: 9999999999;
 }
 
-#search-files-container {
-	display: none;
+a.download-link {
+	background-size : auto 100%;
+	cursor : pointer;
+	width : 24px;
+	height : 24px;
+	display: inline-block;
+	background-image : url('../images/svg/download.svg');
+	background-position : center;
+	vertical-align: center;
+
+}
+
+a.play-link {
+	background-size : auto 100%;
+	cursor : pointer;
+	width : 24px;
+	height : 24px;
+	display: inline-block;
+	background-image : url('../images/svg/play.svg');
+	background-position : center;
+	vertical-align: center;
 }
 
 @media screen and (max-width:800px) {
