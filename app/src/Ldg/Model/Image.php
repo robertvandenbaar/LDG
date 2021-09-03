@@ -62,11 +62,6 @@ class Image extends File
         }
     }
 
-    public function getInfoDetailUrl()
-    {
-        return BASE_URL . '/info_detail' . $this->getRelativeLocation();
-    }
-
     public function isThumbnailCurrent()
     {
         return file_exists($this->getThumbnailPath()) && $this->getFileModificationTime($this->getThumbnailPath()) >= $this->getFileModificationTime($this->getPath());
