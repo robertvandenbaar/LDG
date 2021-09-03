@@ -421,6 +421,10 @@ a.image img {
 	user-select : none;
 }
 
+#search-files-container {
+	display: none;
+}
+
 #slider img {
 	position : absolute;
 	top : 0;
