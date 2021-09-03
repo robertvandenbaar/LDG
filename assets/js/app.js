@@ -448,7 +448,17 @@ $(document).ready(function()
     })
 
     $('#search-files-header').on('click', function(){
-       $('#search-files-container').toggle();
+       $('#search-files-container').toggle(function(){
+
+           let textEl = $('#search-files-header .search-count');
+
+           if ($('#search-files-container').is(":visible")) {
+               textEl.html(textEl.html().replace('Show', 'Hide'))
+           } else {
+               textEl.html(textEl.html().replace('Hide', 'Show'))
+           }
+       });
+
     });
 
 });
