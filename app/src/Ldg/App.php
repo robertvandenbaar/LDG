@@ -11,7 +11,7 @@ class App
     protected $setting;
     protected $parts;
 
-    protected $actions = ['list', 'detail', 'original', 'asset', 'update_thumbnail', 'search', 'info', 'rotate', 'video_stream', 'map_view'];
+    protected $actions = ['list', 'detail', 'original', 'update_thumbnail', 'search', 'info', 'rotate', 'video_stream', 'map_view'];
 
     function __construct()
     {
@@ -108,9 +108,6 @@ class App
                 break;
             case 'info':
                 $this->renderInfo();
-                break;
-            case 'info_detail':
-                $this->renderInfoDetail();
                 break;
             case 'rotate':
                 $this->renderRotate();
@@ -505,7 +502,6 @@ class App
         $response = [
             'result' => true,
             'file' => trim($file->getFolderName(), '/') . '/' . $file->getName(),
-            'link_to_full_exif' => $file->getInfoDetailUrl()
         ];
 
         $data = [
