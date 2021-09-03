@@ -436,6 +436,9 @@ $(document).ready(function()
 
     $('.play-video').on('click', function(){
         $('#video_overlay').show();
+        if (!$('#video_container video').length) {
+            $('#video_overlay_container #video_container').append('<video class="video_player" style="height: auto; max-height: 500px; width: 100%; max-width: ' + $( window ).width() + 'px;" id="video_player" controls><source src="" type="video/mp4"></video>');
+        }
         $('#video_overlay video').attr('src', $(this).attr('data-url'));
     });
 
