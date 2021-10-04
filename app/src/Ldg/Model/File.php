@@ -49,7 +49,7 @@ class File
 
     public function getOriginalUrl()
     {
-        return BASE_URL . '/original' . $this->getRelativeLocation();
+        return BASE_URL_LDG . '/original' . $this->getRelativeLocation();
     }
 
     public function getUrl()

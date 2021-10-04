@@ -6,10 +6,10 @@ It generates a list of folders and images (and other files) as they exist on the
 When browsing the images they will be displayed in a light-box and can be browsed using buttons, 
 swipe actions on smart-phones and with the keys of your keyboard. The original files will only be
 read, no write actions are performed on the original files. For all images a smaller version of the 
-image will be generated (on the fly or using cron.php).
+image will be generated (on the fly or preferably using cron.php).
 
 ## Requirements
-* PHP 5.4 and up
+* PHP 7.0 and up
 * Apache with mod_rewrite or nginx (nginx-light on Debian should suffice)
 * Either PHP's GD library but preferably the Imagick extension (and ImageMagick installed)
 
@@ -40,4 +40,6 @@ as the webserver user, for example:
 sudo -u www-data php cron.php
 ```
 
+### Map
+Images with geographical information embedded in the EXIF can be displayed on a map. Open the the submenu of the search function to locatie the link to the map.
 

@@ -9,6 +9,6 @@ class Video extends File
 
     public function getPlayUrl()
     {
-        return BASE_URL . '/video_stream' . $this->getRelativeLocation();
+        return BASE_URL_LDG . '/video_stream' . $this->getRelativeLocation();
     }
 }

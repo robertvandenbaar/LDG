@@ -39,13 +39,8 @@ $(document).ready(function()
         }
 
         var imageSource = stripQuery($('#slider img').attr('src'));
-
-        var from = /(\/cache\/detail\/)|(\/detail\/)|(\/original\/)/;
-        var to = '/rotate/';
-        var toDetail = '/cache/detail/';
-
-        var imageSourceDetail = imageSource.replace(from, toDetail);
-        var imageSourceRotate = imageSource.replace(from, to);
+        var imageSourceDetail = changeImageUrl(imageSource, 'detail');
+        var imageSourceRotate = changeImageUrl(imageSource, 'rotate');
 
         if (event.ctrlKey || event.metaKey) {
             imageSourceRotate += '?invert';
@@ -72,7 +67,7 @@ $(document).ready(function()
             });
         }).fail(function()
         {
-            console.log('Request for fetching info failed');
+            console.log('Request for rotating failed');
         });
 
     });
@@ -88,11 +83,7 @@ $(document).ready(function()
         $('#info_inner').html('');
 
         var imageSource = $('#slider img').attr('src');
-
-        var from = /(\/cache\/detail\/)|(\/detail\/)|(\/original\/)/;
-        var to = '/info/';
-
-        imageSource = imageSource.replace(from, to);
+        imageSource = changeImageUrl(imageSource, 'info');
 
         $.ajax(imageSource).done(function(content) {
 
@@ -160,16 +151,7 @@ $(document).ready(function()
 
     $('#image-nav-size').click(function() {
 
-        if ($(this).hasClass('active')) {
-            var from = '/original/';
-            var to = '/detail/';
-            var fullSize = false;
-        }
-        else {
-            var from = /(\/cache\/detail\/)|(\/detail\/)/;
-            var to = '/original/';
-            var fullSize = true;
-        }
+        var fullSize = !$(this).hasClass('active');
 
         window.fullSize = fullSize;
 
@@ -184,16 +166,14 @@ $(document).ready(function()
 
         $('#slider img').each(function() {
             var imageSource = $(this).attr('src');
-            imageSource = imageSource.replace(from, to);
-
+            imageSource = changeImageUrl(imageSource, fullSize ? 'original' : 'detail');
             setLoadingImage();
-
             $(this).attr('src', imageSource);
         });
 
         $('a.image').each(function() {
             var linkHref = $(this).attr('href');
-            linkHref = linkHref.replace(from, to);
+            linkHref = changeImageUrl(linkHref, fullSize ? 'original' : 'detail');
             $(this).attr('href', linkHref);
         });
 
@@ -210,6 +190,23 @@ $(document).ready(function()
     window.currentImage = 0;
     window.totalImages = 0;
     window.images = $('a.image');
+
+    function changeImageUrl(url, mode)
+    {
+        let sourceReplacements = [];
+
+        sourceReplacements.push(window.appRootLdg + '/detail');
+        sourceReplacements.push(window.appRoot + '/cache/detail');
+        sourceReplacements.push(window.appRootLdg + '/original');
+        sourceReplacements.push(window.appRootLdg + '/info');
+        sourceReplacements.push(window.appRootLdg + '/rotate');
+
+        sourceReplacements.forEach(function(u){
+            url = url.replace(u + '/', window.appRootLdg + '/' + mode + '/');
+        });
+
+        return url;
+    }
 
     function startGallery(a)
     {
@@ -346,7 +343,7 @@ $(document).ready(function()
 
     function generateThumbnail(image, imagesToGenerate)
     {
-        $.ajax(window.appRoot + '/update_thumbnail' + image.attr('data-src')).done(function(content) {
+        $.ajax(window.appRootLdg + '/update_thumbnail' + image.attr('data-src')).done(function(content) {
             if (content == 'success') {
                 image.attr('src', window.appRoot + '/cache/thumbnail' + image.attr('data-src'));
             } else {

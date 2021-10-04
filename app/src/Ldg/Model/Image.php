@@ -29,7 +29,7 @@ class Image extends File
         if (file_exists($detailCacheFile)) {
             return BASE_URL . '/cache/detail' . $this->getRelativeLocation() . '?t=' . $this->getFileModificationTime($this->getDetailPath());
         } else {
-            return BASE_URL . '/detail' . $this->getRelativeLocation() . '?t=' . $this->getFileModificationTime($this->getDetailPath());
+            return BASE_URL_LDG . '/detail' . $this->getRelativeLocation() . '?t=' . $this->getFileModificationTime($this->getDetailPath());
         }
     }
 
@@ -40,7 +40,7 @@ class Image extends File
 
     public function getOriginalUrl()
     {
-        return BASE_URL . '/original' . $this->getRelativeLocation() . '?t=' . $this->getFileModificationTime($this->getPath());
+        return BASE_URL_LDG . '/original' . $this->getRelativeLocation() . '?t=' . $this->getFileModificationTime($this->getPath());
     }
 
     public function getThumbnailPath()
@@ -165,7 +165,7 @@ class Image extends File
 
         $detailPath = $this->getDetailPath();
 
-        // detail file exits and is newer than the original, no action required
+        // detail file exists and original file has not been modified since last update of detail file[
         if ($updateCurrent === false && file_exists($detailPath) && filemtime($detailPath) >= filemtime($this->getPath())) {
             return true;
         }
