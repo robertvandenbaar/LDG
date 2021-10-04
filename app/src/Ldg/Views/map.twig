@@ -82,7 +82,7 @@
 		{
 			$('#map_image_info').html('');
 
-			$.ajax('{{ base_url }}' + '/info/' + imageUrl).done(function(content) {
+			$.ajax('{{ base_url_ldg }}' + '/info/' + imageUrl).done(function(content) {
 
 				var result = JSON.parse(content);
 
@@ -172,20 +172,8 @@
 			var iconStyle = new ol.style.Style({
 				image: new ol.style.Icon({
 					anchor: [0.5, 1],
-					src: "assets/images/marker.png"
+					src: "{{ base_url }}/assets/images/marker.png"
 				})
-				// ,
-				// text: new ol.style.Text({
-				// 	text: item.img,
-				// 	scale: 1.2,
-				// 	fill: new ol.style.Fill({
-				// 		color: "#fff"
-				// 	}),
-				// 	stroke: new ol.style.Stroke({
-				// 		color: "0",
-				// 		width: 3
-				// 	})
-				// })
 			});
 
 			iconFeature.setStyle(iconStyle);
@@ -209,7 +197,7 @@
 			);
 
 			if (feature) {
-				document.getElementById('map_image').setAttribute('src', '{{ base_url }}' + '/detail' + feature.j.image_url);
+				document.getElementById('map_image').setAttribute('src', '{{ base_url_ldg }}' + '/detail' + feature.j.image_url);
 				document.getElementById('map_image').setAttribute('style.display', 'block');
 				showImageInfoMap(feature.j.image_url);
 			}

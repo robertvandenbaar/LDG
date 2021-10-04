@@ -13,7 +13,7 @@ class App
 
     protected $actions = ['list', 'detail', 'original', 'update_thumbnail', 'search', 'info', 'rotate', 'video_stream', 'map_view'];
 
-    function __construct()
+    public function __construct()
     {
         session_start();
 
@@ -24,7 +24,7 @@ class App
         $this->loadTemplate();
     }
 
-    function checkPermissions()
+    public function checkPermissions()
     {
         if (!is_writable(BASE_DIR . '/' . 'cache')) {
             throw new \Exception('Cannot write to cache directory: ' . BASE_DIR . '/' . 'cache');
@@ -35,7 +35,7 @@ class App
         }
     }
 
-    function checkFullSize()
+    public function checkFullSize()
     {
         // overwrite full-size option
         if (isset($_GET['full-size'])) {
@@ -53,18 +53,19 @@ class App
         }
     }
 
-    function loadTemplate()
+    public function loadTemplate()
     {
         $loader = new \Twig_Loader_Filesystem(BASE_DIR . '/app/src/Ldg/Views');
         $twig = new \Twig_Environment($loader);
         $twig->addGlobal('base_url', BASE_URL);
+        $twig->addGlobal('base_url_ldg', BASE_URL_LDG);
         $twig->addGlobal('full_size', $_SESSION['full-size']);
         $twig->addGlobal('version_ts', filemtime(BASE_DIR . '/assets/js/app.js') + filemtime(BASE_DIR . '/assets/css/style.css'));
 
         $this->twig = $twig;
     }
 
-    function run()
+    public function run()
     {
         // set encoding
         mb_internal_encoding('UTF-8');
@@ -81,11 +82,9 @@ class App
         $this->parts = explode('/', $uri);
         $this->parts = array_map('urldecode', $this->parts);
 
-        // default action
-        if (isset($this->parts[1]) && in_array($this->parts[1], $this->actions)) {
-            $action = $this->parts[1];
-        } else {
-            $action = 'list';
+        $action = 'list';
+        if (isset($this->parts[1]) && $this->parts[1] == 'ldg' && isset($this->parts[2]) && in_array($this->parts[2], $this->actions)) {
+            $action = $this->parts[2];
         }
 
         unset($this->parts[0]);
@@ -122,7 +121,7 @@ class App
         }
     }
 
-    function renderMap()
+    public function renderMap()
     {
         $search = new Search();
         $search->loadIndex();
@@ -132,9 +131,9 @@ class App
         echo $this->twig->render('map.twig', $variables);
     }
 
-    function renderDetail()
+    public function renderDetail()
     {
-        unset($this->parts[1]);
+        $this->removeActionUrlParts();
 
         $image = new \Ldg\Model\Image(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
 
@@ -161,9 +160,9 @@ class App
 
     }
 
-    function renderOriginal()
+    public function renderOriginal()
     {
-        unset($this->parts[1]);
+        $this->removeActionUrlParts();
 
         $file = new \Ldg\Model\File(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
 
@@ -187,9 +186,9 @@ class App
         exit;
     }
 
-    function videoStream()
+    public function videoStream()
     {
-        unset($this->parts[1]);
+        $this->removeActionUrlParts();
 
         $file = new \Ldg\Model\File(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
 
@@ -266,7 +265,7 @@ class App
         exit();
     }
 
-    function renderList()
+    public function renderList()
     {
         $this->parts = array_filter($this->parts, 'strlen');
 
@@ -383,9 +382,9 @@ class App
 
     }
 
-    function updateThumbnail()
+    public function updateThumbnail()
     {
-        unset($this->parts[1]);
+        $this->removeActionUrlParts();
 
         $image = new \Ldg\Model\Image(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
 
@@ -400,7 +399,7 @@ class App
         exit;
     }
 
-    function renderSearch()
+    public function renderSearch()
     {
         $index = new \Ldg\Search();
         $results = $index->search($_REQUEST['q']);
@@ -476,7 +475,7 @@ class App
         ];
     }
 
-    function getPage()
+    public function getPage()
     {
         $page = 1;
 
@@ -487,9 +486,16 @@ class App
         return $page;
     }
 
-    function renderInfo()
+    public function removeActionUrlParts()
     {
         unset($this->parts[1]);
+        unset($this->parts[2]);
+    }
+
+    public function renderInfo()
+    {
+        $this->removeActionUrlParts();
+
         $file = new \Ldg\Model\Image(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
 
         if (!$file->fileExists() || !$file->isValidPath()) {
@@ -527,9 +533,10 @@ class App
         exit;
     }
 
-    function renderRotate()
+    public function renderRotate()
     {
-        unset($this->parts[1]);
+        $this->removeActionUrlParts();
+
         $file = new \Ldg\Model\Image(\Ldg\Setting::get('image_base_dir') . '/' . implode('/', $this->parts));
 
         if (!$file->fileExists() || !$file->isValidPath()) {

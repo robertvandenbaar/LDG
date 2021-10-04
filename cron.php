@@ -40,7 +40,7 @@ function updateRecursively($baseDir, $search)
         if (in_array($file->getExtension(), Setting::get('supported_extensions'))) {
             $file = new Image($fullPath);
 
-            echo "Updating thumbnail and mid-size image for " . $fullPath . "\n";
+            echo "Processing image " . $fullPath . "\n";
 
             // to speed up the cron process the detail images are not generated if the default option is full size
             if (!Setting::get('full_size_by_default')) {

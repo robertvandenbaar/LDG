@@ -9,7 +9,7 @@
 
 	</div>
 	<div id="search" {% if q|length > 0 %} class="search_active"{% endif %}>
-		<form method="GET" action="{{ base_url }}/search">
+		<form method="GET" action="{{ base_url_ldg }}/search">
 			<span class="search_options_open {% if filter_active %} filter_active{% endif %}"><span>&#9776;</span></span>
 			<input type="text" id="q" name="q" placeholder="Search for images ..." value="{{ q }}" {% if q|length > 0 %} class="search_active"{% endif %}/>
 			<input type="submit" id="submitbutton" name="submitbutton" value="Search" />
@@ -55,7 +55,7 @@
 					</select>
 				</div>
 				<div class="search_option">
-					<a href="{{ base_url }}/map_view">Search for images on a map</a>
+					<a href="{{ base_url_ldg }}/map_view">Search for images on a map</a>
 				</div>
 			</div>
 		</form>
