@@ -41,5 +41,5 @@ sudo -u www-data php cron.php
 ```
 
 ### Map
-Images with geographical information embedded in the EXIF can be displayed on a map. Open the the submenu of the search function to locatie the link to the map.
+Images with geographical information embedded in the EXIF can be displayed on a map. Open the the submenu of the search function to locate the link to the map.
 
