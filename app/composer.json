@@ -9,7 +9,7 @@
     "require": {
 	  	"php": ">=5.4",
 		"vakata/image": "^2.0",
-	  	"twig/twig": "^1.18",
+	  	"twig/twig": "^2.12",
 	  	"dfridrich/php-mime-type" : "^2"
     }
 }
