@@ -55,8 +55,8 @@ class App
 
     public function loadTemplate()
     {
-        $loader = new \Twig_Loader_Filesystem(BASE_DIR . '/app/src/Ldg/Views');
-        $twig = new \Twig_Environment($loader);
+        $loader = new \Twig\Loader\FilesystemLoader([BASE_DIR . '/app/src/Ldg/Views']);
+        $twig = new \Twig\Environment($loader);
         $twig->addGlobal('base_url', BASE_URL);
         $twig->addGlobal('base_url_ldg', BASE_URL_LDG);
         $twig->addGlobal('full_size', $_SESSION['full-size']);

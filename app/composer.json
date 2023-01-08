@@ -1,5 +1,5 @@
 {
-  	"name" : "LDG",
+  	"name" : "robertvandenbaar/ldg",
 	"license": "LGPL-2.1-only",
 	"autoload": {
 	  "psr-4": {
@@ -8,8 +8,8 @@
 	},
     "require": {
 	  	"php": ">=5.4",
-		"vakata/image": "^2.0",
-	  	"twig/twig": "^2.12",
-	  	"dfridrich/php-mime-type" : "^2"
+		"vakata/image": "^2",
+	  	"twig/twig": "^3.5",
+	  	"dfridrich/php-mime-type" : "^3"
     }
 }
