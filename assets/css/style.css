@@ -21,8 +21,58 @@ h1, h2, h3, h4 {
 	padding: 2px 0 10px 0;
 }
 
-#this_day, .this_day_year {
+#this_day, .this_day_year, #random_images {
 	padding-top: 10px;
+}
+
+#tools {
+	background-color: #333;
+    color: #ddd;
+    border-radius: 3px;
+    padding: 0 10px;
+    text-align: left;
+    height: 34px;
+    line-height: 34px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+#tools #sort_links {
+	position: absolute;
+	top: 40px;
+	right: 0;
+	background: #EEE;
+	color: #111;
+	padding: 0;
+	border: 1px solid #111;
+	border-radius: 3px;
+	display: none;
+}
+
+#tools #sort_links a {
+	display: block;
+	text-decoration: none;
+	color: #000;
+	padding: 2px 26px;
+}
+
+#tools #sort_links a:hover {
+	background: #ddd;
+}
+
+#tools #sort_links a.active {
+	background: #000;
+	color: #FFF;
+}
+
+#tools #sort_button {
+	position: absolute;
+	top: 0;
+	right: 10px;
+}
+
+#folder_info {
+	
 }
 
 #page {

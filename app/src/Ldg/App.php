@@ -288,7 +288,24 @@ class App
 
         $folders = $images = $otherFiles = [];
 
-        $files = scandir($listBaseDir);
+        if (!isset($_SESSION['order'])) {
+            if (Setting::get('order_by_date_taken')) {
+                $_SESSION['order'] = 'date_taken';
+            } else {
+                $_SESSION['order'] = 'filename';
+            }
+            
+            $_SESSION['direction'] = 'asc';
+        }
+
+        if (isset($_GET['order']) && in_array($_GET['order'], ['filename', 'date_taken'])) {
+            $_SESSION['order'] = $_GET['order'];
+        }
+        if (isset($_GET['direction']) && in_array($_GET['direction'], ['asc', 'desc'])) {
+            $_SESSION['direction'] = $_GET['direction'];
+        }
+                        
+        $files = scandir($listBaseDir, $_SESSION['direction'] == 'desc' ? SCANDIR_SORT_DESCENDING : null);
 
         foreach ($files as $file) {
             // skip hidden files and hidden directories
@@ -314,7 +331,7 @@ class App
             }
         }
 
-        if (Setting::get('order_by_date_taken')) {
+        if ($_SESSION['order'] == 'date_taken') {
             usort($images, function ($a, $b) {
 
                 $dateTakenA = $a->getMetadata()->getDateTaken();
@@ -324,7 +341,11 @@ class App
                     return 0;
                 }
 
-                return $dateTakenA < $dateTakenB ? -1 : 1;
+                if ($_SESSION['direction'] == 'desc') {
+                    return $dateTakenA < $dateTakenB ? 1 : -1;
+                } else {
+                    return $dateTakenA < $dateTakenB ? -1 : 1;
+                }
 
             });
         }
@@ -354,8 +375,8 @@ class App
         if (count($images) == 0 && count($this->parts) == 0) {
             $index = new \Ldg\Search();
             $latestImages = $index->getLatestImages();
-            
             $onThisDay = $index->getOnThisDay();
+            $randomImages = $index->getRandom();
         }
 
         $images = array_slice($images, ($this->getPage() - 1) * $imagesPerPage, $imagesPerPage);
@@ -370,6 +391,8 @@ class App
             'pagination' => $pagination,
             'latest_images' => $latestImages,
             'on_this_day' => $onThisDay,
+            'random_images' => $randomImages,
+            'session' => $_SESSION
         ];
 
         $variables = $variables + $this->getDefaultListVariables($search);

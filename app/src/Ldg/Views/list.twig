@@ -1,7 +1,6 @@
 {% extends 'layout.twig' %}
 
 {% block content %}
-
 	{% embed "header.twig" %}
 	{% endembed %}
 
@@ -37,6 +36,21 @@
 		<p id="information"></p>
 
 		{% if images|length > 0 %}
+			<div id="tools" style="width:100%">
+				<div id="folder_info">
+					{{ images|length}} images
+				</div>
+				<div id="sort_button">
+					Sort 	↓↑
+				</div>
+				<div id="sort_links">
+					<a href="?order=filename&direction=asc" {% if session.order=="filename" and session.direction=="asc" %}class="active"{% endif %}>Filename A-Z</a>
+					<a href="?order=filename&direction=desc" {% if session.order=="filename" and session.direction=="desc" %}class="active"{% endif %}>Filename Z-A</a>
+					<a href="?order=date_taken&direction=asc" {% if session.order=="date_taken" and session.direction=="asc" %}class="active"{% endif %}>Newest first</a>
+					<a href="?order=date_taken&direction=desc" {% if session.order=="date_taken" and session.direction=="desc" %}class="active"{% endif %}>Oldest first</a>
+				</div>
+			</div>
+		
 			{% embed "images.twig" %}
 			{% endembed %}
 
@@ -62,6 +76,14 @@
 							</div>
 					{% endfor %}
 				</div>
+			{% endif %}
+
+			{% if random_images	|length > 0 %}
+				<div id="random_images">
+					<h1>Random images</h1>
+					{% embed "images.twig" with {'images': random_images} %}
+					{% endembed %}
+				</div>	
 			{% endif %}
 
 		{% endif %}

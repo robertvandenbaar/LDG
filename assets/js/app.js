@@ -11,6 +11,10 @@ $(document).ready(function()
     $('.search_options_open').on('click', function() {
         $('#search #search_options').toggle();
     });
+    
+    $('#sort_button').on('click', function(){
+        $('#sort_links').toggle();
+    });
 
     function stripQuery(imageSource)
     {

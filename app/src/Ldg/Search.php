@@ -239,6 +239,26 @@ class Search
         return $images;
 
     }
+    
+    function getRandom() {
+        $keys = array_keys($this->index);
+        shuffle($keys);
+        $slice = array_slice($keys, 0, 20);
+        $images = [];
+        $i = 0;
+        foreach ($slice as $key) {
+            $image = new Image($key);
+            // just to be sure we don't load any images on the homepage that need to be generated
+            if (file_exists($image->getDetailPath()) && file_exists($image->getThumbnailPath())) {
+                $i++;
+                $images[] = $image;
+            }
+            if ($i >= 10) {
+                break;
+            }
+        }
+        return $images;
+    }
 
     public function getUniqueCameras()
     {
