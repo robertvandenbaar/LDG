@@ -194,8 +194,9 @@ class Search
         return $dateA > $dateB ? -1 : 1;
     }
 
-    function getLatestImages($limit = 10)
+    function getLatestImages()
     {
+        $limit = \Ldg\Setting::get('latest_images_count');
         $sortedIndex = $this->index;
 
         $sortedIndex = array_filter($sortedIndex, function($element) {
@@ -246,6 +247,7 @@ class Search
         $slice = array_slice($keys, 0, 20);
         $images = [];
         $i = 0;
+        $max = \Ldg\Setting::get('random_images_count');
         foreach ($slice as $key) {
             $image = new Image($key);
             // just to be sure we don't load any images on the homepage that need to be generated
@@ -253,7 +255,7 @@ class Search
                 $i++;
                 $images[] = $image;
             }
-            if ($i >= 10) {
+            if ($i >= $max) {
                 break;
             }
         }

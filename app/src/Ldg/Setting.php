@@ -17,7 +17,9 @@ class Setting
         'auto_rotate' => true,
         'supported_extensions' => ['jpg', 'jpeg', 'gif', 'png'],
         'supported_video_extensions' => ['mp4', 'avi', 'mov'],
-        'images_per_page' => 200
+        'images_per_page' => 200,
+        'latest_images_count' => 10,
+        'random_images_count' => 10
     ];
 
     public static function get($key)
